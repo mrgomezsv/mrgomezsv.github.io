@@ -1,0 +1,53 @@
+# Mi página web
+
+## Descripción
+
+Este es el proyecto de mi página web personal, donde muestro mi portafolio profesional como desarrollador web. En esta página podrás encontrar información sobre mí, mis habilidades, mis proyectos y mi contacto.
+
+## Tecnologías
+
+Para crear esta página web, utilicé las siguientes tecnologías:
+
+- HTML: para estructurar el contenido de la página.
+- CSS: para dar estilo y diseño a la página.
+- JavaScript: para agregar interactividad y funcionalidad a la página.
+
+## Instalación
+
+Si quieres descargar y ejecutar este proyecto en tu máquina local, sigue estos pasos:
+
+- Clona el repositorio de GitHub usando el siguiente comando:
+
+```sh
+git clone https://github.com/mi-usuario/mi-pagina-web.git
+```
+
+
+- Abre el archivo index.html en tu navegador preferido.
+- Disfruta de la página web.
+
+## Uso
+
+Esta es una captura de pantalla de cómo se ve la página web:
+
+![Captura de pantalla de la página web](https://mrgomez.dev.github.io)
+
+También puedes ver la versión en vivo de la página web en este enlace[^3^][4].
+
+## Contribución
+
+Este proyecto es de código abierto, y acepto contribuciones de otros desarrolladores. Si quieres colaborar con este proyecto, puedes hacer lo siguiente:
+
+- Crea una bifurcación (fork) del repositorio en GitHub.
+- Crea una rama (branch) con el nombre de la característica que quieres agregar o el problema que quieres solucionar.
+- Haz los cambios que consideres necesarios en el código.
+- Haz un envío de confirmación (commit) con un mensaje que describa los cambios que hiciste.
+- Haz una solicitud de extracción (pull request) al repositorio original.
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT. Puedes ver el archivo de la licencia en este enlace.
+
+## Autor
+
+Este proyecto fue creado por mi, Mario Roberto quien soy desarrollador Backend y Movil  apasionado por el código y el aprendizaje.
