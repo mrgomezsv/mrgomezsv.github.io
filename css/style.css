@@ -9994,3 +9994,8 @@ h6,
   border: none; /* Hacer el borde de la tarjeta invisible */
 }
 
+.btn{
+  border-radius: 5px;
+  border: 1px solid #fff;
+  background-color: #107b10;
+}
