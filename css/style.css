@@ -9982,3 +9982,15 @@ h6,
   padding: 0;
   list-style-type: none;
 }
+
+.card-img-top {
+  max-width: 50%;
+  height: auto;
+  display: block;
+  margin: auto;
+}
+
+.card {
+  border: none; /* Hacer el borde de la tarjeta invisible */
+}
+
