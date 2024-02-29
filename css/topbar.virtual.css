@@ -457,8 +457,10 @@
   display: block;
   margin: 0;
   padding: 50px 0;
-  background-color: #171925;
-  color: #9FA2AB;
+  /* background-color: #171925; */
+  background-color: #574f4a;
+  /* color: #9FA2AB; */
+  color: white;
 }
 
 .footer-info {
