@@ -1,0 +1,138 @@
+body {
+    background-color: #1D1D1D;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #BBBBBB;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #1D1D1D;
+    padding: 1rem;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-title {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+.menu-options ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-options li {
+    margin-right: 20px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 20px;
+    transition: border-bottom 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.menu-options li:hover {
+    border-bottom-color: #fff;
+}
+
+.menu-options a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.contact-button {
+    margin-left: auto;
+}
+
+.navbar-button {
+    background-color: #242424;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 20px;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-button:hover {
+    background-color: #fff;
+    color: #242424;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2rem;
+}
+
+section {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+section:nth-of-type(2) {
+    width: 60%;
+}
+
+h1.title {
+    font-size: 250px;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 500;
+    text-align: right;
+    position: fixed;
+    top: 380px;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+}
+
+p.subtitle {
+    font-size: 25px;
+    font-family: 'Archivo', sans-serif;
+    text-align: right;
+    margin: 20px 10px 20px 20px;
+}
+
+.content {
+    position: fixed;
+    top: 10;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.content img {
+    margin: 0;
+    max-width: 30%;
+    align-self: flex-start;
+    filter: grayscale(100%);
+    border-radius: 50px;
+}
+
+p.mrgomez {
+    margin: 0;
+    font-size: 25px;
+    font-family: 'Archivo', sans-serif;
+    text-align: right;
+}
