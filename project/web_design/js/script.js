@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Seleccionar el botón
     const button = document.querySelector('.navbar-button');
 
-    // Función para cambiar entre modos
-    function toggleDarkLightMode() {
-        // Cambiar el modo de la página
+    function toggleDarkLightMode() {// Función para cambiar el modo y almacenar el estado
+        // Cambiar el modo
         document.body.classList.toggle('light-mode');
         document.querySelector('header').classList.toggle('light-mode');
         document.querySelectorAll('.menu-options a').forEach(function(link) {
@@ -21,8 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             button.textContent = 'Black';
         }
+
+        localStorage.setItem('darkModeEnabled', document.body.classList.contains('light-mode')); // Almacenar el estado en localStorage
     }
 
-    // Agregar un evento de clic al botón
-    button.addEventListener('click', toggleDarkLightMode);
+    if (localStorage.getItem('darkModeEnabled') === 'true') { // Restaurar el estado almacenado al cargar la página
+        toggleDarkLightMode();
+    }
+
+    button.addEventListener('click', toggleDarkLightMode); // Agregar un evento de clic al botón
 });
