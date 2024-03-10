@@ -27,7 +27,6 @@ a {
     color: inherit;
 }
 
-
 .navbar {
     display: flex;
     align-items: center;
@@ -135,4 +134,37 @@ p.mrgomez {
     font-size: 25px;
     font-family: 'Archivo', sans-serif;
     text-align: right;
+}
+
+/* Estilos para el modo claro */
+body.light-mode {
+    background-color: #FFFFFF;
+    color: #1D1D1D;
+}
+
+header.light-mode {
+    background-color: #FFFFFF;
+    color: #1D1D1D;
+}
+
+.navbar-button.light-mode {
+    background-color: #FFFFFF;
+    color: #242424;
+}
+
+.navbar-button.light-mode:hover {
+    background-color: #242424;
+    color: #FFFFFF;
+}
+
+.menu-options a.light-mode {
+    color: #1D1D1D;
+}
+
+.menu-options li:hover.light-mode {
+    border-bottom-color: #1D1D1D;
+}
+
+.light-mode img {
+    filter: none;
 }
