@@ -85,15 +85,19 @@ body {
 
 
 .form-side {
-    padding: 9.25rem 3rem 3rem 2rem;
+    /* border: #1333c0 1px solid; */
+    padding: 2rem 2rem 2rem 3rem;
     display: flex;
     justify-content: center;
     align-items: start;
+    max-width: 80%;
+    margin: 0 auto;
+    margin-left: 15%;
 }
 
 .info-side {
     height: 100vh;
-    padding: 9.25rem 3rem 3rem 2rem;
+    padding: 3rem 3rem 3rem 3rem;
     color: #401B3D;
     display: flex;
     overflow: hidden;
@@ -116,22 +120,30 @@ body {
 }
 
 .info-side img {
-    max-width: 53.75rem;
+    width: 110%;
+    /* border: #e96914 1px solid; */
+    margin-left: -7%;
 }
 
 .welcome-message {
-    max-width: 22.5rem;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    /* border: #e914cd 1px solid; */
+    margin-left: -5%;
 }
 
 .logo {
-    height: 4.5rem; /* Aumenta la altura en un 50% */
-    width: auto; /* Ajusta automáticamente el ancho para mantener la proporción */
+    height: 4.5rem;
+    width: auto;
     position: absolute;
     top: 1.25rem;
     left: 1.25rem;
-    border-radius: 10px; /* Agrega bordes redondeados */
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Agrega sombra en el lado derecho y abajo */
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
+
 
 .my-form {
     display: flex;
