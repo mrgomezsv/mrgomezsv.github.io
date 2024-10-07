@@ -41,6 +41,19 @@
         #qrcode {
             margin-top: 20px;
         }
+        #download-btn {
+            display: none;
+            margin-top: 10px;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #download-btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -49,6 +62,7 @@
         <input type="text" id="text" placeholder="Introduce el texto o enlace">
         <button onclick="generateQRCode()">Generar Código QR</button>
         <div id="qrcode"></div>
+        <a id="download-btn" download="qrcode.png">Descargar Código QR</a>
     </div>
 
     <!-- Agregar la librería qrcode.min.js -->
@@ -58,7 +72,10 @@
         function generateQRCode() {
             const text = document.getElementById('text').value;
             const qrCodeDiv = document.getElementById('qrcode');
+            const downloadBtn = document.getElementById('download-btn');
             qrCodeDiv.innerHTML = ''; // Limpiar el QR anterior
+            downloadBtn.style.display = 'none'; // Ocultar el botón de descarga
+
             if (text) {
                 QRCode.toDataURL(text, function (error, url) {
                     if (error) {
@@ -68,6 +85,10 @@
                     const img = document.createElement('img');
                     img.src = url;
                     qrCodeDiv.appendChild(img);
+
+                    // Configurar el botón de descarga
+                    downloadBtn.href = url;
+                    downloadBtn.style.display = 'inline-block';
                     console.log('Código QR generado con éxito!');
                 });
             } else {
