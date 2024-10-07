@@ -8,22 +8,22 @@ function generateQRCode() {
     downloadBtn.style.display = 'none'; // Ocultar el botón de descarga inicialmente
 
     if (text) {
-        QRCode.toDataURL(text, { width: 340 }, function (error, url) {
-            if (error) {
-                console.error(error);
-                return;
-            }
-
-            // Crear y mostrar la imagen del código QR
-            const img = document.createElement('img');
-            img.src = url;
-            qrCodeDiv.appendChild(img);
-
-            // Configurar el enlace de descarga y mostrar el botón
-            downloadBtn.href = url;
-            downloadBtn.style.display = 'inline-block'; // Mostrar el botón solo si el QR se genera correctamente
-            console.log('Código QR generado con éxito!');
+        // Generar el código QR utilizando la librería QRCode.js
+        const qrCode = new QRCode(qrCodeDiv, {
+            text: text,
+            width: 340,
+            height: 340,
         });
+
+        // Esperar a que el QR se genere para mostrar el enlace de descarga
+        setTimeout(function() {
+            const qrImage = qrCodeDiv.querySelector('img');
+            if (qrImage) {
+                downloadBtn.href = qrImage.src;
+                downloadBtn.style.display = 'inline-block'; // Mostrar el botón de descarga
+                console.log('Código QR generado con éxito!');
+            }
+        }, 500); // Añadir un pequeño retraso para asegurarse de que la imagen esté lista
     } else {
         alert('Por favor, introduce un texto o enlace válido.');
     }
