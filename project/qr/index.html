@@ -3,20 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Códigos QR</title>
-    <link rel="stylesheet" href="/project/qr/css/styles.css">
-</head>
-<body>
-    <div class="container">
-        <h2>Generador de Códigos QR</h2>
-        <input type="text" id="text" placeholder="Introduce el texto o enlace">
-        <button onclick="generateQRCode()">Generar Código QR</button>
-        <div id="qrcode"></div>
-        <a id="download-btn" download="qrcode.png">Descargar Código QR</a>
-    </div>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mario Roberto Dev / QR Generator</title>
 
-    <!-- Agregar la librería qrcode.min.js -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
-    <script src="/project/qr/js/script.js"></script>
+    <link rel="shortcut icon" href="/img/favicon.jpg" type="image/x-icon">
+    
+    <!-- Estilos reutilizados -->
+    <link rel="stylesheet" type="text/css" href="/css/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/perfect-scrollbar/css/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/nice-select/css/nice-select.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/fancybox/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/virtual.css">
+    <link rel="stylesheet" type="text/css" href="/css/topbar.virtual.css">
+</head>
+<body class="theme-red">
+  
+  <!-- Back to top button -->
+  <div class="btn-back_to_top">
+    <span class="ti-arrow-up"></span>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar navbar-expand-lg navbar-dark sticky" data-offset="500">
+    <div class="container">
+      <a href="" class="navbar-brand">MRGómez Dev</a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#main-navbar" aria-expanded="true">
+        <span class="ti-menu"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="main-navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a href="#home" class="nav-link" data-animate="scrolling">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="#about" class="nav-link" data-animate="scrolling">About</a>
+          </li>
+          <li class="nav-item active">
+            <a href="#experience" class="nav-link" data-animate="scrolling">Experience</a>
+          </li>
+          <li class="nav-item active">
+            <a href="#service" class="nav-link" data-animate="scrolling">Service</a>
+          </li>
+          <li class="nav-item active">
+            <a href="./project/qr/index.html" class="nav-link" data-animate="scrolling">Generador de QR</a>
+          </li>
+        </ul>
+        <ul class="nav ml-auto">
+          <li class="nav-item">
+            <button class="btn btn-fab btn-theme no-shadow">En</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div> <!-- End Navbar -->
+  
+  <!-- Contenido principal del generador de QR -->
+  <div class="container py-5">
+    <h2 class="text-center">Generador de Códigos QR</h2>
+    <div class="text-center mt-4">
+      <input type="text" id="text" placeholder="Introduce el texto o enlace" class="form-control" style="max-width: 400px; margin: 0 auto;">
+      <button onclick="generateQRCode()" class="btn btn-theme mt-3">Generar Código QR</button>
+      <div id="qrcode" class="mt-4"></div>
+      <a id="download-btn" download="qrcode.png" class="btn btn-outline-primary mt-3">Descargar Código QR</a>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="vg-footer">
+    <h1 class="text-center">Social Media</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 py-3">
+          <div class="footer-info">
+            <p>Where to write me</p>
+            <hr class="divider">
+            <p class="fs-large fg-white">mrgomez.dev@outlook.com</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 py-3">
+          <div class="float-lg-right">
+            <p>Follow me</p>
+            <hr class="divider">
+            <ul class="list-unstyled">
+              <li><a href="https://www.linkedin.com/in/mrgomez-dev/">LinkedIn</a></li>
+              <li><a href="https://www.instagram.com/mrgomez.dev/">Instagram</a></li>
+              <li><a href="https://www.threads.net/@mrgomez.dev">Threads</a></li>
+              <li><a href="https://twitter.com/mrgomezsv">Twitter</a></li>
+              <li><a href="https://www.facebook.com/mariorobertogm/">Facebook</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 py-3">
+          <div class="float-lg-right">
+            <p>Contact me</p>
+            <hr class="divider">
+            <ul class="list-unstyled">
+              <li>mrgomez-dev</li>
+              <li>mrgomez.dev</li>
+              <li>@mrgomez.dev</li>
+              <li>mrgomezsv</li>
+              <li>mariorobertogm</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- End Footer -->
+  
+  <!-- Scripts -->
+  <script src="/js/jquery-3.5.1.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/owl-carousel/owl.carousel.min.js"></script>
+  <script src="/vendor/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+  <script src="/vendor/nice-select/js/jquery.nice-select.min.js"></script>
+  <script src="/vendor/fancybox/js/jquery.fancybox.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+  <script src="/project/qr/js/script.js"></script>
 </body>
 </html>
