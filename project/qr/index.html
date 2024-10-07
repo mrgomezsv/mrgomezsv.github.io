@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Códigos QR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #qrcode {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Generador de Códigos QR</h2>
+        <input type="text" id="text" placeholder="Introduce el texto o enlace">
+        <button onclick="generateQRCode()">Generar Código QR</button>
+        <div id="qrcode"></div>
+    </div>
+
+    <!-- Agregar la librería qrcode.min.js -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+
+    <script>
+        function generateQRCode() {
+            const text = document.getElementById('text').value;
+            const qrCodeDiv = document.getElementById('qrcode');
+            qrCodeDiv.innerHTML = ''; // Limpiar el QR anterior
+            if (text) {
+                QRCode.toDataURL(text, function (error, url) {
+                    if (error) {
+                        console.error(error);
+                        return;
+                    }
+                    const img = document.createElement('img');
+                    img.src = url;
+                    qrCodeDiv.appendChild(img);
+                    console.log('Código QR generado con éxito!');
+                });
+            } else {
+                alert('Por favor, introduce un texto o enlace válido.');
+            }
+        }
+    </script>
+</body>
+</html>
