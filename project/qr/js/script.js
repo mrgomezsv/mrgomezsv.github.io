@@ -2,25 +2,34 @@ function generateQRCode() {
     const text = document.getElementById('text').value;
     const qrCodeDiv = document.getElementById('qrcode');
     const downloadBtn = document.getElementById('download-btn');
-    qrCodeDiv.innerHTML = ''; // Limpiar el QR anterior
-    downloadBtn.style.display = 'none'; // Ocultar el botón de descarga
+
+    // Limpiar el contenido del QR anterior
+    qrCodeDiv.innerHTML = '';
+    downloadBtn.style.display = 'none'; // Ocultar el botón de descarga inicialmente
 
     if (text) {
-        QRCode.toDataURL(text, { width: 340 }, function (error, url) { // Aumentar el tamaño a 400px
+        QRCode.toDataURL(text, { width: 340 }, function (error, url) {
             if (error) {
                 console.error(error);
                 return;
             }
+
+            // Crear y mostrar la imagen del código QR
             const img = document.createElement('img');
             img.src = url;
             qrCodeDiv.appendChild(img);
 
-            // Configurar el botón de descarga
+            // Configurar el enlace de descarga y mostrar el botón
             downloadBtn.href = url;
-            downloadBtn.style.display = 'inline-block';
+            downloadBtn.style.display = 'inline-block'; // Mostrar el botón solo si el QR se genera correctamente
             console.log('Código QR generado con éxito!');
         });
     } else {
         alert('Por favor, introduce un texto o enlace válido.');
     }
 }
+
+// Ocultar el botón de descarga al cargar la página
+window.onload = function() {
+    document.getElementById('download-btn').style.display = 'none';
+};
