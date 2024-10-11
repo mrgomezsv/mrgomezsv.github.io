@@ -33,3 +33,10 @@ function generateQRCode() {
 window.onload = function() {
     document.getElementById('download-btn').style.display = 'none';
 };
+
+
+function clearQRCode() {
+    document.getElementById("text").value = ""; // Limpiar el campo de texto
+    document.getElementById("qrcode").innerHTML = ""; // Limpiar el área del QR
+    document.getElementById("download-btn").style.display = "none"; // Ocultar el botón de descarga
+}
