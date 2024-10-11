@@ -285,6 +285,24 @@
       </div>
     </div>
   </div>
+
+  <div class="vg-page page-service" id="service">
+    <div class="container">
+      <div class="text-center wow fadeInUp">
+        <div class="badge badge-subhead">Bonus+</div>
+      </div>
+      <h1 class="fw-normal text-center wow fadeInUp">QR Generator</h1>
+      <div class="container py-5">
+        <div class="text-center mt-4">
+          <input type="text" id="text" placeholder="Introduce el texto o enlace" class="form-control" style="max-width: 400px; margin: 0 auto;">
+          <button onclick="generateQRCode()" class="btn btn-theme mt-3">Generar Código QR</button>
+          <div id="qrcode" class="mt-4"></div>
+          <a id="download-btn" download="qrcode.png" class="btn btn-outline-primary mt-3">Descargar Código QR</a>
+        </div>
+    </div>
+    
+    </div>
+  </div>
   
   <!-- Footer -->
   <div class="vg-footer">
