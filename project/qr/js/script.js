@@ -25,7 +25,7 @@ function generateQRCode() {
             console.log('Código QR generado con éxito!');
         });
     } else {
-        alert('Por favor, introduce un texto o enlace válido.');
+        alert('Please enter a valid text or link.');
     }
 }
 
