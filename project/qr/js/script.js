@@ -22,7 +22,7 @@ function generateQRCode() {
             // Configurar el enlace de descarga y mostrar el botón
             downloadBtn.href = url;
             downloadBtn.style.display = 'inline-block'; // Mostrar el botón solo si el QR se genera correctamente
-            console.log('Código QR generado con éxito!');
+            console.log('QR Code generated successfully!');
         });
     } else {
         alert('Please enter a valid text or link.');
