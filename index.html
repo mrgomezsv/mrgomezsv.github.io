@@ -249,8 +249,23 @@
 
         <!-- Agregar Carrusel aquí -->
         <div id="carouselExampleIndicators" class="carousel slide mt-5" data-ride="carousel">
+            <style>
+                /* Estilos para los indicadores */
+                .carousel-indicators li {
+                    background-color: #fff; /* Color blanco para mayor contraste */
+                    border: 1px solid #000; /* Borde negro para mejorar la visibilidad */
+                    box-shadow: 0 0 4px rgba(0,0,0,0.8); /* Sombra para destacar sobre cualquier fondo */
+                    width: 10px; /* Tamaño del indicador */
+                    height: 10px; /* Altura del indicador */
+                    border-radius: 50%; /* Hace los indicadores circulares */
+                }
+                .carousel-indicators .active {
+                    background-color: #000; /* Color negro para el indicador activo */
+                    box-shadow: 0 0 6px #fff; /* Sombra blanca para resaltar el indicador activo */
+                }
+            </style>
             <ol class="carousel-indicators">
-                <!-- Generar indicadores automáticamente para cada diploma -->
+                <!-- Indicadores ajustados para cada diploma -->
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
@@ -308,13 +323,12 @@
             </a>
             <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
+                <span the="sr-only">Next</span>
             </a>
         </div>
         <!-- Fin del carrusel -->
     </div>
 </div>
-
 
   <div class="vg-page page-service" id="service">
     <div class="container">
