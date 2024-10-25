@@ -1,0 +1,9 @@
+/* Estilo para animar las imágenes al pasar el mouse */
+.carousel-item img {
+    transition: transform 0.5s ease, box-shadow 0.5s ease; /* Suave transición para la transformación y la sombra */
+}
+
+.carousel-item img:hover {
+    transform: scale(1.05); /* Aumenta el tamaño de la imagen */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6); /* Añade una sombra más marcada para resaltar la imagen */
+}
