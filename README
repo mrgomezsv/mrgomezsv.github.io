@@ -51,3 +51,9 @@ Este proyecto está bajo la licencia MIT. Puedes ver el archivo de la licencia e
 ## Autor
 
 Este proyecto fue creado por mi, Mario Roberto quien soy desarrollador Backend y Movil  apasionado por el código y el aprendizaje.
+
+## Convertir pdf a png
+
+for file in *.pdf; do
+    convert "$file" "${file%.pdf}.png"
+done
