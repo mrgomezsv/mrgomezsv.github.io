@@ -27,6 +27,8 @@
   <link rel="stylesheet" type="text/css" href="..vendor/fancybox/css/jquery.fancybox.min.css">
   
   <link rel="stylesheet" type="text/css" href="../css/virtual.css">
+
+  <link rel="stylesheet" type="text/css" href="../css/modal-cv.css">
   
   <link rel="stylesheet" type="text/css" href="../css/topbar.virtual.css">
 </head>
@@ -131,7 +133,18 @@
               <li><b>From:</b> El Salvador, CA</li>
               <li><b>Lives In:</b> San Salvador, SV</li>
           </ul>
-          <a href="./document/CV%20Mario%20Roberto.pdf" id="experience" download="CV_Tec_Mario_Roberto_Developer_and_IT_Support.pdf" class="btn btn-theme-outline">Download CV</a>
+          <!-- <a href="./document/CV%20Mario%20Roberto.pdf" id="experience" download="CV_Tec_Mario_Roberto_Developer_and_IT_Support.pdf" class="btn btn-theme-outline">Download CV</a> -->
+          <!-- Botón principal -->
+          <a href="#" id="experience" class="btn btn-theme-outline" onclick="showModal()">Download CV</a>
+          <!-- Modal -->
+            <div id="downloadModal" class="modal">
+              <div class="modal-content">
+                  <span class="close" onclick="hideModal()">&times;</span>
+                  <h2>Select CV Language</h2>
+                  <button class="btn btn-theme" onclick="downloadCV('english')">Download in English</button>
+                  <button class="btn btn-theme" onclick="downloadCV('spanish')">Download in Spanish</button>
+              </div>
+          </div>
       </div>
       </div>
     </div>
@@ -636,6 +649,8 @@
       <p class="text-center">© 2024 - Mr Gomez Dev</p>
     </div>
   </div> <!-- Fin del footer -->
+
+  <script src="../js/download-cv.js"></script>
   
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
   
