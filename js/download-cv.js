@@ -12,9 +12,9 @@ function hideModal() {
 function downloadCV(language) {
     let url;
     if (language === 'english') {
-        url = './document/CV_Mario_Roberto_EN.pdf';
+        url = './document/Curriclum_Mario_Roberto_EN.pdf';
     } else if (language === 'spanish') {
-        url = './document/CV_Mario_Roberto_ES.pdf';
+        url = './document/Curriclum_Mario_Roberto_ES.pdf';
     }
 
     // Crear un enlace temporal para la descarga
