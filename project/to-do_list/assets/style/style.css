@@ -126,7 +126,7 @@ button.deleteBtn:hover {
 /* Media Queries para dispositivos móviles */
 @media (max-width: 768px) {
   .container {
-      width: 95%; /* Aumenta el ancho en móviles */
+      width: 95%; /* Aumenta el ancho en móviless *?
       padding: 10px; /* Reduce el padding en móviles */
   }
 
