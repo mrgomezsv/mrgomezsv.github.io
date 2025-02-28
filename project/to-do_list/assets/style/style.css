@@ -19,7 +19,6 @@ body {
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  flex-direction: column; /* Cambia la dirección a columna en móviles */
 }
 
 .profile-card {
@@ -27,7 +26,7 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 100%; /* Ocupa todo el ancho en móviles */
+  width: 300px;
   text-align: center;
 }
 
@@ -63,25 +62,25 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-  flex-direction: column; /* Cambia la dirección a columna en móviles */
-  gap: 10px; /* Añade espacio entre los elementos */
+  gap: 10px;
 }
 
-#taskInput {
-  width: 100%; /* Ocupa todo el ancho en móviles */
+#taskTitle, #taskDescription {
+  width: 30%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 #addTaskBtn {
-  padding: 8px 12px;
+  width: 80px;
+  padding: 6px 0;
   background-color: #28a745;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: 100%; /* Ocupa todo el ancho en móviles */
+  font-size: 0.9rem;
 }
 
 #addTaskBtn:hover {
@@ -105,23 +104,60 @@ li:last-child {
   border-bottom: none;
 }
 
-li.completed {
-  text-decoration: line-through;
+li.terminada {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+li.terminada strong,
+li.terminada p,
+li.terminada span {
   color: #888;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+button.actionBtn, button.editBtn, button.deleteBtn {
+  width: 80px;
+  padding: 6px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+button.actionBtn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+button.actionBtn:hover {
+  background-color: #0056b3;
+}
+
+button.editBtn {
+  background-color: #ffc107;
+  color: #000;
+}
+
+button.editBtn:hover {
+  background-color: #e0a800;
 }
 
 button.deleteBtn {
   background-color: #dc3545;
   color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;
 }
 
 button.deleteBtn:hover {
   background-color: #c82333;
 }
+
 
 /* Media Queries para dispositivos móviles */
 @media (max-width: 768px) {
