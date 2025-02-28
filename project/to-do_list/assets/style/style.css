@@ -1,3 +1,4 @@
+/* Estilos base (para móviles) */
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -6,7 +7,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .container {
@@ -14,10 +15,10 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
+  width: 90%; /* Más estrecho en móviles */
   max-width: 800px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Cambia a columna en móviles */
   gap: 20px;
 }
 
@@ -26,7 +27,7 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 100%; /* Ocupa todo el ancho en móviles */
   text-align: center;
 }
 
@@ -60,27 +61,27 @@ body {
 
 .input-section {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  flex-direction: column; /* Cambia a columna en móviles */
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 #taskTitle, #taskDescription {
-  width: 30%;
+  width: 100%; /* Ocupa todo el ancho en móviles */
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 #addTaskBtn {
-  width: 80px;
-  padding: 6px 0;
+  width: 100%; /* Ocupa todo el ancho en móviles */
+  padding: 10px 0;
   background-color: #28a745;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 #addTaskBtn:hover {
@@ -123,12 +124,12 @@ li.terminada span {
 }
 
 button.actionBtn, button.editBtn, button.deleteBtn {
-  width: 80px;
-  padding: 6px 0;
+  width: 100%; /* Ocupa todo el ancho en móviles */
+  padding: 10px 0;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 button.actionBtn {
@@ -156,4 +157,36 @@ button.deleteBtn {
 
 button.deleteBtn:hover {
   background-color: #c82333;
+}
+
+/* Media queries para pantallas más grandes (tablets y escritorios) */
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row; /* Vuelve a fila en pantallas grandes */
+    width: 80%;
+  }
+
+  .profile-card {
+    width: 300px; /* Ancho fijo en pantallas grandes */
+  }
+
+  .input-section {
+    flex-direction: row; /* Vuelve a fila en pantallas grandes */
+  }
+
+  #taskTitle, #taskDescription {
+    width: 30%; /* Ancho reducido en pantallas grandes */
+  }
+
+  #addTaskBtn {
+    width: 80px; /* Ancho fijo en pantallas grandes */
+    padding: 6px 0;
+    font-size: 0.9rem;
+  }
+
+  button.actionBtn, button.editBtn, button.deleteBtn {
+    width: 80px; /* Ancho fijo en pantallas grandes */
+    padding: 6px 0;
+    font-size: 0.9rem;
+  }
 }
