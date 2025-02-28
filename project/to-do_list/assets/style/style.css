@@ -118,4 +118,24 @@ body {
   button.deleteBtn:hover {
     background-color: #c82333;
   }
-  
+
+  .round-button {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Hace el botón redondo */
+    background-color: #007BFF;
+    color: white;
+    text-align: center;
+    line-height: 50px; /* Centra el texto verticalmente */
+    text-decoration: none;
+    font-size: 20px;
+    cursor: pointer;
+    border: none; /* Elimina el borde por defecto */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para un efecto elevado */
+    transition: background-color 0.3s ease; /* Transición suave */
+  }
+
+  .round-button:hover {
+    background-color: #c82333; /* Cambia el color al pasar el mouse */
+  }
