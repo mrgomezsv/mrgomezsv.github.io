@@ -221,7 +221,8 @@ function showPatientDetails(data) {
     detailsDiv.innerHTML = '';
     return;
   }
-  const name = data.name || data.displayName || data.email || data.userId || 'Sin nombre';
+  // Si no hay nombre, mostrar 'Nombre no registrado'
+  const name = (data.name && data.name !== data.userId) ? data.name : (data.displayName && data.displayName !== data.userId) ? data.displayName : 'Nombre no registrado';
   detailsDiv.innerHTML = `
     <div class="patient-detail-card">
       <h3>Datos del paciente</h3>
@@ -260,7 +261,8 @@ async function loadPatients() {
       try {
         const data = doc.data();
         console.log("Datos del paciente:", doc.id, data);
-        const name = data.name || data.displayName || data.email || data.userId || 'Sin nombre';
+        // Si no hay nombre, mostrar 'Nombre no registrado'
+        const name = (data.name && data.name !== data.userId) ? data.name : (data.displayName && data.displayName !== data.userId) ? data.displayName : 'Nombre no registrado';
         const div = document.createElement('div');
         div.className = 'patient-card';
         div.textContent = `${data.gender === 'HOMBRE' ? '👨' : '👩'} ${name} (${data.age || 'N/A'} años)`;
@@ -280,7 +282,8 @@ async function loadPatients() {
 async function loadPatientRecords(userId, userData) {
   try {
     showPatientDetails(userData);
-    const name = userData.name || userData.displayName || userData.email || userId;
+    // Si no hay nombre, mostrar 'Nombre no registrado'
+    const name = (userData.name && userData.name !== userId) ? userData.name : (userData.displayName && userData.displayName !== userId) ? userData.displayName : 'Nombre no registrado';
     patientRecords.innerHTML = `<h3>Registros de ${name}</h3>Cargando...`;
     const snapshot = await db.collection('registro_medico_usuarios')
       .doc(userId)
