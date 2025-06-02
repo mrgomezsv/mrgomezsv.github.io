@@ -9,7 +9,14 @@ const firebaseConfig = {
 };
 
 // Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
+try {
+  console.log("Inicializando Firebase...");
+  firebase.initializeApp(firebaseConfig);
+  console.log("Firebase inicializado correctamente");
+} catch (error) {
+  console.error("Error al inicializar Firebase:", error);
+}
+
 const auth = firebase.auth();
 const db = firebase.firestore();
 
@@ -22,13 +29,44 @@ const loginError = document.getElementById('login-error');
 
 // --- Autenticación ---
 document.getElementById('google-signin').onclick = async () => {
+  console.log("Iniciando proceso de login con Google...");
   const provider = new firebase.auth.GoogleAuthProvider();
+  
+  // Configurar el proveedor
+  provider.setCustomParameters({
+    prompt: 'select_account'
+  });
+
   try {
+    console.log("Abriendo popup de Google...");
+    loginError.textContent = "Conectando con Google...";
     const result = await auth.signInWithPopup(provider);
-    await saveMedicProfile(result.user);
+    console.log("Login exitoso:", result.user);
+    
+    if (result.user) {
+      console.log("Guardando perfil del médico...");
+      await saveMedicProfile(result.user);
+      console.log("Perfil guardado correctamente");
+    }
   } catch (e) {
-    console.error("Error al iniciar sesión:", e);
-    loginError.textContent = e.message;
+    console.error("Error detallado en el login:", {
+      code: e.code,
+      message: e.message,
+      email: e.email,
+      credential: e.credential
+    });
+    
+    if (e.code === 'auth/popup-closed-by-user') {
+      loginError.textContent = "El inicio de sesión fue cancelado. Por favor, intenta de nuevo.";
+    } else if (e.code === 'auth/popup-blocked') {
+      loginError.textContent = "El navegador bloqueó la ventana de inicio de sesión. Por favor, permite las ventanas emergentes.";
+    } else if (e.code === 'auth/cancelled-popup-request') {
+      loginError.textContent = "Se canceló la solicitud de inicio de sesión. Por favor, intenta de nuevo.";
+    } else if (e.code === 'auth/unauthorized-domain') {
+      loginError.textContent = "Este dominio no está autorizado. Por favor, contacta al administrador.";
+    } else {
+      loginError.textContent = `Error al iniciar sesión: ${e.message}`;
+    }
   }
 };
 
@@ -79,31 +117,26 @@ auth.getRedirectResult().then(async (result) => {
   }
 });
 
-// Mejoramos el manejo del estado de autenticación
-auth.onAuthStateChanged(async (user) => {
-  console.log("Estado de autenticación cambiado:", user ? "Usuario autenticado" : "Usuario no autenticado");
+// Escuchar cambios en el estado de autenticación
+auth.onAuthStateChanged((user) => {
+  console.log("Estado de autenticación cambiado:", user ? "Usuario autenticado" : "No hay usuario");
   if (user) {
-    try {
-      // Aseguramos que el perfil esté guardado
-      await saveMedicProfile(user);
-      // Actualizamos la UI
-      loginContainer.classList.add('hidden');
-      mainContainer.classList.remove('hidden');
-      medicInfo.textContent = `Dr. ${user.displayName || user.email}`;
-      // Cargamos los pacientes
-      await loadPatients();
-    } catch (error) {
-      console.error("Error al actualizar la UI después del login:", error);
-      loginError.textContent = "Error al cargar los datos. Por favor, recarga la página.";
-    }
+    console.log("Detalles del usuario:", {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName
+    });
+    loginContainer.classList.add('hidden');
+    mainContainer.classList.remove('hidden');
+    medicInfo.textContent = `Dr. ${user.displayName || user.email}`;
+    loadPatients();
   } else {
-    // Usuario no autenticado
+    console.log("Usuario no autenticado");
     loginContainer.classList.remove('hidden');
     mainContainer.classList.add('hidden');
     medicInfo.textContent = '';
     patientsList.innerHTML = '';
     patientRecords.innerHTML = '';
-    loginError.textContent = '';
   }
 });
 
