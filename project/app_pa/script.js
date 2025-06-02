@@ -23,15 +23,12 @@ const loginError = document.getElementById('login-error');
 // --- Autenticación ---
 document.getElementById('google-signin').onclick = async () => {
   const provider = new firebase.auth.GoogleAuthProvider();
-  // Configuramos el proveedor para que solicite el perfil y el email
-  provider.addScope('profile');
-  provider.addScope('email');
   try {
-    loginError.textContent = "Iniciando sesión...";
-    await auth.signInWithRedirect(provider);
+    const result = await auth.signInWithPopup(provider);
+    await saveMedicProfile(result.user);
   } catch (e) {
     console.error("Error al iniciar sesión:", e);
-    loginError.textContent = "Error al iniciar sesión. Por favor, intenta de nuevo.";
+    loginError.textContent = e.message;
   }
 };
 
