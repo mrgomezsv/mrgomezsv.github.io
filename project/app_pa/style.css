@@ -191,6 +191,9 @@ button:active, .google-signin-button:active {
   justify-content: center;
   align-items: center;
   margin-bottom: 24px;
+  max-width: 740px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .patient-detail-card,
 #patient-chart-container {
@@ -247,6 +250,7 @@ button:active, .google-signin-button:active {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
+    max-width: 98vw;
   }
   .patient-detail-card,
   #patient-chart-container {
