@@ -217,6 +217,11 @@ function updateMedicHeader(user) {
 // --- Mostrar detalles del paciente seleccionado ---
 function showPatientDetails(data) {
   const detailsDiv = document.getElementById('patient-details');
+  const chartDiv = document.createElement('div');
+  chartDiv.id = 'patient-chart-container';
+  chartDiv.style.display = 'none'; // Se mostrará solo si hay datos
+  chartDiv.innerHTML = `<canvas id="patient-chart" style="max-width:100%;"></canvas>`;
+
   if (!data) {
     detailsDiv.innerHTML = '';
     return;
@@ -224,17 +229,22 @@ function showPatientDetails(data) {
   // Si no hay nombre, mostrar 'Nombre no registrado'
   const name = (data.name && data.name !== data.userId) ? data.name : (data.displayName && data.displayName !== data.userId) ? data.displayName : 'Nombre no registrado';
   detailsDiv.innerHTML = `
-    <div class="patient-detail-card">
-      <h3>Datos del paciente</h3>
-      <ul style="list-style:none;padding:0;">
-        <li><b>Nombre:</b> ${name}</li>
-        <li><b>Email:</b> ${data.email || 'No disponible'}</li>
-        <li><b>Edad:</b> ${data.age || 'No disponible'}</li>
-        <li><b>Género:</b> ${data.gender || 'No disponible'}</li>
-        <li><b>ID:</b> ${data.userId || 'No disponible'}</li>
-      </ul>
+    <div class="patient-flex-container">
+      <div class="patient-detail-card">
+        <h3>Datos del paciente</h3>
+        <ul style="list-style:none;padding:0;">
+          <li><b>Nombre:</b> ${name}</li>
+          <li><b>Email:</b> ${data.email || 'No disponible'}</li>
+          <li><b>Edad:</b> ${data.age || 'No disponible'}</li>
+          <li><b>Género:</b> ${data.gender || 'No disponible'}</li>
+          <li><b>ID:</b> ${data.userId || 'No disponible'}</li>
+        </ul>
+      </div>
     </div>
   `;
+  // Insertar el div de la gráfica a la par de los datos
+  const flexContainer = detailsDiv.querySelector('.patient-flex-container');
+  flexContainer.appendChild(chartDiv);
 }
 
 // --- Carga de pacientes ---
@@ -291,16 +301,20 @@ async function loadPatientRecords(userId, userData) {
     showPatientDetails(patientData);
     // Si no hay nombre, mostrar 'Nombre no registrado'
     const name = (patientData.name && patientData.name !== userId) ? patientData.name : (patientData.displayName && patientData.displayName !== userId) ? patientData.displayName : 'Nombre no registrado';
-    patientRecords.innerHTML = `<h3>Registros de ${name}</h3>Cargando...`;
+    // Mostrar la gráfica solo si hay registros
     const snapshot = await db.collection('registro_medico_usuarios')
       .doc(userId)
       .collection('registros')
       .orderBy('timestamp', 'desc')
       .get();
+    // Mostrar/ocultar el contenedor de la gráfica
+    const chartDiv = document.getElementById('patient-chart-container');
     if (snapshot.empty) {
+      if (chartDiv) chartDiv.style.display = 'none';
       patientRecords.innerHTML = `<h3>Registros de ${name}</h3>No hay registros.`;
-      document.getElementById('patient-chart').style.display = 'none';
       return;
+    } else {
+      if (chartDiv) chartDiv.style.display = 'block';
     }
     let html = `<h3>Registros de ${name}</h3>
       <table class="record-table">
@@ -353,7 +367,8 @@ async function loadPatientRecords(userId, userData) {
   } catch (error) {
     console.error("Error al cargar registros:", error);
     patientRecords.innerHTML = `<h3>Registros de ${userData.name || userId}</h3>Error al cargar registros: ${error.message}`;
-    document.getElementById('patient-chart').style.display = 'none';
+    const chartDiv = document.getElementById('patient-chart-container');
+    if (chartDiv) chartDiv.style.display = 'none';
   }
 }
 
