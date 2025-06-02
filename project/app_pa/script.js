@@ -27,43 +27,77 @@ const patientsList = document.getElementById('patients-list');
 const patientRecords = document.getElementById('patient-records');
 const loginError = document.getElementById('login-error');
 
+// Función para guardar el perfil del médico
+async function saveMedicProfile(user) {
+  if (!user) {
+    console.error("No hay usuario para guardar el perfil");
+    return;
+  }
+
+  try {
+    console.log("Guardando perfil médico para:", user.uid);
+    const medicoRef = db.collection('medicos').doc(user.uid);
+    
+    // Primero verificamos si ya existe el documento
+    const medicoDoc = await medicoRef.get();
+    
+    if (!medicoDoc.exists) {
+      console.log("Creando nuevo perfil médico");
+      // Si no existe, creamos el perfil
+      await medicoRef.set({
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || '',
+        photoURL: user.photoURL || '',
+        role: 'medico',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      console.log("Perfil médico creado exitosamente");
+    } else {
+      console.log("Actualizando perfil médico existente");
+      // Si existe, solo actualizamos el último login
+      await medicoRef.update({
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+        displayName: user.displayName || medicoDoc.data().displayName,
+        photoURL: user.photoURL || medicoDoc.data().photoURL
+      });
+      console.log("Perfil médico actualizado exitosamente");
+    }
+  } catch (error) {
+    console.error("Error al guardar perfil médico:", error);
+    throw error;
+  }
+}
+
 // --- Autenticación ---
 document.getElementById('google-signin').onclick = async () => {
   console.log("Iniciando proceso de login con Google...");
   const provider = new firebase.auth.GoogleAuthProvider();
   
-  // Configurar el proveedor
-  provider.setCustomParameters({
-    prompt: 'select_account'
-  });
-
   try {
     console.log("Abriendo popup de Google...");
     loginError.textContent = "Conectando con Google...";
-    const result = await auth.signInWithPopup(provider);
-    console.log("Login exitoso:", result.user);
     
-    if (result.user) {
-      console.log("Guardando perfil del médico...");
-      await saveMedicProfile(result.user);
-      console.log("Perfil guardado correctamente");
-    }
+    // Intentamos el login
+    const result = await auth.signInWithPopup(provider);
+    console.log("Login exitoso, usuario:", result.user.uid);
+    
+    // Guardamos el perfil
+    await saveMedicProfile(result.user);
+    console.log("Proceso de login completado exitosamente");
+    
   } catch (e) {
-    console.error("Error detallado en el login:", {
+    console.error("Error en el proceso de login:", {
       code: e.code,
       message: e.message,
-      email: e.email,
-      credential: e.credential
+      email: e.email
     });
     
     if (e.code === 'auth/popup-closed-by-user') {
       loginError.textContent = "El inicio de sesión fue cancelado. Por favor, intenta de nuevo.";
     } else if (e.code === 'auth/popup-blocked') {
       loginError.textContent = "El navegador bloqueó la ventana de inicio de sesión. Por favor, permite las ventanas emergentes.";
-    } else if (e.code === 'auth/cancelled-popup-request') {
-      loginError.textContent = "Se canceló la solicitud de inicio de sesión. Por favor, intenta de nuevo.";
-    } else if (e.code === 'auth/unauthorized-domain') {
-      loginError.textContent = "Este dominio no está autorizado. Por favor, contacta al administrador.";
     } else {
       loginError.textContent = `Error al iniciar sesión: ${e.message}`;
     }
@@ -118,18 +152,37 @@ auth.getRedirectResult().then(async (result) => {
 });
 
 // Escuchar cambios en el estado de autenticación
-auth.onAuthStateChanged((user) => {
+auth.onAuthStateChanged(async (user) => {
   console.log("Estado de autenticación cambiado:", user ? "Usuario autenticado" : "No hay usuario");
+  
   if (user) {
-    console.log("Detalles del usuario:", {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName
-    });
-    loginContainer.classList.add('hidden');
-    mainContainer.classList.remove('hidden');
-    medicInfo.textContent = `Dr. ${user.displayName || user.email}`;
-    loadPatients();
+    try {
+      console.log("Usuario autenticado:", {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName
+      });
+
+      // Verificamos si el usuario es médico
+      const medicoDoc = await db.collection('medicos').doc(user.uid).get();
+      
+      if (!medicoDoc.exists) {
+        console.log("Usuario no es médico, guardando perfil...");
+        await saveMedicProfile(user);
+      }
+
+      // Actualizamos la UI
+      loginContainer.classList.add('hidden');
+      mainContainer.classList.remove('hidden');
+      medicInfo.textContent = `Dr. ${user.displayName || user.email}`;
+      
+      // Cargamos los pacientes
+      await loadPatients();
+      
+    } catch (error) {
+      console.error("Error al procesar usuario autenticado:", error);
+      loginError.textContent = "Error al cargar los datos. Por favor, recarga la página.";
+    }
   } else {
     console.log("Usuario no autenticado");
     loginContainer.classList.remove('hidden');
@@ -137,20 +190,9 @@ auth.onAuthStateChanged((user) => {
     medicInfo.textContent = '';
     patientsList.innerHTML = '';
     patientRecords.innerHTML = '';
+    loginError.textContent = '';
   }
 });
-
-// Guarda el perfil del médico en Firestore
-async function saveMedicProfile(user) {
-  if (!user) return;
-  await db.collection('medicos').doc(user.uid).set({
-    uid: user.uid,
-    email: user.email,
-    displayName: user.displayName || '',
-    photoURL: user.photoURL || '',
-    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-  }, { merge: true });
-}
 
 // --- Carga de pacientes ---
 async function loadPatients() {
