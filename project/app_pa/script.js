@@ -174,7 +174,7 @@ auth.onAuthStateChanged(async (user) => {
       // Actualizamos la UI
       loginContainer.classList.add('hidden');
       mainContainer.classList.remove('hidden');
-      medicInfo.textContent = `Dr. ${user.displayName || user.email}`;
+      updateMedicHeader(user);
       
       // Cargamos los pacientes
       await loadPatients();
@@ -187,20 +187,57 @@ auth.onAuthStateChanged(async (user) => {
     console.log("Usuario no autenticado");
     loginContainer.classList.remove('hidden');
     mainContainer.classList.add('hidden');
-    medicInfo.textContent = '';
+    updateMedicHeader(null);
     patientsList.innerHTML = '';
     patientRecords.innerHTML = '';
     loginError.textContent = '';
   }
 });
 
+// Actualizar cabecera con nombre y foto del doctor(a)
+function updateMedicHeader(user) {
+  const medicInfo = document.getElementById('medic-info');
+  const medicPhoto = document.getElementById('medic-photo');
+  if (user) {
+    medicInfo.textContent = `Dr. ${user.displayName || user.email}`;
+    if (user.photoURL) {
+      medicPhoto.src = user.photoURL;
+      medicPhoto.style.display = 'block';
+    } else {
+      medicPhoto.style.display = 'none';
+    }
+  } else {
+    medicInfo.textContent = '';
+    medicPhoto.style.display = 'none';
+  }
+}
+
+// --- Mostrar detalles del paciente seleccionado ---
+function showPatientDetails(data) {
+  const detailsDiv = document.getElementById('patient-details');
+  if (!data) {
+    detailsDiv.innerHTML = '';
+    return;
+  }
+  detailsDiv.innerHTML = `
+    <div class="patient-detail-card">
+      <h3>Datos del paciente</h3>
+      <ul style="list-style:none;padding:0;">
+        <li><b>Nombre:</b> ${data.name || data.userId || 'Sin nombre'}</li>
+        <li><b>Email:</b> ${data.email || 'No disponible'}</li>
+        <li><b>Edad:</b> ${data.age || 'No disponible'}</li>
+        <li><b>Género:</b> ${data.gender || 'No disponible'}</li>
+        <li><b>ID:</b> ${data.userId || 'No disponible'}</li>
+      </ul>
+    </div>
+  `;
+}
+
 // --- Carga de pacientes ---
 async function loadPatients() {
   try {
     console.log("Iniciando carga de pacientes...");
     patientsList.innerHTML = 'Cargando pacientes...';
-    
-    // Verificamos si el usuario está autenticado
     const currentUser = auth.currentUser;
     if (!currentUser) {
       console.error("No hay usuario autenticado");
@@ -208,26 +245,21 @@ async function loadPatients() {
       return;
     }
     console.log("Usuario autenticado:", currentUser.uid);
-
-    // Intentamos obtener los datos
     const snapshot = await db.collection('registro_medico_usuarios').get();
     console.log("Datos obtenidos de Firestore:", snapshot.size, "documentos");
-
     if (snapshot.empty) {
       console.log("No se encontraron pacientes en la colección");
       patientsList.innerHTML = 'No hay pacientes registrados.';
       return;
     }
-
     patientsList.innerHTML = '';
     snapshot.forEach(doc => {
       try {
         const data = doc.data();
         console.log("Datos del paciente:", doc.id, data);
-        
         const div = document.createElement('div');
         div.className = 'patient-card';
-        div.textContent = `${data.gender === 'HOMBRE' ? '👨' : '👩'} ${data.userId || 'Sin ID'} (${data.age || 'N/A'} años)`;
+        div.textContent = `${data.gender === 'HOMBRE' ? '👨' : '👩'} ${data.name || data.userId || 'Sin nombre'} (${data.age || 'N/A'} años)`;
         div.onclick = () => loadPatientRecords(doc.id, data);
         patientsList.appendChild(div);
       } catch (error) {
@@ -243,53 +275,120 @@ async function loadPatients() {
 // --- Carga de registros de un paciente ---
 async function loadPatientRecords(userId, userData) {
   try {
-    console.log("Cargando registros para paciente:", userId);
-    patientRecords.innerHTML = `<h3>Registros de ${userId}</h3>Cargando...`;
-    
+    showPatientDetails(userData);
+    patientRecords.innerHTML = `<h3>Registros de ${userData.name || userId}</h3>Cargando...`;
     const snapshot = await db.collection('registro_medico_usuarios')
       .doc(userId)
       .collection('registros')
       .orderBy('timestamp', 'desc')
       .get();
-    
-    console.log("Registros obtenidos:", snapshot.size, "documentos");
-
     if (snapshot.empty) {
-      patientRecords.innerHTML = `<h3>Registros de ${userId}</h3>No hay registros.`;
+      patientRecords.innerHTML = `<h3>Registros de ${userData.name || userId}</h3>No hay registros.`;
+      document.getElementById('patient-chart').style.display = 'none';
       return;
     }
-
-    let html = `<h3>Registros de ${userId}</h3>
+    let html = `<h3>Registros de ${userData.name || userId}</h3>
       <table class="record-table">
         <tr>
           <th>Fecha</th>
+          <th>Hora</th>
           <th>Sistólica</th>
           <th>Diastólica</th>
           <th>Pulso</th>
           <th>Notas</th>
         </tr>`;
-
+    // Para la gráfica
+    const fechas = [], sistolica = [], diastolica = [], pulso = [];
     snapshot.forEach(doc => {
       try {
         const r = doc.data();
-        console.log("Datos del registro:", doc.id, r);
-        const date = r.timestamp && r.timestamp.toDate ? r.timestamp.toDate().toLocaleString() : 'Sin fecha';
+        const dateObj = r.timestamp && r.timestamp.toDate ? r.timestamp.toDate() : null;
+        let fecha = 'Sin fecha', hora = '';
+        if (dateObj) {
+          fecha = `${dateObj.getDate()}/${dateObj.getMonth()+1}/${dateObj.getFullYear()}`;
+          const horas = dateObj.getHours();
+          const minutos = dateObj.getMinutes().toString().padStart(2, '0');
+          const sufijo = horas < 12 ? 'a.m.' : 'p.m.';
+          const horas12 = ((horas + 11) % 12 + 1);
+          hora = `a las ${horas12}:${minutos} ${sufijo}`;
+        }
         html += `<tr>
-          <td>${date}</td>
+          <td>${fecha}</td>
+          <td>${hora}</td>
           <td>${r.systolic || 'N/A'}</td>
           <td>${r.diastolic || 'N/A'}</td>
           <td>${r.pulse || 'N/A'}</td>
           <td>${r.notes || ''}</td>
         </tr>`;
+        // Para la gráfica
+        if (dateObj) {
+          fechas.push(fecha + ' ' + hora);
+          sistolica.push(r.systolic || null);
+          diastolica.push(r.diastolic || null);
+          pulso.push(r.pulse || null);
+        }
       } catch (error) {
         console.error("Error al procesar registro:", doc.id, error);
       }
     });
-
     html += '</table>';
     patientRecords.innerHTML = html;
+    // Llamar a la función para mostrar la gráfica
+    showPatientChart(fechas, sistolica, diastolica, pulso);
   } catch (error) {
     console.error("Error al cargar registros:", error);
-    patientRecords.innerHTML = `<h3>Registros de ${userId}</h3>Error al cargar registros: ${error.message}`;
+    patientRecords.innerHTML = `<h3>Registros de ${userData.name || userId}</h3>Error al cargar registros: ${error.message}`;
+    document.getElementById('patient-chart').style.display = 'none';
   }
+}
+
+// Mostrar gráfica de evolución del paciente
+function showPatientChart(fechas, sistolica, diastolica, pulso) {
+  const ctx = document.getElementById('patient-chart').getContext('2d');
+  document.getElementById('patient-chart').style.display = 'block';
+  if (window.patientChartInstance) {
+    window.patientChartInstance.destroy();
+  }
+  window.patientChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: fechas,
+      datasets: [
+        {
+          label: 'Sistólica',
+          data: sistolica,
+          borderColor: '#1976d2',
+          backgroundColor: 'rgba(25, 118, 210, 0.1)',
+          fill: false,
+          tension: 0.2
+        },
+        {
+          label: 'Diastólica',
+          data: diastolica,
+          borderColor: '#43a047',
+          backgroundColor: 'rgba(67, 160, 71, 0.1)',
+          fill: false,
+          tension: 0.2
+        },
+        {
+          label: 'Pulso',
+          data: pulso,
+          borderColor: '#fbc02d',
+          backgroundColor: 'rgba(251, 192, 45, 0.1)',
+          fill: false,
+          tension: 0.2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' },
+        title: { display: true, text: 'Evolución del paciente' }
+      },
+      scales: {
+        y: { beginAtZero: false }
+      }
+    }
+  });
 }

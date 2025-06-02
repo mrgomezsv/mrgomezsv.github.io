@@ -45,10 +45,11 @@ hr {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1976d2;
+  background: linear-gradient(90deg, #1976d2 60%, #1565c0 100%);
   color: #fff;
-  padding: 12px 24px;
-  border-radius: 0 0 8px 8px;
+  padding: 18px 32px;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
 }
 #patients-list {
   margin: 24px 0;
@@ -71,17 +72,31 @@ hr {
 }
 .record-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   margin-top: 12px;
-}
-.record-table th, .record-table td {
-  border: 1px solid #bdbdbd;
-  padding: 8px 12px;
-  text-align: center;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08);
 }
 .record-table th {
   background: #1976d2;
   color: #fff;
+  font-weight: 600;
+  padding: 12px 8px;
+  font-size: 1em;
+}
+.record-table td {
+  padding: 10px 8px;
+  text-align: center;
+  font-size: 0.98em;
+}
+.record-table tr:nth-child(even) {
+  background: #f5f6fa;
+}
+.record-table tr:hover {
+  background: #e3f2fd;
 }
 
 /* Google Sign-In Button Styles */
@@ -118,4 +133,76 @@ hr {
   width: 18px;
   height: 18px;
   margin-right: 8px;
+}
+
+/* Header mejorado */
+#medic-info {
+  font-size: 1.2em;
+  font-weight: 500;
+}
+#medic-photo {
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.15);
+}
+
+/* Tarjeta de información del paciente */
+.patient-detail-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.10);
+  padding: 20px 28px;
+  margin: 24px auto 12px auto;
+  max-width: 420px;
+  text-align: left;
+  border-left: 6px solid #1976d2;
+}
+.patient-detail-card h3 {
+  margin-top: 0;
+  color: #1976d2;
+}
+.patient-detail-card ul li {
+  margin-bottom: 6px;
+  font-size: 1.05em;
+}
+
+/* Botones modernos */
+button, .google-signin-button {
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+button:active, .google-signin-button:active {
+  transform: scale(0.97);
+}
+
+/* Gráfica con fondo y sombra */
+#patient-chart {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.10);
+  padding: 18px 8px 8px 8px;
+  margin-bottom: 32px;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .card, .patient-detail-card {
+    max-width: 98vw;
+    padding: 16px 6vw;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 8vw;
+    border-radius: 0 0 12px 12px;
+  }
+  #main-container {
+    padding: 0 2vw;
+  }
+  .record-table th, .record-table td {
+    font-size: 0.92em;
+    padding: 8px 2px;
+  }
+  #patient-chart {
+    padding: 8px 2vw 2vw 2vw;
+  }
 }
