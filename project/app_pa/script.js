@@ -281,9 +281,16 @@ async function loadPatients() {
 // --- Carga de registros de un paciente ---
 async function loadPatientRecords(userId, userData) {
   try {
-    showPatientDetails(userData);
+    // Obtener datos actualizados del paciente desde Firestore
+    const userDoc = await db.collection('registro_medico_usuarios').doc(userId).get();
+    let patientData = userData;
+    if (userDoc.exists) {
+      patientData = userDoc.data();
+      patientData.userId = userId; // Aseguramos que el ID esté presente
+    }
+    showPatientDetails(patientData);
     // Si no hay nombre, mostrar 'Nombre no registrado'
-    const name = (userData.name && userData.name !== userId) ? userData.name : (userData.displayName && userData.displayName !== userId) ? userData.displayName : 'Nombre no registrado';
+    const name = (patientData.name && patientData.name !== userId) ? patientData.name : (patientData.displayName && patientData.displayName !== userId) ? patientData.displayName : 'Nombre no registrado';
     patientRecords.innerHTML = `<h3>Registros de ${name}</h3>Cargando...`;
     const snapshot = await db.collection('registro_medico_usuarios')
       .doc(userId)
