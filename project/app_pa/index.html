@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Médico - Blood Pressure Check</title>
+  <link rel="stylesheet" href="/project/app_pa/style.css">
+  <!-- Google Sign-In Button Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div id="login-container" class="card">
+    <h2>Acceso Médico</h2>
+    <button id="google-signin" class="google-signin-button">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
+      <span>Iniciar sesión con Google</span>
+    </button>
+    <hr>
+    <input type="email" id="email" placeholder="Correo electrónico">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button id="email-signin">Iniciar sesión</button>
+    <button id="email-signup">Registrarse</button>
+    <div id="login-error"></div>
+  </div>
+
+  <div id="main-container" class="hidden">
+    <div class="header">
+      <span id="medic-info"></span>
+      <button id="signout">Cerrar sesión</button>
+    </div>
+    <h2>Pacientes</h2>
+    <div id="patients-list"></div>
+    <div id="patient-records"></div>
+  </div>
+
+  <script src="/project/app_pa/script.js"></script>
+</body>
+</html>
