@@ -199,10 +199,12 @@ function updateMedicHeader(user) {
   const medicInfo = document.getElementById('medic-info');
   const medicPhoto = document.getElementById('medic-photo');
   if (user) {
-    medicInfo.textContent = `Dr. ${user.displayName || user.email}`;
+    const name = user.displayName || user.email || 'Médico';
+    medicInfo.textContent = `Dr. ${name}`;
     if (user.photoURL) {
       medicPhoto.src = user.photoURL;
       medicPhoto.style.display = 'block';
+      medicPhoto.alt = `Foto de ${name}`;
     } else {
       medicPhoto.style.display = 'none';
     }
@@ -219,11 +221,12 @@ function showPatientDetails(data) {
     detailsDiv.innerHTML = '';
     return;
   }
+  const name = data.name || data.displayName || data.email || data.userId || 'Sin nombre';
   detailsDiv.innerHTML = `
     <div class="patient-detail-card">
       <h3>Datos del paciente</h3>
       <ul style="list-style:none;padding:0;">
-        <li><b>Nombre:</b> ${data.name || data.userId || 'Sin nombre'}</li>
+        <li><b>Nombre:</b> ${name}</li>
         <li><b>Email:</b> ${data.email || 'No disponible'}</li>
         <li><b>Edad:</b> ${data.age || 'No disponible'}</li>
         <li><b>Género:</b> ${data.gender || 'No disponible'}</li>
@@ -257,9 +260,10 @@ async function loadPatients() {
       try {
         const data = doc.data();
         console.log("Datos del paciente:", doc.id, data);
+        const name = data.name || data.displayName || data.email || data.userId || 'Sin nombre';
         const div = document.createElement('div');
         div.className = 'patient-card';
-        div.textContent = `${data.gender === 'HOMBRE' ? '👨' : '👩'} ${data.name || data.userId || 'Sin nombre'} (${data.age || 'N/A'} años)`;
+        div.textContent = `${data.gender === 'HOMBRE' ? '👨' : '👩'} ${name} (${data.age || 'N/A'} años)`;
         div.onclick = () => loadPatientRecords(doc.id, data);
         patientsList.appendChild(div);
       } catch (error) {
@@ -276,18 +280,19 @@ async function loadPatients() {
 async function loadPatientRecords(userId, userData) {
   try {
     showPatientDetails(userData);
-    patientRecords.innerHTML = `<h3>Registros de ${userData.name || userId}</h3>Cargando...`;
+    const name = userData.name || userData.displayName || userData.email || userId;
+    patientRecords.innerHTML = `<h3>Registros de ${name}</h3>Cargando...`;
     const snapshot = await db.collection('registro_medico_usuarios')
       .doc(userId)
       .collection('registros')
       .orderBy('timestamp', 'desc')
       .get();
     if (snapshot.empty) {
-      patientRecords.innerHTML = `<h3>Registros de ${userData.name || userId}</h3>No hay registros.`;
+      patientRecords.innerHTML = `<h3>Registros de ${name}</h3>No hay registros.`;
       document.getElementById('patient-chart').style.display = 'none';
       return;
     }
-    let html = `<h3>Registros de ${userData.name || userId}</h3>
+    let html = `<h3>Registros de ${name}</h3>
       <table class="record-table">
         <tr>
           <th>Fecha</th>
