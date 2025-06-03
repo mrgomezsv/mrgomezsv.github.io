@@ -72,25 +72,23 @@ hr {
 }
 .record-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
   margin-top: 12px;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08);
 }
+.record-table th, .record-table td {
+  text-align: center;
+  padding: 10px 8px;
+  font-size: 0.98em;
+  border: 1px solid #e0e0e0;
+}
 .record-table th {
   background: #1976d2;
   color: #fff;
   font-weight: 600;
-  padding: 12px 8px;
-  font-size: 1em;
-}
-.record-table td {
-  padding: 10px 8px;
-  text-align: center;
-  font-size: 0.98em;
 }
 .record-table tr:nth-child(even) {
   background: #f5f6fa;

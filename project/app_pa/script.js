@@ -217,11 +217,6 @@ function updateMedicHeader(user) {
 // --- Mostrar detalles del paciente seleccionado ---
 function showPatientDetails(data) {
   const detailsDiv = document.getElementById('patient-details');
-  const chartDiv = document.createElement('div');
-  chartDiv.id = 'patient-chart-container';
-  chartDiv.style.display = 'none'; // Se mostrará solo si hay datos
-  chartDiv.innerHTML = `<canvas id="patient-chart" style="max-width:100%;"></canvas>`;
-
   if (!data) {
     detailsDiv.innerHTML = '';
     return;
@@ -242,9 +237,6 @@ function showPatientDetails(data) {
       </div>
     </div>
   `;
-  // Insertar el div de la gráfica a la par de los datos
-  const flexContainer = detailsDiv.querySelector('.patient-flex-container');
-  flexContainer.appendChild(chartDiv);
 }
 
 // --- Carga de pacientes ---
@@ -307,7 +299,7 @@ async function loadPatientRecords(userId, userData) {
       .collection('registros')
       .orderBy('timestamp', 'desc')
       .get();
-    // Mostrar/ocultar el contenedor de la gráfica
+    // Mostrar/ocultar el contenedor de la gráfica (ahora al final de la tabla)
     const chartDiv = document.getElementById('patient-chart-container');
     if (snapshot.empty) {
       if (chartDiv) chartDiv.style.display = 'none';
@@ -362,7 +354,7 @@ async function loadPatientRecords(userId, userData) {
     });
     html += '</table>';
     patientRecords.innerHTML = html;
-    // Llamar a la función para mostrar la gráfica
+    // Llamar a la función para mostrar la gráfica (ahora al final de la tabla)
     showPatientChart(fechas, sistolica, diastolica, pulso);
   } catch (error) {
     console.error("Error al cargar registros:", error);
@@ -372,7 +364,7 @@ async function loadPatientRecords(userId, userData) {
   }
 }
 
-// Mostrar gráfica de evolución del paciente
+// --- Mostrar gráfica de evolución del paciente ---
 function showPatientChart(fechas, sistolica, diastolica, pulso) {
   const ctx = document.getElementById('patient-chart').getContext('2d');
   document.getElementById('patient-chart').style.display = 'block';
@@ -384,30 +376,9 @@ function showPatientChart(fechas, sistolica, diastolica, pulso) {
     data: {
       labels: fechas,
       datasets: [
-        {
-          label: 'Sistólica',
-          data: sistolica,
-          borderColor: '#1976d2',
-          backgroundColor: 'rgba(25, 118, 210, 0.1)',
-          fill: false,
-          tension: 0.2
-        },
-        {
-          label: 'Diastólica',
-          data: diastolica,
-          borderColor: '#43a047',
-          backgroundColor: 'rgba(67, 160, 71, 0.1)',
-          fill: false,
-          tension: 0.2
-        },
-        {
-          label: 'Pulso',
-          data: pulso,
-          borderColor: '#fbc02d',
-          backgroundColor: 'rgba(251, 192, 45, 0.1)',
-          fill: false,
-          tension: 0.2
-        }
+        { label: 'Sistólica', data: sistolica, borderColor: '#1976d2', backgroundColor: 'rgba(25, 118, 210, 0.1)', fill: false, tension: 0.2 },
+        { label: 'Diastólica', data: diastolica, borderColor: '#43a047', backgroundColor: 'rgba(67, 160, 71, 0.1)', fill: false, tension: 0.2 },
+        { label: 'Pulso', data: pulso, borderColor: '#fbc02d', backgroundColor: 'rgba(251, 192, 45, 0.1)', fill: false, tension: 0.2 }
       ]
     },
     options: {
@@ -416,9 +387,7 @@ function showPatientChart(fechas, sistolica, diastolica, pulso) {
         legend: { position: 'top' },
         title: { display: true, text: 'Evolución del paciente' }
       },
-      scales: {
-        y: { beginAtZero: false }
-      }
+      scales: { y: { beginAtZero: false } }
     }
   });
 }
