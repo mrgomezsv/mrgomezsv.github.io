@@ -1,0 +1,183 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #0001;
+}
+
+form fieldset {
+    border: 1px solid #ccc;
+    margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+form input[type="text"], form input[type="date"] {
+    width: 60%;
+    padding: 4px 8px;
+    margin-left: 8px;
+    border-radius: 4px;
+    border: 1px solid #bbb;
+}
+
+#items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+}
+
+#items-table th, #items-table td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    text-align: left;
+}
+
+#items-table th {
+    background: #f0f0f0;
+}
+
+#add-item {
+    margin-top: 8px;
+}
+
+#preview-container {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+#cotizacion-preview {
+    width: 794px;
+    height: 1123px;
+    background: #fff url('marca-agua.png') no-repeat center center;
+    background-size: 400px 400px;
+    box-shadow: 0 2px 8px #0002;
+    padding: 32px 40px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.cotizacion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    width: 90%;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.cotizacion-header .info {
+    font-size: 15px;
+}
+
+.cotizacion-header .fecha {
+    text-align: right;
+    font-size: 15px;
+    min-width: 180px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.cotizacion-table {
+    table-layout: fixed;
+    width: 90%;
+    margin-left: 0;
+    margin-right: auto;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 13px;
+}
+
+.cotizacion-table th, .cotizacion-table td {
+    border: 1px solid #222;
+    padding: 4px 6px;
+    font-size: 13px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.cotizacion-table th {
+    background: #f0f0f0;
+}
+
+.cotizacion-table th:nth-child(1), .cotizacion-table td:nth-child(1) { width: 64%; min-width: 200px; }
+.cotizacion-table th:nth-child(2), .cotizacion-table td:nth-child(2) { width: 12%; min-width: 60px; text-align: center; }
+.cotizacion-table th:nth-child(3), .cotizacion-table td:nth-child(3) { width: 85px; min-width: 70px; max-width: 90px; text-align: right; }
+.cotizacion-table th:nth-child(4), .cotizacion-table td:nth-child(4) { width: 85px; min-width: 70px; max-width: 90px; text-align: right; }
+.cotizacion-table th:nth-child(3), .cotizacion-table th:nth-child(4) { text-align: center; }
+
+.cotizacion-sumas {
+    width: 75%;
+    margin: 0 auto;
+    font-size: 13px;
+}
+
+.cotizacion-pago {
+    border: 1px solid #222;
+    padding: 8px;
+    margin: 16px 0 8px 0;
+    font-size: 14px;
+    background: #f9f9f9;
+    width: 90%;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.cotizacion-firmas {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    font-size: 13px;
+    width: 90%;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.cotizacion-firmas .firma {
+    width: 38%;
+    text-align: center;
+    border-top: 1px solid #222;
+    padding-top: 4px;
+    margin-right: 0;
+}
+
+.cotizacion-firmas .firma:last-child {
+    margin-left: auto;
+}
+
+.cotizacion-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 350px;
+    height: 350px;
+    transform: translate(-50%, -50%);
+    opacity: 0.08;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+}
+#cotizacion-preview > *:not(.cotizacion-watermark) {
+    position: relative;
+    z-index: 1;
+} 
