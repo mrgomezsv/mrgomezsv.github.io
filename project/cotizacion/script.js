@@ -5,7 +5,13 @@ function formatCurrency(value) {
 
 // Inicializar con una fila
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("fecha").valueAsDate = new Date();
+    const fechaInput = document.getElementById("fecha");
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    fechaInput.value = `${year}-${month}-${day}`;
+    fechaInput.dispatchEvent(new Event('input'));
     addItemRow();
     updatePreview();
 });
@@ -70,7 +76,14 @@ function updatePreview() {
     const cliente = document.getElementById("cliente").value;
     const direccion = document.getElementById("direccion").value;
     const telefono = document.getElementById("telefono").value;
-    const fecha = document.getElementById("fecha").value ? new Date(document.getElementById("fecha").value).toLocaleDateString("es-ES", {day: "2-digit", month: "long", year: "numeric"}) : "";
+    
+    // Manejo mejorado de la fecha
+    const fechaInput = document.getElementById("fecha").value;
+    const fecha = fechaInput ? new Date(fechaInput + 'T00:00:00').toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+    }) : "";
 
     // Items
     const items = getItems();
@@ -160,6 +173,10 @@ document.getElementById("download-pdf").addEventListener("click", () => {
     preview.style.width = "794px";
     preview.style.height = "1123px";
     preview.style.minHeight = "unset";
+    
+    // Asegurarnos de que la fecha se actualice antes de generar el PDF
+    updatePreview();
+    
     const opt = {
         margin: 0,
         filename: 'cotizacion-lumina.pdf',
