@@ -87,7 +87,7 @@ function updatePreview() {
 
     // Renderizar
     document.getElementById("cotizacion-preview").innerHTML = `
-        <img src="marca-agua.jpg" class="cotizacion-watermark" alt="Marca de agua"/>
+        
         <div class="cotizacion-header">
             <div class="info">
                 <strong>Nombre Empresa</strong><br>${empresa}<br>
