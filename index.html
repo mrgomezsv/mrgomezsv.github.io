@@ -31,6 +31,8 @@
   <link rel="stylesheet" type="text/css" href="../css/modal-cv.css">
   
   <link rel="stylesheet" type="text/css" href="../css/topbar.virtual.css">
+  
+  <link rel="stylesheet" type="text/css" href="../css/navbar-improvements.css">
 </head>
 <body class="theme-red">
   
@@ -70,51 +72,62 @@
     <div class="navbar navbar-expand-lg navbar-dark sticky" data-offset="500">
       <div class="container">
         <a href="#home" class="navbar-brand" data-animate="scrolling">MRGómez Dev</a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#main-navbar" aria-expanded="true">
+        <button class="navbar-toggler" 
+                type="button" 
+                data-toggle="collapse" 
+                data-target="#main-navbar" 
+                aria-controls="main-navbar" 
+                aria-expanded="false" 
+                aria-label="Toggle navigation menu"
+                title="Open navigation menu">
           <span class="ti-menu"></span>
         </button>
         <div class="collapse navbar-collapse" id="main-navbar">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a href="#home" class="nav-link" data-animate="scrolling">Home</a>
+            <li class="nav-item">
+              <a href="#home" class="nav-link active" data-animate="scrolling" title="Go to Home section" aria-label="Navigate to Home section">Home</a>
             </li>
             <li class="nav-item">
-              <a href="#about" class="nav-link" data-animate="scrolling">About</a>
+              <a href="#about" class="nav-link" data-animate="scrolling" title="Learn more about me" aria-label="Navigate to About section">About</a>
             </li>
-            <li class="nav-item active">
-              <a href="#experience" class="nav-link" data-animate="scrolling">Experience</a>
+            <li class="nav-item">
+              <a href="#experience" class="nav-link" data-animate="scrolling" title="View my work experience" aria-label="Navigate to Experience section">Experience</a>
             </li>
-            <li class="nav-item active">
-              <a href="#service" class="nav-link" data-animate="scrolling">Skills</a>
+            <li class="nav-item">
+              <a href="#service" class="nav-link" data-animate="scrolling" title="Explore my technical skills" aria-label="Navigate to Skills section">Skills</a>
             </li>
-            <!-- <li class="nav-item active">
-              <a href="./project/web_design/web_design_1.html" class="nav-link" data-animate="scrolling">Personal Project</a>
+            <!-- Elementos comentados para uso futuro -->
+            <!-- <li class="nav-item">
+              <a href="./project/web_design/web_design_1.html" class="nav-link" data-animate="scrolling" title="Personal web design project" aria-label="Open Personal Project">Personal Project</a>
             </li> -->
-            <!-- <li class="nav-item active">
-              <a href="./project/blog/index.html" class="nav-link" data-animate="scrolling">My Blog</a>
+            <!-- <li class="nav-item">
+              <a href="./project/blog/index.html" class="nav-link" data-animate="scrolling" title="My personal blog" aria-label="Open My Blog">My Blog</a>
             </li> -->
-            <!-- <li class="nav-item active">
-              <a href="./project/aviconverter/aviconverter.html" class="nav-link" data-animate="scrolling">Avi Converter</a>
+            <!-- <li class="nav-item">
+              <a href="./project/aviconverter/aviconverter.html" class="nav-link" data-animate="scrolling" title="AVI video converter tool" aria-label="Open Avi Converter">Avi Converter</a>
             </li> -->
-            <li class="nav-item active">
-              <a href="#qr" class="nav-link" data-animate="scrolling">QR Code Generator</a>
-            </li>
-            <li class="nav-item active">
-              <a href="/project/to-do_list/index.html" class="nav-link" data-animate="scrolling">To-do List</a>
-            </li>
-            <li class="nav-item active">
-              <a href="/project/app_pa/index.html" class="nav-link" data-animate="scrolling">Blood Pressure App</a>
-            </li>
-            <li class="nav-item active">
-              <a href="/project/cotizacion/index.html" class="nav-link" data-animate="scrolling">Cotizaciones LUMINA</a>
-            </li>
-            <li class="nav-item active">
-              <a href="/project/landing_test/index.html" class="nav-link" data-animate="scrolling">LandingPage LUMINA</a>
+            
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" id="projectsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="View my projects" aria-label="Open projects menu">
+                Projects
+              </a>
+              <div class="dropdown-menu" aria-labelledby="projectsDropdown">
+                <a href="#qr" class="dropdown-item" data-animate="scrolling" title="Generate QR codes online">QR Generator</a>
+                <a href="/project/to-do_list/index.html" class="dropdown-item" title="Task management application">To-do List</a>
+                <a href="/project/app_pa/index.html" class="dropdown-item" title="Blood pressure monitoring app">Blood Pressure App</a>
+                <a href="/project/cotizacion/index.html" class="dropdown-item" title="LUMINA quotation system">Cotizaciones</a>
+                <a href="/project/landing_test/index.html" class="dropdown-item" title="LUMINA landing page">Landing Page</a>
+                
+                <!-- Opciones comentadas para el dropdown (uso futuro) -->
+                <!-- <a href="./project/web_design/web_design_1.html" class="dropdown-item" title="Personal web design project">Personal Project</a> -->
+                <!-- <a href="./project/blog/index.html" class="dropdown-item" title="My personal blog">My Blog</a> -->
+                <!-- <a href="./project/aviconverter/aviconverter.html" class="dropdown-item" title="AVI video converter tool">Avi Converter</a> -->
+              </div>
             </li>
           </ul>
           <ul class="nav ml-auto">
             <li class="nav-item">
-              <button class="btn btn-fab btn-theme no-shadow">En</button>
+              <button class="btn btn-fab btn-theme no-shadow" title="Switch to English" aria-label="Change language to English">EN</button>
             </li>
           </ul>
         </div>
@@ -723,6 +736,11 @@
   <script src="../js/google-maps.js"></script>
     
   <script src="../js/topbar-virtual.js"></script>
+  
+  <script src="../js/navbar-improvements.js"></script>
+  
+  <!-- Script de pruebas para desarrollo (remover en producción) -->
+  <script src="../js/navbar-test.js"></script>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIA_zqjFMsJM_sxP9-6Pde5vVCTyJmUHM&callback=initMap"></script>
   

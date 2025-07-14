@@ -1,0 +1,266 @@
+/* Navbar Improvements - Responsive and SEO Optimized */
+
+/* Mejoras generales para la navbar */
+.navbar {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Solo agregar white-space para evitar saltos de línea */
+.navbar-brand {
+    white-space: nowrap;
+}
+
+/* Optimización para enlaces de navegación */
+.navbar-nav .nav-link {
+    position: relative;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #747474 !important;
+    transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link.active {
+    color: #747474 !important;
+    font-weight: 600;
+}
+
+/* Efecto de subrayado para enlaces activos */
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #747474;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 80%;
+}
+
+/* Estilos responsivos para diferentes tamaños de pantalla */
+@media (max-width: 1199.98px) {
+    .navbar-nav .nav-link {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .navbar-nav .nav-link:hover {
+        transform: none;
+        background-color: rgba(255,255,255,0.1);
+    }
+    
+    .navbar-nav .nav-link::after {
+        display: none;
+    }
+    
+    .navbar-collapse {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .navbar-nav .nav-link {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    /* navbar-brand mantiene estilos originales */
+}
+
+@media (max-width: 575.98px) {
+    .navbar-nav .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+    
+    /* navbar-brand mantiene estilos originales */
+}
+
+/* Mejoras para el botón de idioma */
+.nav .btn-fab {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav .btn-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Optimización para accesibilidad */
+.navbar-nav .nav-link:focus {
+    outline: 2px solid #747474;
+    outline-offset: 2px;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(116, 116, 116, 0.25);
+}
+
+/* Animaciones suaves */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Mejoras para el dropdown en móviles */
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    .navbar-nav .nav-item {
+        margin-bottom: 0.5rem;
+    }
+    
+    .navbar-nav .nav-item:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Estilos para mejorar la legibilidad */
+.navbar-nav .nav-link {
+    letter-spacing: 0.5px;
+}
+
+/* Optimización para pantallas muy pequeñas */
+@media (max-width: 320px) {
+    /* navbar-brand mantiene estilos originales */
+    
+    .navbar-nav .nav-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+/* Dropdown menu for projects */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    background-color: #fff;
+    min-width: 220px;
+}
+
+.dropdown-item {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #747474;
+    transform: translateX(5px);
+}
+
+/* Improve dropdown for mobile */
+@media (max-width: 991.98px) {
+    .dropdown-menu {
+        box-shadow: none;
+        border-radius: 0;
+        background-color: rgba(255,255,255,0.05);
+        margin-left: 1rem;
+        margin-top: 0.5rem;
+    }
+    
+    .dropdown-item {
+        color: rgba(255,255,255,0.8);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 0.5rem 1rem;
+    }
+    
+    .dropdown-item:hover {
+        background-color: rgba(255,255,255,0.1);
+        color: #fff;
+        transform: none;
+    }
+}
+
+/* Navbar brand - mantener estilos originales de virtual.css */
+
+/* Better visual hierarchy */
+.navbar-nav .nav-link {
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+/* Improved focus states for better accessibility */
+.navbar-nav .nav-link:focus-visible {
+    outline: 2px solid #747474;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.navbar-toggler:focus-visible {
+    outline: 2px solid #747474;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Better loading state */
+.navbar-nav .nav-link.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Add subtle animation to navbar */
+.navbar {
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+} 
