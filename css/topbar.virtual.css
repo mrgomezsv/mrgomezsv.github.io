@@ -458,13 +458,245 @@
   margin: 0;
   padding: 50px 0;
   /* background-color: #171925; */
-  background-color: #574f4a;
+  background: linear-gradient(135deg, #574f4a 0%, #3a3632 100%);
   /* color: #9FA2AB; */
   color: white;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
 }
 
 .footer-info {
   max-width: 350px;
+}
+
+/* Footer Section Headers */
+.footer-section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+
+.footer-section-header i {
+  font-size: 20px;
+  margin-right: 10px;
+  color: #ef3724;
+  background: rgba(239, 55, 36, 0.1);
+  padding: 8px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.footer-section-header h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.footer-description {
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+/* Contact Item */
+.contact-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateX(5px);
+}
+
+.contact-item i {
+  font-size: 16px;
+  margin-right: 10px;
+  color: #ef3724;
+}
+
+.contact-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+  color: #ef3724;
+  text-decoration: none;
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.social-link:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateX(5px);
+  color: #fff;
+  text-decoration: none;
+  border-color: rgba(239, 55, 36, 0.3);
+}
+
+.social-link i {
+  font-size: 16px;
+  margin-right: 10px;
+  width: 16px;
+  text-align: center;
+}
+
+.social-link.linkedin:hover {
+  border-color: #0077b5;
+  box-shadow: 0 0 10px rgba(0, 119, 181, 0.3);
+}
+
+.social-link.instagram:hover {
+  border-color: #e4405f;
+  box-shadow: 0 0 10px rgba(228, 64, 95, 0.3);
+}
+
+.social-link.threads:hover {
+  border-color: #000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Username List */
+.username-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.username-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.username-item:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateX(5px);
+}
+
+.username-item i {
+  font-size: 16px;
+  margin-right: 10px;
+  color: #ef3724;
+  width: 16px;
+  text-align: center;
+}
+
+.username-item span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.copyright {
+  margin: 0;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+}
+
+.made-with {
+  margin: 0;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+}
+
+.made-with i {
+  color: #ef3724;
+  animation: heartbeat 2s infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Hover effects for better UX */
+.footer-section-header:hover i {
+  background: rgba(239, 55, 36, 0.2);
+  transform: scale(1.1);
+}
+
+.contact-item:hover i,
+.social-link:hover i,
+.username-item:hover i {
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-section-header {
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+  
+  .footer-section-header i {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+  
+  .footer-description {
+    text-align: center;
+  }
+  
+  .social-links {
+    align-items: center;
+  }
+  
+  .username-list {
+    align-items: center;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+  }
+  
+  .made-with {
+    margin-top: 10px;
+  }
 }
 
 .vg-footer .list-unstyled a,

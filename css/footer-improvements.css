@@ -1,0 +1,260 @@
+/* Footer Improvements - Additional Enhancements */
+
+/* Smooth scroll behavior for footer links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced footer animations */
+.vg-footer {
+  position: relative;
+  overflow: hidden;
+}
+
+.vg-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(239, 55, 36, 0.5), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Enhanced hover effects */
+.footer-section-header {
+  position: relative;
+}
+
+.footer-section-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ef3724;
+  transition: width 0.3s ease;
+}
+
+.footer-section-header:hover::after {
+  width: 100%;
+}
+
+/* Improved contact item */
+.contact-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(239, 55, 36, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.contact-item:hover::before {
+  left: 100%;
+}
+
+/* Enhanced social links */
+.social-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.social-link::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(239, 55, 36, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.social-link:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+/* Username item improvements */
+.username-item {
+  position: relative;
+  cursor: pointer;
+}
+
+.username-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #ef3724;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.username-item:hover::after {
+  width: 80%;
+}
+
+/* Footer bottom enhancements */
+.footer-bottom {
+  position: relative;
+}
+
+.footer-bottom::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+/* Enhanced copyright text */
+.copyright {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.copyright:hover {
+  color: rgba(255,255,255,0.9);
+  transform: scale(1.02);
+}
+
+/* Made with love animation */
+.made-with {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.made-with:hover {
+  color: rgba(255,255,255,0.9);
+}
+
+.made-with i {
+  position: relative;
+  display: inline-block;
+}
+
+.made-with i::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(239, 55, 36, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.made-with:hover i::before {
+  width: 20px;
+  height: 20px;
+}
+
+/* Loading animation for footer sections */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer-info,
+.float-lg-right {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Enhanced focus states for accessibility */
+.contact-link:focus,
+.social-link:focus {
+  outline: 2px solid #ef3724;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Improved mobile experience */
+@media (max-width: 768px) {
+  .vg-footer {
+    padding: 40px 0 20px;
+  }
+  
+  .footer-section-header {
+    margin-bottom: 20px;
+  }
+  
+  .contact-item,
+  .social-link,
+  .username-item {
+    margin-bottom: 8px;
+  }
+  
+  .footer-bottom {
+    margin-top: 25px;
+    padding-top: 15px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .vg-footer {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .footer-section-header i {
+    background: rgba(239, 55, 36, 0.3);
+  }
+  
+  .contact-item,
+  .social-link,
+  .username-item {
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .vg-footer::before,
+  .contact-item::before,
+  .social-link::before,
+  .made-with i {
+    animation: none;
+  }
+  
+  .contact-item,
+  .social-link,
+  .username-item,
+  .footer-section-header,
+  .copyright,
+  .made-with {
+    transition: none;
+  }
+} 

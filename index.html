@@ -33,6 +33,8 @@
   <link rel="stylesheet" type="text/css" href="../css/topbar.virtual.css">
   
   <link rel="stylesheet" type="text/css" href="../css/navbar-improvements.css">
+  
+  <link rel="stylesheet" type="text/css" href="../css/footer-improvements.css">
 </head>
 <body class="theme-red">
   
@@ -665,45 +667,82 @@
   
   <!-- Footer -->
   <div class="vg-footer">
-    <h1 class="text-center">Social Media</h1>
     <div class="container">
       <div class="row">
         <div class="col-lg-4 py-3">
           <div class="footer-info">
-            <p>Where to write me</p>
-            <hr class="divider">
-            <p class="fs-large fg-white">mrgomez.dev@outlook.com</p>
+            <div class="footer-section-header">
+              <i class="ti-email"></i>
+              <h4>Get in Touch</h4>
+            </div>
+            <p class="footer-description">Ready to start a project? Let's talk about your ideas!</p>
+            <div class="contact-item">
+              <i class="ti-email"></i>
+              <a href="mailto:mrgomez.dev@outlook.com" class="contact-link">mrgomez.dev@outlook.com</a>
+            </div>
           </div>
         </div>
         <div class="col-md-6 col-lg-3 py-3">
           <div class="float-lg-right">
-            <p>Follow me</p>
-            <hr class="divider">
-            <ul class="list-unstyled">
-              <li><a href="https://www.linkedin.com/in/mrgomez-dev/">LinkedIn</a></li>
-              <li><a href="https://www.instagram.com/mrgomez.dev/">Instagram</a></li>
-              <li><a href="https://www.threads.net/@mrgomez.dev">Threads</a></li>
-              <!-- <li><a href="https://twitter.com/mrgomezsv">Twitter</a></li> -->
-              <!-- <li><a href="https://www.facebook.com/mariorobertogm/">Facebook</a></li> -->
-            </ul>
+            <div class="footer-section-header">
+              <i class="ti-share"></i>
+              <h4>Follow Me</h4>
+            </div>
+            <p class="footer-description">Connect with me on social media</p>
+            <div class="social-links">
+              <a href="https://www.linkedin.com/in/mrgomez-dev/" class="social-link linkedin" target="_blank" rel="noopener">
+                <i class="ti-linkedin"></i>
+                <span>LinkedIn</span>
+              </a>
+              <a href="https://www.instagram.com/mrgomez.dev/" class="social-link instagram" target="_blank" rel="noopener">
+                <i class="ti-instagram"></i>
+                <span>Instagram</span>
+              </a>
+              <a href="https://www.threads.net/@mrgomez.dev" class="social-link threads" target="_blank" rel="noopener">
+                <i class="ti-comment"></i>
+                <span>Threads</span>
+              </a>
+            </div>
           </div>
         </div>
         <div class="col-md-6 col-lg-3 py-3">
           <div class="float-lg-right">
-            <p>Contact me</p>
-            <hr class="divider">
-            <ul class="list-unstyled">
-              <li>mrgomez-dev</li>
-              <li>mrgomez.dev</li>
-              <li>@mrgomez.dev</li>
-              <!-- <li>mrgomezsv</li> -->
-              <!-- <li>mariorobertogm</li> -->
-            </ul>
+            <div class="footer-section-header">
+              <i class="ti-user"></i>
+              <h4>Find Me</h4>
+            </div>
+            <p class="footer-description">My usernames across platforms</p>
+            <div class="username-list">
+              <div class="username-item">
+                <i class="ti-github"></i>
+                <span>mrgomez-dev</span>
+              </div>
+              <div class="username-item">
+                <i class="ti-instagram"></i>
+                <span>mrgomez.dev</span>
+              </div>
+              <div class="username-item">
+                <i class="ti-twitter"></i>
+                <span>@mrgomez.dev</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="copyright">© 2024 - Mario Roberto Dev. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <p class="made-with">
+              Made with <i class="ti-heart"></i> in El Salvador
+            </p>
+          </div>
+        </div>
       </div>
-      <p class="text-center">© 2024 - Tec Mario Roberto Dev</p>
     </div>
   </div> <!-- Fin del footer -->
 
@@ -741,6 +780,8 @@
   
   <!-- Script de pruebas para desarrollo (remover en producción) -->
   <script src="../js/navbar-test.js"></script>
+  
+  <script src="../js/footer-interactions.js"></script>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIA_zqjFMsJM_sxP9-6Pde5vVCTyJmUHM&callback=initMap"></script>
   
