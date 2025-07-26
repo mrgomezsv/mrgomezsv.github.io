@@ -4,21 +4,37 @@ const firebaseConfig = {
   authDomain: "blood-pressure-check-61c90.firebaseapp.com",
   projectId: "blood-pressure-check-61c90",
   storageBucket: "blood-pressure-check-61c90.firebasestorage.app",
+  messagingSenderId: "456929465106",
   appId: "1:456929465106:android:562e9dc2247495d67ed9cb",
   clientId: "456929465106-og0ii4tmej68rkhukl4vomgkto6bajkh.apps.googleusercontent.com"
 };
 
 // Inicializar Firebase
+let firebaseApp;
 try {
   console.log("Inicializando Firebase...");
-  firebase.initializeApp(firebaseConfig);
+  firebaseApp = firebase.initializeApp(firebaseConfig);
   console.log("Firebase inicializado correctamente");
 } catch (error) {
   console.error("Error al inicializar Firebase:", error);
+  // Si ya está inicializado, usar la instancia existente
+  if (error.code === 'app/duplicate-app') {
+    firebaseApp = firebase.app();
+    console.log("Usando instancia existente de Firebase");
+  }
 }
 
 const auth = firebase.auth();
 const db = firebase.firestore();
+
+// Configurar persistencia de autenticación
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(() => {
+    console.log("Persistencia de autenticación configurada");
+  })
+  .catch((error) => {
+    console.error("Error al configurar persistencia:", error);
+  });
 
 // Elementos del DOM
 const loginContainer = document.getElementById('login-container');
@@ -81,19 +97,46 @@ async function saveMedicProfile(user) {
 // --- Autenticación ---
 document.getElementById('google-signin').onclick = async () => {
   console.log("Iniciando proceso de login con Google...");
-  const provider = new firebase.auth.GoogleAuthProvider();
   
   try {
-    console.log("Abriendo popup de Google...");
-    loginError.textContent = "Conectando con Google...";
+    // Limpiar mensajes de error anteriores
+    loginError.textContent = "";
+    loginError.style.display = "none";
     
-    // Intentamos el login
-    const result = await auth.signInWithPopup(provider);
-    console.log("Login exitoso, usuario:", result.user.uid);
+    // Configurar el proveedor de Google
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('email');
+    provider.addScope('profile');
     
-    // Guardamos el perfil
-    await saveMedicProfile(result.user);
-    console.log("Proceso de login completado exitosamente");
+    // Detectar si estamos en localhost
+    const isLocalhost = window.location.hostname === 'localhost' || 
+                       window.location.hostname === '127.0.0.1' ||
+                       window.location.hostname.includes('localhost');
+    
+    if (isLocalhost) {
+      console.log("Detectado localhost, usando redirección...");
+      loginError.textContent = "Redirigiendo a Google...";
+      loginError.style.display = "block";
+      
+      // En localhost, usar redirección en lugar de popup
+      await auth.signInWithRedirect(provider);
+    } else {
+      console.log("Abriendo popup de Google...");
+      loginError.textContent = "Conectando con Google...";
+      loginError.style.display = "block";
+      
+      // Intentamos el login con popup
+      const result = await auth.signInWithPopup(provider);
+      console.log("Login exitoso, usuario:", result.user.uid);
+      
+      // Guardamos el perfil
+      await saveMedicProfile(result.user);
+      console.log("Proceso de login completado exitosamente");
+      
+      // Limpiar mensaje de error
+      loginError.textContent = "";
+      loginError.style.display = "none";
+    }
     
   } catch (e) {
     console.error("Error en el proceso de login:", {
@@ -102,61 +145,140 @@ document.getElementById('google-signin').onclick = async () => {
       email: e.email
     });
     
-    if (e.code === 'auth/popup-closed-by-user') {
-      loginError.textContent = "El inicio de sesión fue cancelado. Por favor, intenta de nuevo.";
-    } else if (e.code === 'auth/popup-blocked') {
-      loginError.textContent = "El navegador bloqueó la ventana de inicio de sesión. Por favor, permite las ventanas emergentes.";
-    } else {
-      loginError.textContent = `Error al iniciar sesión: ${e.message}`;
+    let errorMessage = "";
+    
+    switch (e.code) {
+      case 'auth/popup-closed-by-user':
+        errorMessage = "El inicio de sesión fue cancelado. Por favor, intenta de nuevo.";
+        break;
+      case 'auth/popup-blocked':
+        errorMessage = "El navegador bloqueó la ventana de inicio de sesión. Intentando redirección...";
+        // Intentar redirección automáticamente
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          provider.addScope('email');
+          provider.addScope('profile');
+          await auth.signInWithRedirect(provider);
+        } catch (redirectError) {
+          console.error("Error en login con redirección:", redirectError);
+          errorMessage = "Error al iniciar sesión. Por favor, recarga la página e intenta de nuevo.";
+        }
+        break;
+      case 'auth/unauthorized-domain':
+        errorMessage = "Este dominio no está autorizado para el login. Contacta al administrador.";
+        break;
+      case 'auth/network-request-failed':
+        errorMessage = "Error de conexión. Verifica tu conexión a internet.";
+        break;
+      case 'auth/operation-not-allowed':
+        errorMessage = "El login con Google no está habilitado. Contacta al administrador.";
+        break;
+      default:
+        errorMessage = `Error al iniciar sesión: ${e.message}`;
     }
+    
+    loginError.textContent = errorMessage;
+    loginError.style.display = "block";
   }
 };
 
 document.getElementById('email-signin').onclick = async () => {
   const email = document.getElementById('email').value;
   const pass = document.getElementById('password').value;
+  
+  if (!email || !pass) {
+    loginError.textContent = "Por favor, completa todos los campos.";
+    loginError.style.display = "block";
+    return;
+  }
+  
   try {
+    loginError.textContent = "Iniciando sesión...";
+    loginError.style.display = "block";
+    
     const result = await auth.signInWithEmailAndPassword(email, pass);
     await saveMedicProfile(result.user);
+    
+    loginError.textContent = "";
+    loginError.style.display = "none";
   } catch (e) {
+    console.error("Error en login con email:", e);
     loginError.textContent = e.message;
+    loginError.style.display = "block";
   }
 };
 
 document.getElementById('email-signup').onclick = async () => {
   const email = document.getElementById('email').value;
   const pass = document.getElementById('password').value;
+  
+  if (!email || !pass) {
+    loginError.textContent = "Por favor, completa todos los campos.";
+    loginError.style.display = "block";
+    return;
+  }
+  
+  if (pass.length < 6) {
+    loginError.textContent = "La contraseña debe tener al menos 6 caracteres.";
+    loginError.style.display = "block";
+    return;
+  }
+  
   try {
+    loginError.textContent = "Creando cuenta...";
+    loginError.style.display = "block";
+    
     const result = await auth.createUserWithEmailAndPassword(email, pass);
     await saveMedicProfile(result.user);
+    
+    loginError.textContent = "";
+    loginError.style.display = "none";
   } catch (e) {
+    console.error("Error en registro con email:", e);
     loginError.textContent = e.message;
+    loginError.style.display = "block";
   }
 };
 
-document.getElementById('signout').onclick = () => auth.signOut();
+document.getElementById('signout').onclick = async () => {
+  try {
+    await auth.signOut();
+    console.log("Sesión cerrada exitosamente");
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error);
+  }
+};
 
 // Manejamos el resultado de la redirección
 auth.getRedirectResult().then(async (result) => {
   if (result.user) {
     try {
-      console.log("Usuario autenticado:", result.user);
+      console.log("Usuario autenticado por redirección:", result.user);
       await saveMedicProfile(result.user);
-      // No necesitamos hacer nada más aquí, onAuthStateChanged se encargará
+      console.log("Perfil guardado después de redirección");
     } catch (e) {
-      console.error("Error al guardar el perfil:", e);
+      console.error("Error al guardar el perfil después de redirección:", e);
       loginError.textContent = "Error al guardar el perfil del médico.";
+      loginError.style.display = "block";
     }
   }
 }).catch((error) => {
   console.error("Error en la redirección:", error);
-  if (error.code === 'auth/popup-closed-by-user') {
-    loginError.textContent = "El inicio de sesión fue cancelado. Por favor, intenta de nuevo.";
-  } else if (error.code === 'auth/popup-blocked') {
-    loginError.textContent = "El navegador bloqueó la ventana de inicio de sesión. Por favor, permite las ventanas emergentes.";
-  } else {
-    loginError.textContent = "Error al iniciar sesión: " + error.message;
+  let errorMessage = "";
+  
+  switch (error.code) {
+    case 'auth/popup-closed-by-user':
+      errorMessage = "El inicio de sesión fue cancelado. Por favor, intenta de nuevo.";
+      break;
+    case 'auth/popup-blocked':
+      errorMessage = "El navegador bloqueó la ventana de inicio de sesión. Por favor, permite las ventanas emergentes.";
+      break;
+    default:
+      errorMessage = "Error al iniciar sesión: " + error.message;
   }
+  
+  loginError.textContent = errorMessage;
+  loginError.style.display = "block";
 });
 
 // Escuchar cambios en el estado de autenticación
@@ -192,6 +314,7 @@ auth.onAuthStateChanged(async (user) => {
     } catch (error) {
       console.error("Error al procesar usuario autenticado:", error);
       loginError.textContent = "Error al cargar los datos. Por favor, recarga la página.";
+      loginError.style.display = "block";
     }
   } else {
     console.log("Usuario no autenticado");
@@ -201,6 +324,7 @@ auth.onAuthStateChanged(async (user) => {
     patientsList.innerHTML = '';
     patientRecords.innerHTML = '';
     loginError.textContent = '';
+    loginError.style.display = "none";
     
     // Limpiar datos del dashboard
     allPatients = [];
@@ -436,7 +560,7 @@ function showPatientDetails(data) {
       <ul>
         <li><b>Nombre:</b> ${name}</li>
         <li><b>Email:</b> ${data.email || 'No disponible'}</li>
-        <li><b>Edad:</b> ${data.age || 'No disponible'} años</li>
+        // <li><b>Edad:</b> ${data.age || 'No disponible'} años</li>
         <li><b>Género:</b> ${data.gender || 'No disponible'}</li>
         <li><b>ID:</b> ${data.userId || 'No disponible'}</li>
       </ul>
@@ -489,7 +613,7 @@ async function loadPatients() {
           <div class="patient-avatar">${avatarText}</div>
           <div class="patient-info">
             <h4>${genderIcon} ${name}</h4>
-            <p>${age} años • ${gender}</p>
+            // <p>${age} años • ${gender}</p>
           </div>
         `;
         
