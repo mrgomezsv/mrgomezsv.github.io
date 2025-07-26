@@ -90,7 +90,7 @@ Si tienes problemas con la autenticación, usa el archivo de prueba:
 - **Lecturas Críticas**: Mediciones con valores altos (sistólica > 180 o diastólica > 110)
 
 ### Gráficos
-- **Distribución por Edad**: Gráfico de barras con rangos de edad
+- <!-- **Distribución por Edad**: Gráfico de barras con rangos de edad -->
 - **Distribución por Género**: Gráfico de tarta por género
 - **Evolución del Paciente**: Gráfico de líneas con valores de tensión arterial
 

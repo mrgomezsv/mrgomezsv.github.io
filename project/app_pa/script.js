@@ -48,7 +48,7 @@ const patientSearch = document.getElementById('patient-search');
 // Variables globales
 let allPatients = [];
 let selectedPatientId = null;
-let ageChart = null;
+// let ageChart = null; // Comentado - Referencia a edad del paciente
 let genderChart = null;
 
 // Función para guardar el perfil del médico
@@ -412,11 +412,11 @@ async function loadDashboardStats() {
 
 // Inicializar gráficos de ECharts
 function initializeCharts() {
-  // Gráfico de distribución por edad
-  const ageChartElement = document.getElementById('age-chart');
-  if (ageChartElement) {
-    ageChart = echarts.init(ageChartElement);
-  }
+  // Gráfico de distribución por edad - COMENTADO
+  // const ageChartElement = document.getElementById('age-chart');
+  // if (ageChartElement) {
+  //   ageChart = echarts.init(ageChartElement);
+  // }
   
   // Gráfico de distribución por género
   const genderChartElement = document.getElementById('gender-chart');
@@ -426,22 +426,22 @@ function initializeCharts() {
   
   // Responsive charts
   window.addEventListener('resize', () => {
-    if (ageChart) ageChart.resize();
+    // if (ageChart) ageChart.resize(); // Comentado - Referencia a edad del paciente
     if (genderChart) genderChart.resize();
   });
 }
 
 // Actualizar gráficos con datos
 function updateCharts(patients) {
-  // Preparar datos para gráfico de edad
-  const ageGroups = {
-    '18-30': 0,
-    '31-40': 0,
-    '41-50': 0,
-    '51-60': 0,
-    '61-70': 0,
-    '70+': 0
-  };
+  // Preparar datos para gráfico de edad - COMENTADO
+  // const ageGroups = {
+  //   '18-30': 0,
+  //   '31-40': 0,
+  //   '41-50': 0,
+  //   '51-60': 0,
+  //   '61-70': 0,
+  //   '70+': 0
+  // };
   
   // Preparar datos para gráfico de género
   const genderData = {
@@ -451,14 +451,14 @@ function updateCharts(patients) {
   };
   
   patients.forEach(patient => {
-    // Clasificar por edad
-    const age = patient.age || 0;
-    if (age >= 18 && age <= 30) ageGroups['18-30']++;
-    else if (age >= 31 && age <= 40) ageGroups['31-40']++;
-    else if (age >= 41 && age <= 50) ageGroups['41-50']++;
-    else if (age >= 51 && age <= 60) ageGroups['51-60']++;
-    else if (age >= 61 && age <= 70) ageGroups['61-70']++;
-    else if (age > 70) ageGroups['70+']++;
+    // Clasificar por edad - COMENTADO
+    // const age = patient.age || 0;
+    // if (age >= 18 && age <= 30) ageGroups['18-30']++;
+    // else if (age >= 31 && age <= 40) ageGroups['31-40']++;
+    // else if (age >= 41 && age <= 50) ageGroups['41-50']++;
+    // else if (age >= 51 && age <= 60) ageGroups['51-60']++;
+    // else if (age >= 61 && age <= 70) ageGroups['61-70']++;
+    // else if (age > 70) ageGroups['70+']++;
     
     // Clasificar por género
     const gender = patient.gender || 'Otro';
@@ -469,46 +469,46 @@ function updateCharts(patients) {
     }
   });
   
-  // Configurar gráfico de edad (barras)
-  if (ageChart) {
-    const ageOption = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        }
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: {
-        type: 'category',
-        data: Object.keys(ageGroups),
-        axisTick: {
-          alignWithLabel: true
-        }
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        name: 'Pacientes',
-        type: 'bar',
-        barWidth: '60%',
-        data: Object.values(ageGroups),
-        itemStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: '#667eea' },
-            { offset: 1, color: '#764ba2' }
-          ])
-        }
-      }]
-    };
-    ageChart.setOption(ageOption);
-  }
+  // Configurar gráfico de edad (barras) - COMENTADO
+  // if (ageChart) {
+  //   const ageOption = {
+  //     tooltip: {
+  //       trigger: 'axis',
+  //       axisPointer: {
+  //         type: 'shadow'
+  //       }
+  //     },
+  //     grid: {
+  //       left: '3%',
+  //       right: '4%',
+  //       bottom: '3%',
+  //       containLabel: true
+  //     },
+  //     xAxis: {
+  //       type: 'category',
+  //       data: Object.keys(ageGroups),
+  //       axisTick: {
+  //         alignWithLabel: true
+  //       }
+  //     },
+  //     yAxis: {
+  //       type: 'value'
+  //     },
+  //     series: [{
+  //       name: 'Pacientes',
+  //       type: 'bar',
+  //       barWidth: '60%',
+  //       data: Object.values(ageGroups),
+  //       itemStyle: {
+  //         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+  //           { offset: 0, color: '#667eea' },
+  //           { offset: 1, color: '#764ba2' }
+  //         ])
+  //       }
+  //     }]
+  //   };
+  //   ageChart.setOption(ageOption);
+  // }
   
   // Configurar gráfico de género (tarta)
   if (genderChart) {
@@ -560,7 +560,7 @@ function showPatientDetails(data) {
       <ul>
         <li><b>Nombre:</b> ${name}</li>
         <li><b>Email:</b> ${data.email || 'No disponible'}</li>
-        // <li><b>Edad:</b> ${data.age || 'No disponible'} años</li>
+        <!-- <li><b>Edad:</b> ${data.age || 'No disponible'} años</li> -->
         <li><b>Género:</b> ${data.gender || 'No disponible'}</li>
         <li><b>ID:</b> ${data.userId || 'No disponible'}</li>
       </ul>
@@ -602,7 +602,7 @@ async function loadPatients() {
                      'Nombre no registrado';
         
         const gender = data.gender || 'Otro';
-        const age = data.age || 'N/A';
+        // const age = data.age || 'N/A'; // Comentado - Referencia a edad del paciente
         const avatarText = name.charAt(0).toUpperCase();
         const genderIcon = gender === 'HOMBRE' ? '👨' : gender === 'MUJER' ? '👩' : '👤';
         
@@ -613,7 +613,7 @@ async function loadPatients() {
           <div class="patient-avatar">${avatarText}</div>
           <div class="patient-info">
             <h4>${genderIcon} ${name}</h4>
-            // <p>${age} años • ${gender}</p>
+            <p>${gender}</p>
           </div>
         `;
         
