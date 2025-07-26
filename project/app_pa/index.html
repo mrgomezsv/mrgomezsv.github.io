@@ -18,42 +18,178 @@
   <!-- Estilos propios de la app -->
   <link rel="stylesheet" href="/project/app_pa/style.css">
   <!-- Google Sign-In Button Styles -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Apache ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
 <body class="theme-red">
-  <div id="login-container" class="card">
-    <h2>Acceso Médico</h2>
-    <button id="google-signin" class="google-signin-button">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
-      <span>Iniciar sesión con Google</span>
-    </button>
-    <hr>
-    <input type="email" id="email" placeholder="Correo electrónico">
-    <input type="password" id="password" placeholder="Contraseña">
-    <button id="email-signin">Iniciar sesión</button>
-    <button id="email-signup">Registrarse</button>
-    <div id="login-error"></div>
-    <p>v1.13</p>
+  <!-- Login Container -->
+  <div id="login-container" class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <i class="fas fa-heartbeat"></i>
+        <h1>Panel Médico</h1>
+        <p>Control de Tensión Arterial</p>
+      </div>
+      
+      <div class="login-form">
+        <button id="google-signin" class="google-signin-button">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
+          <span>Iniciar sesión con Google</span>
+        </button>
+        
+        <div class="divider">
+          <span>o</span>
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" placeholder="Correo electrónico">
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" placeholder="Contraseña">
+        </div>
+        
+        <div class="button-group">
+          <button id="email-signin" class="btn-primary">
+            <i class="fas fa-sign-in-alt"></i>
+            Iniciar sesión
+          </button>
+          <button id="email-signup" class="btn-secondary">
+            <i class="fas fa-user-plus"></i>
+            Registrarse
+          </button>
+        </div>
+        
+        <div id="login-error" class="error-message"></div>
+      </div>
+      
+      <div class="login-footer">
+        <p>v2.0 - Panel Médico Avanzado</p>
+      </div>
+    </div>
   </div>
 
+  <!-- Main Dashboard Container -->
   <div id="main-container" class="hidden">
-    <div class="header">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <img id="medic-photo" src="" alt="Foto del doctor(a)" style="width:36px;height:36px;border-radius:50%;object-fit:cover;display:none;">
-        <span id="medic-info"></span>
-        <p>v1.13</p>
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div class="header-left">
+        <div class="user-info">
+          <img id="medic-photo" src="" alt="Foto del doctor(a)" class="user-avatar">
+          <div class="user-details">
+            <span id="medic-info" class="user-name"></span>
+            <span class="user-role">Médico</span>
+          </div>
+        </div>
       </div>
-      <button id="signout">Cerrar sesión</button>
+      
+      <div class="header-right">
+        <div class="version-badge">v2.0</div>
+        <button id="signout" class="btn-signout">
+          <i class="fas fa-sign-out-alt"></i>
+          Cerrar sesión
+        </button>
+      </div>
     </div>
-    <h2>Pacientes</h2>
-    <div id="patients-list"></div>
-    <div id="patient-details"></div>
-    <div id="patient-records"></div>
-    <canvas id="patient-chart" style="max-width: 100%; margin-top: 24px; display: none;"></canvas>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <!-- Dashboard Stats -->
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="total-patients">0</h3>
+            <p>Pacientes</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="total-records">0</h3>
+            <p>Registros</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="today-records">0</h3>
+            <p>Hoy</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="critical-readings">0</h3>
+            <p>Críticos</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="charts-section">
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3><i class="fas fa-chart-bar"></i> Distribución por Edad</h3>
+          </div>
+          <div id="age-chart" class="chart"></div>
+        </div>
+        
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3><i class="fas fa-chart-pie"></i> Distribución por Género</h3>
+          </div>
+          <div id="gender-chart" class="chart"></div>
+        </div>
+      </div>
+
+      <!-- Patients Section -->
+      <div class="patients-section">
+        <div class="section-header">
+          <h2><i class="fas fa-user-injured"></i> Pacientes</h2>
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="patient-search" placeholder="Buscar pacientes...">
+          </div>
+        </div>
+        
+        <div id="patients-list" class="patients-grid"></div>
+      </div>
+
+      <!-- Patient Details Section -->
+      <div id="patient-details" class="patient-details-section"></div>
+      
+      <!-- Patient Records Section -->
+      <div id="patient-records" class="patient-records-section"></div>
+      
+      <!-- Patient Chart Container -->
+      <div id="patient-chart-container" class="chart-container hidden">
+        <div class="chart-header">
+          <h3><i class="fas fa-chart-line"></i> Evolución del Paciente</h3>
+        </div>
+        <canvas id="patient-chart"></canvas>
+      </div>
+    </div>
   </div>
 
   <script src="/project/app_pa/script.js"></script>
