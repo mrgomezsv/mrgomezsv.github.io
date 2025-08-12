@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
     fechaInput.dispatchEvent(new Event('input'));
     addItemRow();
     updatePreview();
+    // Escuchar cambios del toggle de IVA
+    const ivaToggle = document.getElementById("include-iva");
+    if (ivaToggle) {
+        ivaToggle.addEventListener("change", updatePreview);
+    }
 });
 
 document.getElementById("add-item").addEventListener("click", addItemRow);
@@ -88,9 +93,10 @@ function updatePreview() {
     // Items
     const items = getItems();
 
-    // Sumas
+    // Sumas con o sin IVA
     const subTotal = items.reduce((sum, item) => sum + item.total, 0);
-    const iva = subTotal * 0.13;
+    const includeIva = document.getElementById("include-iva")?.checked ?? true;
+    const iva = includeIva ? subTotal * 0.13 : 0;
     const total = subTotal + iva;
 
     // Pago
@@ -142,7 +148,7 @@ function updatePreview() {
                 <td style="text-align:right">${formatCurrency(subTotal)}</td>
             </tr>
             <tr>
-                <td style="text-align:right"><strong>IVA</strong></td>
+                <td style="text-align:right"><strong>IVA</strong> ${includeIva ? "" : "(No incluido)"}</td>
                 <td style="text-align:right">${formatCurrency(iva)}</td>
             </tr>
             <tr>

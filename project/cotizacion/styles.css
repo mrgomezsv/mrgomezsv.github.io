@@ -58,6 +58,66 @@ form input[type="text"], form input[type="date"] {
     margin-top: 8px;
 }
 
+.iva-toggle {
+    margin-top: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.iva-toggle .switch-input {
+    position: absolute;
+    opacity: 0;
+    inline-size: 0;
+    block-size: 0;
+}
+
+.iva-toggle .iva-state {
+    cursor: pointer;
+    user-select: none;
+    opacity: 0.6;
+    transition: color .15s ease, opacity .15s ease, font-weight .15s ease;
+}
+
+.iva-toggle .switch {
+    position: relative;
+    inline-size: 48px;
+    block-size: 26px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.iva-toggle .switch .slider {
+    position: absolute;
+    inset: 0;
+    background: #d1d5db; /* gray-300 */
+    border-radius: 999px;
+    transition: background-color .2s ease;
+}
+
+.iva-toggle .switch .slider::before {
+    content: "";
+    position: absolute;
+    inline-size: 22px;
+    block-size: 22px;
+    left: 2px;
+    top: 2px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    transition: transform .2s ease;
+}
+
+/* Estado checked */
+.iva-toggle .switch-input:checked ~ .switch .slider { background: #22c55e; /* green-500 */ }
+.iva-toggle .switch-input:checked ~ .switch .slider::before { transform: translateX(22px); }
+
+/* Etiquetas ON/OFF */
+.iva-toggle .switch-input:checked ~ .iva-on { opacity: 1; color: #16a34a; font-weight: 600; }
+.iva-toggle .switch-input:checked ~ .iva-off { opacity: 0.6; font-weight: 400; color: inherit; }
+.iva-toggle .switch-input:not(:checked) ~ .iva-off { opacity: 1; font-weight: 600; color: #374151; }
+
 #preview-container {
     margin-top: 24px;
     display: flex;
