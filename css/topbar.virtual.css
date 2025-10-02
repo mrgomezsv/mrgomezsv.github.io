@@ -894,3 +894,38 @@
 .theme-purple .post-grid .post-category {
   color: #6f42c1;
 }
+
+/* Theme Slate */
+.theme-slate .badge-subhead  {
+  background-color: rgba(43, 108, 176, 0.15);
+  color: #2B6CB0;
+}
+
+.theme-slate .filterable-button .btn.selected,
+.theme-slate .filterable-button .btn:focus {
+  background-color: #2B6CB0;
+  color: #fff;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2B6CB0;
+}
+
+.theme-slate .page-home .badge {
+  background-color: rgba(43, 108, 176, 0.15);
+  color: #2B6CB0;
+}
+
+.theme-slate .page-about .img-place::before {
+  border-color: #2B6CB0;
+}
+
+.theme-slate .timeline li:first-child .title {
+  background-color: #2B6CB0;
+}
+
+.theme-slate .timeline li:first-child::before {
+  background-color: #2B6CB0;
+  box-shadow: 0 0 0 2px #2B6CB0;
+}
+
+.theme-slate .post-grid .post-category {
+  color: #2B6CB0;
+}

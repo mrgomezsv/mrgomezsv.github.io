@@ -33,6 +33,7 @@
     --theme-green: #8cc63f;
     --theme-orange: #fd7e14;
     --theme-purple: #6f42c1;
+    --theme-slate: #2B6CB0;
 }
 
 /* Light */
@@ -1423,4 +1424,66 @@ a:hover, a:active {
 
 .theme-purple .theme-list li::before {
     border-color: #6f42c1;
+}
+
+
+/* Theme Slate (Blue-Gray inspired by profile image) */
+.theme-slate .bg-theme {
+    background-color: #2B6CB0 !important;
+}
+
+.theme-slate .fg-theme {
+    color: #2B6CB0 !important;
+}
+
+.theme-slate .btn-theme {
+    background-color: #2B6CB0;
+    color: #fff;
+}
+
+.theme-slate .btn-theme:hover {
+    background-color: #3C82C4;
+    color: #fff;
+}
+
+.theme-slate .btn-theme:focus {
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px #2B6CB0;
+}
+
+.theme-slate .btn-theme-outline {
+    color: #2B6CB0;
+    box-shadow: 0 0 0 2px #2B6CB0;
+}
+
+.theme-slate .btn-theme-outline:hover {
+    background-color: #2B6CB0;
+    color: #fff;
+}
+
+.theme-slate .btn-theme-outline:focus {
+    background-color: #2B6CB0;
+    color: #fff;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px #2B6CB0;
+}
+
+.theme-slate .btn-fab {
+    background-color: #2B6CB0;
+    color: #fff;
+}
+
+.theme-slate .btn-fab:hover {
+    background-color: #3C82C4;
+    color: #fff;
+}
+
+.theme-slate .progress {
+    box-shadow: 0 0 0 2px #2B6CB0;
+}
+
+.theme-slate .progress-bar {
+    background-color: #2B6CB0;
+}
+
+.theme-slate .theme-list li::before {
+    border-color: #2B6CB0;
 }

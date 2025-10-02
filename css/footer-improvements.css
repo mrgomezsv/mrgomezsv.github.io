@@ -173,6 +173,30 @@ html {
   height: 20px;
 }
 
+/* Theme Slate overrides for footer accents */
+.theme-slate .footer-section-header i,
+.theme-slate .contact-item i,
+.theme-slate .username-item i {
+  color: #2B6CB0;
+  background: rgba(43, 108, 176, 0.1);
+}
+
+.theme-slate .contact-link:hover {
+  color: #2B6CB0;
+}
+
+.theme-slate .social-link:hover {
+  border-color: rgba(43, 108, 176, 0.3);
+}
+
+.theme-slate .footer-section-header::after {
+  background: #2B6CB0;
+}
+
+.theme-slate .made-with i::before {
+  background: rgba(43, 108, 176, 0.2);
+}
+
 /* Loading animation for footer sections */
 @keyframes fadeInUp {
   from {
