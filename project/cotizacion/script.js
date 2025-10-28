@@ -93,10 +93,13 @@ function updatePreview() {
     // Items
     const items = getItems();
 
-    // Sumas con o sin IVA
-    const subTotal = items.reduce((sum, item) => sum + item.total, 0);
+    // Sumas, Descuento neto y IVA (IVA se calcula sobre SUMAS)
+    const itemsSum = items.reduce((sum, item) => sum + item.total, 0);
     const includeIva = document.getElementById("include-iva")?.checked ?? true;
-    const iva = includeIva ? subTotal * 0.13 : 0;
+    const discountRaw = Number(document.getElementById("discount-amount")?.value) || 0;
+    const discount = Math.max(0, Math.min(itemsSum, discountRaw));
+    const subTotal = itemsSum - discount; // SUB TOTAL = SUMAS - DESCUENTO
+    const iva = includeIva ? subTotal * 0.13 : 0; // IVA calculado a partir del SUB TOTAL
     const total = subTotal + iva;
 
     // Pago
@@ -138,35 +141,44 @@ function updatePreview() {
                 `).join("")}
             </tbody>
         </table>
-        <table class="cotizacion-sumas">
-            <tr>
-                <td style="text-align:right; width:80%"><strong>SUMAS</strong></td>
-                <td style="text-align:right">${formatCurrency(subTotal)}</td>
-            </tr>
-            <tr>
-                <td style="text-align:right"><strong>SUB TOTAL</strong></td>
-                <td style="text-align:right">${formatCurrency(subTotal)}</td>
-            </tr>
-            <tr>
-                <td style="text-align:right"><strong>IVA</strong> ${includeIva ? "" : "(No incluido)"}</td>
-                <td style="text-align:right">${formatCurrency(iva)}</td>
-            </tr>
-            <tr>
-                <td style="text-align:right"><strong>TOTAL</strong></td>
-                <td style="text-align:right">${formatCurrency(total)}</td>
-            </tr>
-        </table>
-        <div class="cotizacion-pago">
-            Emitir cheque a nombre de: <strong>${cheque}</strong><br>
-            NIT: <strong>${nit}</strong><br>
-            FORMA DE PAGO: <strong>${pago}</strong>
-        </div>
-        <div class="cotizacion-firmas">
-            <div class="firma">
-                NOMBRE Y FIRMA DE ACEPTACIÓN
+        <div class="cotizacion-bottom">
+            <table class="cotizacion-sumas">
+                <tr>
+                    <td style="text-align:right; width:80%"><strong>SUMAS</strong></td>
+                    <td style="text-align:right">${formatCurrency(itemsSum)}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right"><strong>DESCUENTO</strong></td>
+                    <td style="text-align:right">- ${formatCurrency(discount)}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right"><strong>SUB TOTAL</strong></td>
+                    <td style="text-align:right">${formatCurrency(subTotal)}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right"><strong>IVA</strong> ${includeIva ? "" : "(No incluido)"}</td>
+                    <td style="text-align:right">${formatCurrency(iva)}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right"><strong>TOTAL</strong></td>
+                    <td style="text-align:right">${formatCurrency(total)}</td>
+                </tr>
+            </table>
+            <!-- Bloque de condiciones de pago comentado a solicitud -->
+            <!--
+            <div class="cotizacion-pago">
+                Emitir cheque a nombre de: <strong>${cheque}</strong><br>
+                NIT: <strong>${nit}</strong><br>
+                FORMA DE PAGO: <strong>${pago}</strong>
             </div>
-            <div class="firma">
-                Licda. Carmen Concepcion Hernandez
+            -->
+            <div class="cotizacion-firmas">
+                <div class="firma">
+                    NOMBRE Y FIRMA DE ACEPTACIÓN
+                </div>
+                <div class="firma">
+                    Mario Roberto Gomez Martinez
+                </div>
             </div>
         </div>
     `;

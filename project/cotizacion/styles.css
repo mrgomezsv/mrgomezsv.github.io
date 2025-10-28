@@ -134,6 +134,8 @@ form input[type="text"], form input[type="date"] {
     position: relative;
     overflow: hidden;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .cotizacion-header {
@@ -241,3 +243,12 @@ form input[type="text"], form input[type="date"] {
     position: relative;
     z-index: 1;
 } 
+
+/* Bloque final pegado al pie de página del A4 */
+.cotizacion-bottom {
+    margin-top: auto;
+    margin-bottom: 96px; /* más separación del borde inferior */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
