@@ -247,6 +247,14 @@ body {
 .modal-card p { margin: 6px 0 12px; }
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
 
+/* Banner simple */
+.banner {
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+.banner.warn { background: rgba(251, 191, 36, 0.12); border: 1px solid rgba(251, 191, 36, 0.35); color: #fde68a; }
+.banner.error { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #fecaca; }
+
 @media (min-width: 640px) {
   .players-container {
     grid-template-columns: 1fr 1fr;

@@ -34,6 +34,8 @@
     copyCode: $("btn-copy-code"),
     shareRoom: $("btn-share-room"),
     joinLink: $("join-link"),
+    helpBtn: $("btn-help"),
+    connectStatus: $("connect-status"),
     revealCounter: $("reveal-counter"),
     revealPlayerName: $("reveal-player-name"),
     revealContent: $("reveal-content"),
@@ -105,6 +107,16 @@
     const url = new URL(window.location.href);
     url.searchParams.set("room", code);
     return url.toString();
+  }
+
+  function updateOnlineStatus() {
+    if (ui.connectStatus) {
+      if (!navigator.onLine) {
+        ui.connectStatus.textContent = "Sin conexión. Revisa tu internet o bloqueadores.";
+      } else {
+        ui.connectStatus.textContent = "Listo. Puedes crear una sala o unirte.";
+      }
+    }
   }
 
   function escapeHtml(str) {
@@ -545,6 +557,31 @@
     await local.roomRef.update({ vote: { votes: {}, orderIndex: 0, tie: false } });
   }
 
+  // Tutorial interactivo (pasos básicos)
+  function startTutorial() {
+    const steps = [
+      { title: "Paso 1/6", message: "Escribe tu nombre en el campo 'Tu nombre'." },
+      { title: "Paso 2/6", message: "Pulsa 'Crear sala'. Se generará un código y un enlace." },
+      { title: "Paso 3/6", message: "Comparte el código con 'Copiar código' o 'Compartir'." },
+      { title: "Paso 4/6", message: "Tus amigos ingresan el código y pulsan 'Unirme'." },
+      { title: "Paso 5/6", message: "Como anfitrión, pulsa 'Iniciar juego' cuando estén listos." },
+      { title: "Paso 6/6", message: "Cada jugador revela su rol cuando le toque; luego dan pistas por 3 rondas y finalmente votan al impostor." },
+    ];
+    let i = 0;
+    const next = () => {
+      const s = steps[i];
+      showModal({
+        title: s.title,
+        message: s.message,
+        confirmText: i === steps.length - 1 ? "Entendido" : "Siguiente",
+        cancelText: i > 0 ? "Anterior" : undefined,
+        onConfirm: () => { if (i < steps.length - 1) { i++; next(); } },
+        onCancel: () => { if (i > 0) { i--; next(); } }
+      });
+    };
+    next();
+  }
+
   // Presence & sesión
   function startPresence() {
     stopPresence();
@@ -604,6 +641,7 @@
   ui.btnGoVote.addEventListener("click", () => showConfirm("¿Ir a votación ahora?", { onConfirm: goToVote }));
   ui.btnStartRevote.addEventListener("click", startRevote);
   ui.leaveBtn.addEventListener("click", () => showConfirm("¿Salir de la sala?", { onConfirm: leaveRoom }));
+  if (ui.helpBtn) ui.helpBtn.addEventListener("click", startTutorial);
   if (ui.copyCode) ui.copyCode.addEventListener("click", async () => {
     const code = ui.roomCode.textContent.trim();
     if (!code) return;
@@ -622,6 +660,12 @@
 
   // Prefill posibles datos de sesión
   resumeIfPossible();
+
+  // Indicador de red
+  try { db.enableNetwork && db.enableNetwork(); } catch (_) {}
+  updateOnlineStatus();
+  window.addEventListener("online", updateOnlineStatus);
+  window.addEventListener("offline", updateOnlineStatus);
 })();
 
 
