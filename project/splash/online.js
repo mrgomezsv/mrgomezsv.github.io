@@ -280,6 +280,11 @@
     if (!name) { showModal("Ingresa tu nombre"); return; }
     const code = ui.joinCode.value.trim().toUpperCase();
     if (!code) { showModal("Ingresa el código de sala"); return; }
+    // Si ya estamos vinculados a esta sala, no hace falta unirse
+    if (local.roomRef && local.roomRef.id === code) {
+      showModal({ title: "Ya estás en la sala", message: `Actualmente estás en la sala ${code}. No necesitas unirte de nuevo.`, confirmText: "Entendido" });
+      return;
+    }
     const rid = roomIdFromCode(code);
     const roomRef = db.collection("rooms").doc(rid);
     const room = await roomRef.get();
@@ -372,6 +377,8 @@
     ui.roomCodeInline.textContent = room.code || "-";
     ui.playTheme.textContent = room.theme || "-";
     ui.roundNumber.textContent = String(room.round || 1);
+    // Deshabilitar Unirme si ya estamos dentro de esta sala
+    try { if (ui.joinBtn) ui.joinBtn.disabled = !!(local.roomRef && local.roomRef.id === (room.code || "")); } catch (_) {}
     if (ui.joinLink && room.code) {
       ui.joinLink.textContent = `Enlace para unirse: ${getJoinUrl(room.code)}`;
     }
@@ -379,6 +386,7 @@
     if (room.phase === PHASE.LOBBY) {
       showScreen("online-setup");
       ui.startBtn.disabled = !isHost(room);
+      if (ui.connectStatus) ui.connectStatus.textContent = "Listo. Puedes crear una sala o unirte.";
     }
 
     if (room.phase === PHASE.REVEAL) {
