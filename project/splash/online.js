@@ -190,10 +190,11 @@
 
   // Lobby
   async function createRoom() {
+    console.log("[Online] Create button handler -> createRoom()");
     const name = ui.name.value.trim();
     if (!name) { showModal("Ingresa tu nombre"); return; }
     let user;
-    try { user = await signIn(); } catch (_) { return; }
+    try { user = await signIn(); console.log("[Online] Signed in (host)", user && user.uid); } catch (_) { return; }
     local.user = user;
 
     const code = randomCode();
@@ -222,6 +223,7 @@
     }
 
     await roomRef.collection("players").doc(user.uid).set({ name, joinedAt: created, eliminated: false, lastSeen: Date.now() }, { merge: true });
+    console.log("[Online] Room created", { code, rid });
 
     try {
       localStorage.setItem("imp_name", name);
@@ -232,6 +234,7 @@
   }
 
   async function joinRoom() {
+    console.log("[Online] Join button handler -> joinRoom()");
     const name = ui.name.value.trim();
     if (!name) { showModal("Ingresa tu nombre"); return; }
     const code = ui.joinCode.value.trim().toUpperCase();
@@ -241,7 +244,7 @@
     const room = await roomRef.get();
     if (!room.exists) { showModal("La sala no existe"); return; }
     let user;
-    try { user = await signIn(); } catch (_) { return; }
+    try { user = await signIn(); console.log("[Online] Signed in (join)", user && user.uid); } catch (_) { return; }
     local.user = user;
     const now = Date.now();
     try {
@@ -250,6 +253,7 @@
       showFirestoreHelpModal(e);
       return;
     }
+    console.log("[Online] Joined room", { code, rid });
 
     try {
       localStorage.setItem("imp_name", name);
@@ -631,8 +635,8 @@
   }
 
   // Event wiring
-  ui.createBtn.addEventListener("click", createRoom);
-  ui.joinBtn.addEventListener("click", joinRoom);
+  ui.createBtn.addEventListener("click", () => { console.log("[Online] Create button clicked"); createRoom(); });
+  ui.joinBtn.addEventListener("click", () => { console.log("[Online] Join button clicked"); joinRoom(); });
   ui.startBtn.addEventListener("click", startGame);
   ui.btnShow.addEventListener("click", clickShow);
   ui.btnHideNext.addEventListener("click", clickHideNext);
