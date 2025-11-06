@@ -237,6 +237,7 @@
     try {
       if (ui.roomCode) ui.roomCode.textContent = code;
       if (ui.roomCodeInline) ui.roomCodeInline.textContent = code;
+      if (ui.joinCode) ui.joinCode.value = code;
       if (ui.joinLink) ui.joinLink.textContent = `Enlace para unirse: ${getJoinUrl(code)}`;
       if (ui.lobby) ui.lobby.style.display = "block";
       console.log("[Online] Provisional room code displayed", code);
