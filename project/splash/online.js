@@ -135,23 +135,42 @@
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
 
-  // Modal simple
+  // Modal simple (soporta string u objeto con opciones)
   function showModal(message) {
     const overlay = document.getElementById("modal");
+    const titleEl = document.getElementById("modal-title");
     const text = document.getElementById("modal-text");
     const ok = document.getElementById("modal-ok");
+    const cancel = document.getElementById("modal-cancel");
     if (!overlay || !text || !ok) {
       // eslint-disable-next-line no-alert
-      alert(message);
+      alert(typeof message === "string" ? message : (message?.message || ""));
       return;
     }
-    text.textContent = message;
+
+    const opts = typeof message === "object" ? message : {};
+    if (titleEl) titleEl.textContent = opts.title || "Aviso";
+    text.textContent = typeof message === "string" ? message : (opts.message || "");
+    ok.textContent = opts.confirmText || "Aceptar";
+    if (cancel) {
+      if (opts.cancelText) {
+        cancel.style.display = "inline-block";
+        cancel.textContent = opts.cancelText;
+      } else {
+        cancel.style.display = "none";
+      }
+    }
+
     overlay.classList.add("open");
-    const close = () => {
+    const onOk = () => { try { opts.onConfirm && opts.onConfirm(); } finally { close(); } };
+    const onCancel = () => { try { opts.onCancel && opts.onCancel(); } finally { close(); } };
+    function close() {
       overlay.classList.remove("open");
-      ok.removeEventListener("click", close);
-    };
-    ok.addEventListener("click", close);
+      ok.removeEventListener("click", onOk);
+      if (cancel) cancel.removeEventListener("click", onCancel);
+    }
+    ok.addEventListener("click", onOk);
+    if (cancel) cancel.addEventListener("click", onCancel);
   }
 
   function showConfirm(message, opts = {}) {
