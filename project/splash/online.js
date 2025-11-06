@@ -1,6 +1,7 @@
 // Online mode using Firebase (client-side). Intended for casual play with friends.
 
 (function () {
+  console.log("[Online] Script loaded");
   const cfg = window.FIREBASE_CONFIG || null;
   const warn = document.getElementById("online-warning");
 
@@ -9,6 +10,17 @@
       warn.style.display = "block";
       warn.textContent = "Falta configuración de Firebase. Edita 'firebase-config.js' con tu proyecto para habilitar el modo en línea.";
     }
+    // Adjuntar manejadores básicos para informar al usuario si hace clic
+    const createBtn = document.getElementById("btn-create-room");
+    const joinBtn = document.getElementById("btn-join-room");
+    const connectStatus = document.getElementById("connect-status");
+    if (connectStatus) connectStatus.textContent = "Config de Firebase no detectada";
+    const onClick = () => {
+      console.log("[Online] Click bloqueado: falta configuración de Firebase");
+      alert("Falta configuración de Firebase. Completa 'project/splash/firebase-config.js'.");
+    };
+    if (createBtn) createBtn.addEventListener("click", onClick);
+    if (joinBtn) joinBtn.addEventListener("click", onClick);
     return;
   }
 
