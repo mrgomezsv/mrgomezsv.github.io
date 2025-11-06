@@ -232,6 +232,15 @@
     const rid = roomIdFromCode(code);
     const roomRef = db.collection("rooms").doc(rid);
     const created = Date.now();
+
+    // Mostrar el código inmediatamente en la UI (antes de Firestore)
+    try {
+      if (ui.roomCode) ui.roomCode.textContent = code;
+      if (ui.roomCodeInline) ui.roomCodeInline.textContent = code;
+      if (ui.joinLink) ui.joinLink.textContent = `Enlace para unirse: ${getJoinUrl(code)}`;
+      if (ui.lobby) ui.lobby.style.display = "block";
+      console.log("[Online] Provisional room code displayed", code);
+    } catch (_) {}
     try {
       await roomRef.set({
       code,
