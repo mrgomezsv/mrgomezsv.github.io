@@ -287,16 +287,29 @@
     }
     const rid = roomIdFromCode(code);
     const roomRef = db.collection("rooms").doc(rid);
-    const room = await roomRef.get();
-    if (!room.exists) { showModal("La sala no existe"); return; }
+    try { if (ui.joinBtn) ui.joinBtn.disabled = true; } catch (_) {}
+    let room;
+    try {
+      room = await roomRef.get();
+    } catch (err) {
+      showModal({ title: "No se pudo acceder a la sala", message: `Verifica tu conexión.\n\nCódigo: ${code}\n${err?.message || ""}` });
+      try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}
+      return;
+    }
+    if (!room.exists) {
+      showModal("La sala no existe");
+      try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}
+      return;
+    }
     let user;
-    try { user = await signIn(); console.log("[Online] Signed in (join)", user && user.uid); } catch (_) { return; }
+    try { user = await signIn(); console.log("[Online] Signed in (join)", user && user.uid); } catch (_) { try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}; return; }
     local.user = user;
     const now = Date.now();
     try {
       await roomRef.collection("players").doc(user.uid).set({ name, joinedAt: now, eliminated: false, lastSeen: now }, { merge: true });
     } catch (e) {
       showFirestoreHelpModal(e);
+      try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}
       return;
     }
     console.log("[Online] Joined room", { code, rid });
@@ -306,6 +319,7 @@
       localStorage.setItem("imp_room", code);
     } catch (_) {}
     bindRoom(roomRef);
+    try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}
   }
 
   function bindRoom(roomRef) {
@@ -680,6 +694,13 @@
       const savedRoom = (new URLSearchParams(window.location.search).get("room") || localStorage.getItem("imp_room") || "").toUpperCase();
       if (savedName) ui.name.value = savedName;
       if (savedRoom) ui.joinCode.value = savedRoom;
+      if (savedRoom && !local.roomRef) {
+        if (ui.name.value.trim()) {
+          showConfirm(`¿Unirte a la sala ${savedRoom} ahora?`, { onConfirm: joinRoom });
+        } else {
+          showModal({ title: "Invitación", message: `Escribe tu nombre y pulsa 'Unirme' para entrar a la sala ${savedRoom}.` });
+        }
+      }
     } catch (_) {}
   }
 
