@@ -121,6 +121,14 @@
     return url.toString();
   }
 
+  // Extrae un código válido de 6 caracteres [A-Z0-9] desde cualquier texto
+  function normalizeRoomCode(text) {
+    if (!text) return "";
+    const up = String(text).toUpperCase();
+    const match = up.match(/[A-Z0-9]{6}/);
+    return match ? match[0] : "";
+  }
+
   function updateOnlineStatus() {
     if (ui.connectStatus) {
       if (!navigator.onLine) {
@@ -278,8 +286,11 @@
     console.log("[Online] Join button handler -> joinRoom()");
     const name = ui.name.value.trim();
     if (!name) { showModal("Ingresa tu nombre"); return; }
-    const code = ui.joinCode.value.trim().toUpperCase();
-    if (!code) { showModal("Ingresa el código de sala"); return; }
+    const inputRaw = ui.joinCode.value.trim();
+    const code = normalizeRoomCode(inputRaw);
+    if (!code) { showModal("Código de sala inválido. Verifica y vuelve a intentar."); return; }
+    // normaliza el campo visualmente
+    try { ui.joinCode.value = code; } catch (_) {}
     // Si ya estamos vinculados a esta sala, no hace falta unirse
     if (local.roomRef && local.roomRef.id === code) {
       showModal({ title: "Ya estás en la sala", message: `Actualmente estás en la sala ${code}. No necesitas unirte de nuevo.`, confirmText: "Entendido" });
@@ -691,7 +702,8 @@
   function resumeIfPossible() {
     try {
       const savedName = localStorage.getItem("imp_name") || "";
-      const savedRoom = (new URLSearchParams(window.location.search).get("room") || localStorage.getItem("imp_room") || "").toUpperCase();
+      const roomParamRaw = new URLSearchParams(window.location.search).get("room") || "";
+      const savedRoom = normalizeRoomCode(roomParamRaw || localStorage.getItem("imp_room") || "");
       if (savedName) ui.name.value = savedName;
       if (savedRoom) ui.joinCode.value = savedRoom;
       if (savedRoom && !local.roomRef) {
