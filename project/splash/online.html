@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Impostor en línea</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Impostor (en línea)</h1>
+      <p class="subtitle">Juega por sesiones con tus amigos</p>
+    </header>
+
+    <main class="app-main">
+      <!-- Pantalla: Configuración en línea / Lobby -->
+      <section id="screen-online-setup" class="screen active">
+        <div class="card">
+          <h2>Crear o unirse a sala</h2>
+
+          <div class="players-setup">
+            <label class="block-label" for="online-name">Tu nombre</label>
+            <input id="online-name" class="input" type="text" placeholder="Tu nombre" />
+          </div>
+
+          <div class="theme-setup">
+            <label for="online-theme" class="block-label">Temática (solo anfitrión)</label>
+            <select id="online-theme" class="select">
+              <option value="Hogar">Hogar</option>
+              <option value="Trabajo">Trabajo</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Comida">Comida</option>
+              <option value="Naturaleza">Naturaleza</option>
+              <option value="Tecnología">Tecnología</option>
+            </select>
+          </div>
+
+          <div class="players-actions">
+            <button id="btn-create-room" class="btn btn-primary" type="button">Crear sala</button>
+            <input id="join-code" class="input" type="text" placeholder="Código de sala" style="max-width: 180px;" />
+            <button id="btn-join-room" class="btn" type="button">Unirme</button>
+          </div>
+
+          <div id="online-warning" class="hint" style="display:none;"></div>
+
+          <div id="lobby" style="display:none; margin-top: 16px;">
+            <div class="card">
+              <h3 style="margin-top:0;">Lobby</h3>
+              <p class="theme-line">Código: <strong id="room-code">-</strong></p>
+              <div class="players-actions">
+                <button id="btn-copy-code" class="btn" type="button">Copiar código</button>
+                <button id="btn-share-room" class="btn btn-ghost" type="button">Compartir</button>
+              </div>
+              <p id="join-link" class="hint" style="word-break: break-all; margin-top: 6px;"></p>
+              <ul id="lobby-players" class="chat-log"></ul>
+              <div class="setup-actions">
+                <button id="btn-start-online" class="btn btn-primary" type="button" disabled>Iniciar juego</button>
+                <button id="btn-leave-room" class="btn btn-ghost" type="button">Salir de sala</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pantalla: Revelar roles (online) -->
+      <section id="screen-reveal" class="screen">
+        <div class="card">
+          <h2>Revelar rol</h2>
+          <p class="hint">Solo el jugador indicado verá el botón activo.</p>
+
+          <div class="reveal-status">
+            <span id="reveal-counter">0 / 0</span>
+          </div>
+
+          <div class="current-player">
+            <span>Jugador actual:</span>
+            <strong id="reveal-player-name">-</strong>
+          </div>
+
+          <div id="reveal-panel" class="reveal-panel">
+            <div id="reveal-content" class="reveal-content">Oculto</div>
+          </div>
+
+          <div class="reveal-actions">
+            <button id="btn-show" class="btn" type="button" disabled>Mostrar</button>
+            <button id="btn-hide-next" class="btn btn-primary" type="button" disabled>Ocultar y siguiente</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pantalla: Juego (pistas por turnos) online -->
+      <section id="screen-play" class="screen">
+        <div class="card">
+          <div class="play-header">
+            <div>
+              <h2>Partida en curso</h2>
+              <p class="theme-line">Tema: <strong id="play-theme">-</strong> • Sala <strong id="room-code-inline">-</strong></p>
+            </div>
+            <div class="round-info">
+              <span>Ronda <strong id="round-number">1</strong></span>
+            </div>
+          </div>
+
+          <div class="turn-info">
+            <span>Turno de:</span>
+            <strong id="turn-player">-</strong>
+          </div>
+
+          <div class="chat">
+            <ul id="chat-log" class="chat-log"></ul>
+          </div>
+
+          <form id="hint-form" class="hint-form" autocomplete="off">
+            <input id="hint-input" class="input" type="text" placeholder="Escribe tu pista" required />
+            <button class="btn btn-primary" type="submit" disabled>Enviar pista</button>
+          </form>
+
+          <div class="play-actions">
+            <button id="btn-reveal-result" class="btn btn-ghost" type="button">Revelar palabra e impostor</button>
+            <button id="btn-new-round" class="btn" type="button" disabled>Nueva ronda</button>
+            <button id="btn-go-vote" class="btn btn-primary" type="button" style="display:none;">Ir a votación</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pantalla: Votación -->
+      <section id="screen-vote" class="screen">
+        <div class="card">
+          <h2>Votación</h2>
+          <p class="hint">Vota por el impostor. El más votado se elimina; si es el impostor, termina el juego.</p>
+          <div class="vote-status">
+            <span id="vote-counter">0 / 0</span>
+          </div>
+          <div class="current-player">
+            <span>Vota:</span>
+            <strong id="vote-player-name">-</strong>
+          </div>
+          <div id="candidates" class="candidates"></div>
+          <div class="vote-actions">
+            <button id="btn-start-revote" class="btn" type="button" style="display:none;">Repetir votación (empate)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pantalla: Resultados -->
+      <section id="screen-results" class="screen">
+        <div class="card">
+          <h2>Resultados</h2>
+          <div class="results">
+            <p>Palabra secreta: <strong id="result-word">-</strong></p>
+            <p>Impostor: <strong id="result-impostor">-</strong></p>
+          </div>
+          <div class="results-actions">
+            <a class="btn" href="./online.html">Nueva sala</a>
+            <a class="btn btn-ghost" href="./index.html">Modo local</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <small>Modo en línea usa Firebase (necesita configuración del proyecto).</small>
+    </footer>
+
+    <!-- Modal genérico -->
+    <div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-text">
+      <div class="modal-card">
+        <h3 id="modal-title">Aviso</h3>
+        <p id="modal-text"></p>
+        <div class="modal-actions">
+          <button id="modal-cancel" class="btn btn-ghost" type="button" style="display:none;">Cancelar</button>
+          <button id="modal-ok" class="btn btn-primary" type="button">Aceptar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase config (rellenar con credenciales de tu proyecto) -->
+    <script src="./firebase-config.js"></script>
+    <!-- Firebase CDN (compat) para simplicidad en un sitio estático -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+    <script src="./online.js"></script>
+  </body>
+  </html>
+
+

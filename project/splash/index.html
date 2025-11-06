@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Impostor - Juego de Pistas</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Impostor</h1>
+      <p class="subtitle">Juego de pistas por turnos</p>
+    </header>
+
+    <main class="app-main">
+      <!-- Pantalla: Configuración -->
+      <section id="screen-setup" class="screen active">
+        <div class="card">
+          <h2>Configurar partida</h2>
+          <div class="players-setup">
+            <label class="block-label">Participantes</label>
+            <div id="players-container" class="players-container">
+              <!-- Inputs dinámicos -->
+            </div>
+            <div class="players-actions">
+              <button id="btn-add-player" class="btn btn-ghost" type="button">+ Agregar participante</button>
+            </div>
+          </div>
+
+          <div class="theme-setup">
+            <label for="select-theme" class="block-label">Temática</label>
+            <select id="select-theme" class="select">
+              <option value="Hogar">Hogar</option>
+              <option value="Trabajo">Trabajo</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Comida">Comida</option>
+              <option value="Naturaleza">Naturaleza</option>
+              <option value="Tecnología">Tecnología</option>
+            </select>
+          </div>
+
+          <div class="setup-actions">
+            <button id="btn-start" class="btn btn-primary" type="button">Iniciar juego</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pantalla: Revelar roles (pasar el dispositivo) -->
+      <section id="screen-reveal" class="screen">
+        <div class="card">
+          <h2>Revelar rol</h2>
+          <p class="hint">Entrega el dispositivo al jugador indicado y luego presiona "Mostrar".</p>
+
+          <div class="reveal-status">
+            <span id="reveal-counter">0 / 0</span>
+          </div>
+
+          <div class="current-player">
+            <span>Jugador actual:</span>
+            <strong id="reveal-player-name">-</strong>
+          </div>
+
+          <div id="reveal-panel" class="reveal-panel">
+            <div id="reveal-content" class="reveal-content">Oculto</div>
+          </div>
+
+          <div class="reveal-actions">
+            <button id="btn-show" class="btn" type="button">Mostrar</button>
+            <button id="btn-hide-next" class="btn btn-primary" type="button" disabled>Ocultar y siguiente</button>
+          </div>
+
+          <div class="reveal-help">
+            <p>Si ves "IMPOSTOR", no conoces la palabra. Si ves una palabra, intenta dar pistas sutiles.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pantalla: Juego (pistas por turnos) -->
+      <section id="screen-play" class="screen">
+        <div class="card">
+          <div class="play-header">
+            <div>
+              <h2>Partida en curso</h2>
+              <p class="theme-line">Tema: <strong id="play-theme">-</strong></p>
+            </div>
+            <div class="round-info">
+              <span>Ronda <strong id="round-number">1</strong></span>
+            </div>
+          </div>
+
+          <div class="turn-info">
+            <span>Turno de:</span>
+            <strong id="turn-player">-</strong>
+          </div>
+
+          <div class="chat">
+            <ul id="chat-log" class="chat-log"></ul>
+          </div>
+
+          <form id="hint-form" class="hint-form" autocomplete="off">
+            <input id="hint-input" class="input" type="text" placeholder="Escribe tu pista (una palabra o frase corta)" required />
+            <button class="btn btn-primary" type="submit">Enviar pista</button>
+          </form>
+
+          <div class="play-actions">
+            <button id="btn-reveal-result" class="btn btn-ghost" type="button">Revelar palabra e impostor</button>
+            <button id="btn-new-round" class="btn" type="button" disabled>Nueva ronda</button>
+            <button id="btn-go-vote" class="btn btn-primary" type="button" style="display:none;">Ir a votación</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pantalla: Votación -->
+      <section id="screen-vote" class="screen">
+        <div class="card">
+          <h2>Votación</h2>
+          <p class="hint">Entrega el dispositivo al jugador indicado para emitir su voto.</p>
+          <div class="vote-status">
+            <span id="vote-counter">0 / 0</span>
+          </div>
+          <div class="current-player">
+            <span>Vota:</span>
+            <strong id="vote-player-name">-</strong>
+          </div>
+          <div id="candidates" class="candidates"></div>
+          <div class="vote-actions">
+            <button id="btn-start-revote" class="btn" type="button" style="display:none;">Repetir votación (empate)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pantalla: Resultados -->
+      <section id="screen-results" class="screen">
+        <div class="card">
+          <h2>Resultados</h2>
+          <div class="results">
+            <p>Palabra secreta: <strong id="result-word">-</strong></p>
+            <p>Impostor: <strong id="result-impostor">-</strong></p>
+          </div>
+          <div class="results-actions">
+            <button id="btn-play-again" class="btn btn-primary" type="button">Jugar de nuevo</button>
+            <button id="btn-back-setup" class="btn" type="button">Volver a configuración</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <small>Hecho para jugar localmente. No requiere conexión ni base de datos.</small>
+    </footer>
+
+    <!-- Modal genérico -->
+    <div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-text">
+      <div class="modal-card">
+        <h3 id="modal-title">Aviso</h3>
+        <p id="modal-text"></p>
+        <div class="modal-actions">
+          <button id="modal-cancel" class="btn btn-ghost" type="button" style="display:none;">Cancelar</button>
+          <button id="modal-ok" class="btn btn-primary" type="button">Aceptar</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+  </html>
+
+
