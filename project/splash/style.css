@@ -1,13 +1,15 @@
 :root {
-  --bg: #0f172a;
-  --panel: #111827;
-  --muted: #94a3b8;
-  --text: #e5e7eb;
-  --primary: #22c55e;
-  --primary-600: #16a34a;
-  --ghost: #1f2937;
-  --accent: #38bdf8;
+  /* Paleta clara */
+  --bg: #f4f7fb;
+  --panel: #ffffff;
+  --muted: #5b6b7f;
+  --text: #0f172a;
+  --primary: #3b82f6;      /* azul */
+  --primary-600: #2563eb;
+  --ghost: #e9eef7;
+  --accent: #0ea5e9;
   --danger: #ef4444;
+  --warning: #f59e0b;
 }
 
 * {
@@ -22,9 +24,10 @@ body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   color: var(--text);
-  background: radial-gradient(1200px 600px at 20% -10%, #1f2937 0%, rgba(31,41,55,0) 60%),
-              radial-gradient(900px 500px at 120% 30%, #0ea5e9 0%, rgba(14,165,233,0) 50%),
-              var(--bg);
+  background:
+    radial-gradient(1400px 700px at -10% -20%, rgba(209, 227, 255, 0.55) 0%, rgba(209,227,255,0) 55%),
+    radial-gradient(1100px 750px at 120% 10%, rgba(180, 198, 230, 0.45) 0%, rgba(180,198,230,0) 60%),
+    var(--bg);
 }
 
 .app-header {
@@ -36,6 +39,10 @@ body {
   margin: 0;
   font-size: 32px;
   letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #2563eb, #0ea5e9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .subtitle {
@@ -59,12 +66,12 @@ body {
 }
 
 .card {
-  background: rgba(17, 24, 39, 0.85);
-  border: 1px solid rgba(148, 163, 184, 0.15);
+  background: var(--panel);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 14px;
   padding: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.06);
+  backdrop-filter: blur(4px);
 }
 
 .card h2 {
@@ -94,39 +101,51 @@ body {
   width: 100%;
   padding: 10px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  background: #0b1220;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: #ffffff;
   color: var(--text);
+}
+
+.input:focus, .select:focus {
+  outline: none;
+  border-color: rgba(37, 99, 235, 0.7);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
 }
 
 .btn {
   padding: 10px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  background: var(--ghost);
-  color: var(--text);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #f0f4fa;
+  color: #0f172a;
   cursor: pointer;
 }
 
-.btn:hover { opacity: 0.95; }
+.btn:hover { opacity: 0.98; filter: brightness(1.05); }
 
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-primary {
-  background: var(--primary);
-  border-color: var(--primary-600);
-  color: #08130a;
-  font-weight: 600;
+  background: linear-gradient(180deg, var(--primary), var(--primary-600));
+  border-color: rgba(37, 99, 235, 0.8);
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
 }
 
 .btn-ghost {
-  background: transparent;
-  border-color: rgba(148, 163, 184, 0.25);
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.12);
 }
 
 .btn-danger {
   background: var(--danger);
   border-color: #b91c1c;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.28);
 }
 
 .players-actions, .setup-actions, .reveal-actions, .play-actions, .results-actions {
@@ -146,7 +165,7 @@ body {
 
 .reveal-panel {
   margin: 12px 0;
-  border: 2px dashed rgba(148, 163, 184, 0.3);
+  border: 2px dashed rgba(15, 23, 42, 0.2);
   border-radius: 12px;
   padding: 28px 16px;
   text-align: center;
@@ -172,11 +191,11 @@ body {
 .turn-info { margin: 12px 0; }
 
 .chat {
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  border: 1px solid rgba(15, 23, 42, 0.12);
   border-radius: 12px;
   max-height: 40vh;
   overflow: auto;
-  background: #0b1220;
+  background: #ffffff;
 }
 
 .chat-log {
@@ -236,11 +255,11 @@ body {
 
 .modal-card {
   width: min(92vw, 480px);
-  background: rgba(17, 24, 39, 0.95);
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
   border-radius: 14px;
   padding: 16px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+  box-shadow: 0 18px 40px rgba(2,6,23,0.12);
 }
 
 .modal-card h3 { margin: 0 0 8px; font-size: 18px; }
