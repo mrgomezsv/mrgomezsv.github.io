@@ -32,6 +32,16 @@
   // eslint-disable-next-line no-undef
   const db = firebase.firestore();
 
+  // Asegurar sesión anónima desde el arranque para evitar lecturas bloqueadas por reglas
+  (async () => {
+    try {
+      const u = await firebase.auth().signInAnonymously();
+      console.log("[Online] Pre-signed anonymously", u && u.user && u.user.uid);
+    } catch (e) {
+      console.warn("[Online] Pre-sign failed", e && e.code);
+    }
+  })();
+
   const ui = {
     name: $("online-name"),
     theme: $("online-theme"),
@@ -80,7 +90,8 @@
     unsubPlayers: null,
     unsubChat: null,
     revealShown: false,
-    presenceTimer: null
+    presenceTimer: null,
+    lastRoomData: null
   };
 
   const PHASE = { LOBBY: "lobby", REVEAL: "reveal", PLAY: "play", VOTE: "vote", RESULTS: "results" };
@@ -138,6 +149,15 @@
         ui.connectStatus.textContent = "Listo. Puedes crear una sala o unirte.";
       }
     }
+  }
+
+  // Modo invitado: ocultar opciones de anfitrión
+  function setInviteMode(active) {
+    try {
+      if (ui.createBtn) ui.createBtn.style.display = active ? "none" : "inline-block";
+      if (ui.themeWrap) ui.themeWrap.style.display = active ? "none" : "block";
+      if (ui.helpBtn) ui.helpBtn.style.display = active ? "none" : "inline-block";
+    } catch (_) {}
   }
 
   // Modo invitado: ocultar crear sala y selector de tema
@@ -304,36 +324,52 @@
     if (!code) { showModal("Código de sala inválido. Verifica y vuelve a intentar."); return; }
     // normaliza el campo visualmente
     try { ui.joinCode.value = code; } catch (_) {}
+    // Feedback visual
+    const prevText = ui.joinBtn ? ui.joinBtn.textContent : "";
+    if (ui.joinStatus === undefined) ui.joinStatus = document.getElementById("join-status");
+    if (ui.joinStatus) ui.joinStatus.textContent = "Conectando a la sala...";
     // Si ya estamos vinculados a esta sala, no hace falta unirse
     if (local.roomRef && local.roomRef.id === code) {
       showModal({ title: "Ya estás en la sala", message: `Actualmente estás en la sala ${code}. No necesitas unirte de nuevo.`, confirmText: "Entendido" });
+      if (ui.joinStatus) ui.joinStatus.textContent = "";
       return;
     }
     const rid = roomIdFromCode(code);
     const roomRef = db.collection("rooms").doc(rid);
-    try { if (ui.joinBtn) ui.joinBtn.disabled = true; } catch (_) {}
+    try { if (ui.joinBtn) { ui.joinBtn.disabled = true; ui.joinBtn.textContent = "Uniendo..."; } } catch (_) {}
+    // IMPORTANTE: Autenticarse ANTES de leer la sala (las reglas requieren auth)
+    let user;
+    try {
+      user = await signIn();
+      local.user = user;
+      console.log("[Online] Signed in (join)", user && user.uid);
+    } catch (_) {
+      try { if (ui.joinBtn) { ui.joinBtn.disabled = false; ui.joinBtn.textContent = prevText; } } catch (_) {}
+      if (ui.joinStatus) ui.joinStatus.textContent = "No se pudo autenticar. Revisa configuración de Auth.";
+      return;
+    }
     let room;
     try {
       room = await roomRef.get();
     } catch (err) {
       showModal({ title: "No se pudo acceder a la sala", message: `Verifica tu conexión.\n\nCódigo: ${code}\n${err?.message || ""}` });
-      try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}
+      try { if (ui.joinBtn) { ui.joinBtn.disabled = false; ui.joinBtn.textContent = prevText; } } catch (_) {}
+      if (ui.joinStatus) ui.joinStatus.textContent = "Error de red: revisa bloqueadores/caché y vuelve a intentar.";
       return;
     }
     if (!room.exists) {
       showModal("La sala no existe");
-      try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}
+      try { if (ui.joinBtn) { ui.joinBtn.disabled = false; ui.joinBtn.textContent = prevText; } } catch (_) {}
+      if (ui.joinStatus) ui.joinStatus.textContent = "La sala no existe o el código es incorrecto.";
       return;
     }
-    let user;
-    try { user = await signIn(); console.log("[Online] Signed in (join)", user && user.uid); } catch (_) { try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}; return; }
-    local.user = user;
     const now = Date.now();
     try {
       await roomRef.collection("players").doc(user.uid).set({ name, joinedAt: now, eliminated: false, lastSeen: now }, { merge: true });
     } catch (e) {
       showFirestoreHelpModal(e);
-      try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}
+      try { if (ui.joinBtn) { ui.joinBtn.disabled = false; ui.joinBtn.textContent = prevText; } } catch (_) {}
+      if (ui.joinStatus) ui.joinStatus.textContent = "Permisos de Firestore: revisa configuración.";
       return;
     }
     console.log("[Online] Joined room", { code, rid });
@@ -343,7 +379,8 @@
       localStorage.setItem("imp_room", code);
     } catch (_) {}
     bindRoom(roomRef);
-    try { if (ui.joinBtn) ui.joinBtn.disabled = false; } catch (_) {}
+    try { if (ui.joinBtn) { ui.joinBtn.disabled = false; ui.joinBtn.textContent = prevText; } } catch (_) {}
+    if (ui.joinStatus) ui.joinStatus.textContent = "¡Listo! Espera a que el anfitrión inicie.";
   }
 
   function bindRoom(roomRef) {
@@ -354,21 +391,45 @@
 
     ui.lobby.style.display = "block";
     showScreen("online-setup");
+    // Ajustar UI de unión: si ya estamos vinculados a una sala, no tiene sentido "Unirme"
+    try {
+      if (ui.joinBtn) { ui.joinBtn.disabled = true; ui.joinBtn.textContent = "En sala"; }
+      if (ui.joinStatus === undefined) ui.joinStatus = document.getElementById("join-status");
+      if (ui.joinStatus) ui.joinStatus.textContent = "Conectado a la sala. Espera a que el anfitrión inicie.";
+    } catch (_) {}
 
-    local.unsubRoom = roomRef.onSnapshot((snap) => {
-      if (!snap.exists) return;
-      renderRoom(snap.data());
-    });
-    local.unsubPlayers = local.playersRef.orderBy("joinedAt").onSnapshot((qs) => {
-      const list = [];
-      qs.forEach((d) => list.push({ id: d.id, ...d.data() }));
-      renderPlayers(list);
-    });
-    local.unsubChat = local.chatRef.orderBy("ts").limit(500).onSnapshot((qs) => {
-      const items = [];
-      qs.forEach((d) => items.push(d.data()));
-      renderChat(items);
-    });
+    local.unsubRoom = roomRef.onSnapshot(
+      (snap) => {
+        if (!snap.exists) return;
+        renderRoom(snap.data());
+      },
+      (err) => {
+        console.error("[Online] room onSnapshot error", err && err.code, err && err.message);
+        showModal({ title: "No se pudo suscribirse a la sala", message: `Código: ${roomRef.id}\n${err?.message || ""}`, confirmText: "Ok" });
+        if (ui.joinStatus) ui.joinStatus.textContent = "Error de permisos o red al leer la sala.";
+      }
+    );
+    local.unsubPlayers = local.playersRef.orderBy("joinedAt").onSnapshot(
+      (qs) => {
+        const list = [];
+        qs.forEach((d) => list.push({ id: d.id, ...d.data() }));
+        renderPlayers(list);
+      },
+      (err) => {
+        console.error("[Online] players onSnapshot error", err && err.code, err && err.message);
+        if (ui.joinStatus) ui.joinStatus.textContent = "Error al leer jugadores (permisos/red).";
+      }
+    );
+    local.unsubChat = local.chatRef.orderBy("ts").limit(500).onSnapshot(
+      (qs) => {
+        const items = [];
+        qs.forEach((d) => items.push(d.data()));
+        renderChat(items);
+      },
+      (err) => {
+        console.error("[Online] chat onSnapshot error", err && err.code, err && err.message);
+      }
+    );
     startPresence();
   }
 
@@ -388,6 +449,14 @@
       li.innerHTML = `<span class="author">${escapeHtml(p.name)}</span> ${p.eliminated ? '<span class="muted">(eliminado)</span>' : ''}`;
       ui.lobbyList.appendChild(li);
     });
+    // Controlar botón iniciar juego según cantidad de jugadores
+    try {
+      const room = local.lastRoomData;
+      if (ui.startBtn && room) {
+        const activeCount = players.filter(p => !p.eliminated).length;
+        ui.startBtn.disabled = !local.user || room.hostId !== local.user.uid || activeCount < 3;
+      }
+    } catch (_) {}
   }
 
   function renderChat(items) {
@@ -411,6 +480,7 @@
   }
 
   function renderRoom(room) {
+    local.lastRoomData = room;
     ui.roomCode.textContent = room.code || "-";
     ui.roomCodeInline.textContent = room.code || "-";
     ui.playTheme.textContent = room.theme || "-";
