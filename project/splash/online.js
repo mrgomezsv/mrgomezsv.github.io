@@ -38,6 +38,7 @@
     createBtn: $("btn-create-room"),
     joinCode: $("join-code"),
     joinBtn: $("btn-join-room"),
+    themeWrap: document.getElementById("theme-wrap"),
     lobby: $("lobby"),
     lobbyList: $("lobby-players"),
     startBtn: $("btn-start-online"),
@@ -137,6 +138,18 @@
         ui.connectStatus.textContent = "Listo. Puedes crear una sala o unirte.";
       }
     }
+  }
+
+  // Modo invitado: ocultar crear sala y selector de tema
+  function setInviteMode(active) {
+    try {
+      if (ui.createBtn) {
+        ui.createBtn.style.display = active ? "none" : "inline-block";
+      }
+      if (ui.themeWrap) {
+        ui.themeWrap.style.display = active ? "none" : "block";
+      }
+    } catch (_) {}
   }
 
   function escapeHtml(str) {
@@ -412,6 +425,8 @@
       showScreen("online-setup");
       ui.startBtn.disabled = !isHost(room);
       if (ui.connectStatus) ui.connectStatus.textContent = "Listo. Puedes crear una sala o unirte.";
+      // Si no soy host, mantener modo invitado (sin crear ni tema)
+      setInviteMode(!isHost(room));
     }
 
     if (room.phase === PHASE.REVEAL) {
@@ -706,6 +721,8 @@
       const savedRoom = normalizeRoomCode(roomParamRaw || localStorage.getItem("imp_room") || "");
       if (savedName) ui.name.value = savedName;
       if (savedRoom) ui.joinCode.value = savedRoom;
+      // Si viene desde invitación (?room=CODE), activar modo invitado (solo unirse)
+      if (roomParamRaw) setInviteMode(true);
       if (savedRoom && !local.roomRef) {
         if (ui.name.value.trim()) {
           showConfirm(`¿Unirte a la sala ${savedRoom} ahora?`, { onConfirm: joinRoom });
