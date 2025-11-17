@@ -453,8 +453,8 @@
     try {
       const room = local.lastRoomData;
       if (ui.startBtn && room) {
-        const activeCount = players.filter(p => !p.eliminated).length;
-        ui.startBtn.disabled = !local.user || room.hostId !== local.user.uid || activeCount < 3;
+        // Permitir que el anfitrión pueda iniciar cuando desee (aunque haya menos de 3)
+        ui.startBtn.disabled = !local.user || room.hostId !== local.user.uid;
       }
     } catch (_) {}
   }
@@ -562,29 +562,35 @@
     const playersSnap = await local.playersRef.get();
     const players = [];
     playersSnap.forEach((d) => { if (!d.data().eliminated) players.push({ id: d.id, name: d.data().name }); });
-    if (players.length < 3) { showModal("Se requieren al menos 3 jugadores"); return; }
+    // Si hay pocos jugadores, confirmar inicio igualmente
+    const proceed = async () => {
+      const playerNames = {};
+      players.forEach((p) => playerNames[p.id] = p.name);
+      const activeIds = players.map(p => p.id);
+      const impostorId = choice(activeIds);
+      const pool = (window.THEME_WORDS && window.THEME_WORDS[ui.theme.value]) || FALLBACK_WORDS[ui.theme.value] || [];
+      const word = choice(pool);
+      await local.roomRef.update({
+        theme: ui.theme.value,
+        playerNames,
+        activeIds,
+        impostorId,
+        word,
+        revealOrder: activeIds,
+        revealIndex: 0,
+        phase: PHASE.REVEAL,
+        round: 1,
+        turnIndex: 0,
+        hintsThisRound: 0,
+        waitingNextRound: false
+      });
+    };
+    if (players.length < 3) {
+      showConfirm("Hay menos de 3 jugadores. ¿Iniciar de todos modos?", { onConfirm: proceed });
+      return;
+    }
 
-    const playerNames = {};
-    players.forEach((p) => playerNames[p.id] = p.name);
-    const activeIds = players.map(p => p.id);
-    const impostorId = choice(activeIds);
-    const pool = (window.THEME_WORDS && window.THEME_WORDS[ui.theme.value]) || FALLBACK_WORDS[ui.theme.value] || [];
-    const word = choice(pool);
-
-    await local.roomRef.update({
-      theme: ui.theme.value,
-      playerNames,
-      activeIds,
-      impostorId,
-      word,
-      revealOrder: activeIds,
-      revealIndex: 0,
-      phase: PHASE.REVEAL,
-      round: 1,
-      turnIndex: 0,
-      hintsThisRound: 0,
-      waitingNextRound: false
-    });
+    await proceed();
   }
 
   // Reveal actions (only current player)
