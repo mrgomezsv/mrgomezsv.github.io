@@ -81,7 +81,9 @@ const THEME_WORDS = {
     "Llave",
     "Cerradura",
     "Escalera",
-    "Pasillo"
+    "Pasillo",
+    "Garaje","Jardín","Sótano","Azotea","Comedor","Lavaplatos","Tetera","Cafetera","Cubeta","Escurridor",
+    "Velador","Chimenea","Habitación","Cuna","Repisa","Biblioteca","Cesto","Interruptor","Foco","Persianas"
   ],
   Trabajo: [
     "Oficina",
@@ -142,7 +144,9 @@ const THEME_WORDS = {
     "Incidente",
     "Prioridad",
     "Deadline",
-    "Entrega"
+    "Entrega",
+    "Recepción","Planilla","Reunión virtual","Firma","Aprobación","Impresora","Escáner","Grapadora","Clip",
+    "Post-it","Marcador","Archivador","Carpeta","Contraseña","Intranet","VPN","Sala de espera","Plantilla","Borrador","Minuta"
   ],
   Transporte: [
     "Auto",
@@ -200,7 +204,9 @@ const THEME_WORDS = {
     "Aterrizaje",
     "Embarque",
     "Aduana",
-    "Control"
+    "Control",
+    "Patineta","Tractor","Teleférico","Tranvía","Velero","Remolque","Carretera","Autopista","Avenida","Rotonda",
+    "Estacionamiento","Peatón","Ciclovía","Caseta","Cambio","Embrague","Itinerario","Parquímetro","Helipuerto","Boya"
   ],
   Comida: [
     "Pizza",
@@ -262,7 +268,9 @@ const THEME_WORDS = {
     "Menú",
     "Receta",
     "Chef",
-    "Cocina"
+    "Cocina",
+    "Hamburguesa","Taco","Empanada","Arepa","Tamales","Sushi","Ceviche","Puré","Enchilada","Guiso",
+    "Tarta","Panqueque","Cereal","Mermelada","Miel","Yuca","Quinoa","Avena","Nuez","Almendra"
   ],
   Naturaleza: [
     "Árbol",
@@ -323,7 +331,9 @@ const THEME_WORDS = {
     "Primavera",
     "Verano",
     "Otoño",
-    "Invierno"
+    "Invierno",
+    "Pradera","Sabana","Humedal","Arroyo","Glaciar","Acantilado","Cañón","Isla","Península","Delta",
+    "Constelación","Rocío","Musgo","Helecho","Cactus","Liana","Matorral","Laguna","Géiser","Manglar"
   ],
   Tecnología: [
     "Computadora",
@@ -389,7 +399,84 @@ const THEME_WORDS = {
     "Git",
     "Repositorio",
     "IDE",
-    "Editor"
+    "Editor",
+    "Laptop","Consola","Joystick","Auriculares","Antena","Navegador","Correo electrónico","Servidor web","API REST","JSON",
+    "BLE","NFC","Código QR","Código de barras","Virtualización","Contenedor","Microservicio","CI/CD","DNS","Cache"
+  ],
+  Animales: [
+    "Perro","Gato","Pájaro","Pez","Caballo","Tortuga","Conejo","Vaca","Oveja","Pollito",
+    "León","Tigre","Mono","Delfín","Elefante","Zorro","Mapache","Panda","Koala","Canguro",
+    "Pingüino","Foca","Ballena","Pulpo","Loro","Águila","Búho","Camello","Rinoceronte","Jirafa"
+  ],
+  Escuela: [
+    "Maestro","Cuaderno","Mochila","Lápiz","Borrador","Regla","Recreo","Tarea","Clase","Pizarra",
+    "Libros","Examen","Uniforme","Receso","Escritorio","Profesor","Directora","Laboratorio","Biblioteca","Patio",
+    "Salón","Pizarrón","Tiza","Marcadores","Sacapuntas","Pegamento","Tijeras","Mapa","Globo terráqueo","Horario"
+  ],
+  Deportes: [
+    "Fútbol","Baloncesto","Tenis","Natación","Correr","Béisbol","Vóley","Ciclismo","Boxeo","Golf",
+    "Esgrima","Rugby","Handball","Bádminton","Ping pong","Esquí","Snowboard","Patinaje","Escalada","Triatlón",
+    "Maratón","Halterofilia","Remo","Clavados","Tiro con arco","Motocross","Parapente","Windsurf","Kitesurf","Parkour"
+  ],
+  Ropa: [
+    "Camisa","Pantalón","Zapatos","Gorra","Chaqueta","Vestido","Medias","Cinturón","Bufanda","Guantes",
+    "Chaleco","Corbata","Pijama","Bata","Impermeable","Overol","Poncho","Traje de baño","Zapatillas","Pantuflas",
+    "Aretes","Collar","Pulsera","Reloj","Lentes","Moño","Tirantes","Botas","Sandalias","Sudadera"
+  ],
+  Colores: [
+    "Rojo","Azul","Verde","Amarillo","Negro","Blanco","Rosa","Morado","Naranja","Café",
+    "Lavanda","Beige","Esmeralda","Oliva","Mostaza","Magenta","Cian","Coral","Marino","Aguamarina",
+    "Violeta","Púrpura","Fucsia","Crema","Chocolate","Pizarra","Perla","Gris claro","Gris oscuro","Azul cielo"
+  ],
+  Familia: [
+    "Mamá","Papá","Hermano","Hermana","Abuela","Abuelo","Tío","Tía","Primo","Prima",
+    "Sobrino","Sobrina","Suegra","Suegro","Yerno","Nuera","Cuñado","Cuñada","Padrino","Madrina",
+    "Nieto","Nieta","Esposo","Esposa","Pareja","Hijo","Hija","Hermana mayor","Hermano menor","Gemelos"
+  ],
+  Juguetes: [
+    "Muñeca","Pelota","Carrito","Rompecabezas","Lego","Yo-yo","Cometa","Tren","Osito","Bloques",
+    "Triciclo","Patines","Balero","Pistola de agua","Dominó","Trompo","Aros","Plastilina","Muñeco de acción","Rompecabezas 3D",
+    "Auto a control","Tetera de juguete","Cocina de juguete","Pista de autos","Peluche grande","Casa de muñecas","Bloques magnéticos","Títeres","Barquito","Ajedrez"
+  ],
+  Instrumentos: [
+    "Guitarra","Piano","Batería","Flauta","Violín","Trompeta","Saxofón","Maracas","Triángulo","Arpa",
+    "Clarinete","Oboe","Fagot","Viola","Cello","Contrabajo","Banjo","Ukelele","Pandero","Bongó",
+    "Cajón","Tambor","Xilófono","Órgano","Armónica","Laúd","Trombón","Tuba","Gaita","Castañuelas"
+  ],
+  Frutas: [
+    "Manzana","Banana","Naranja","Uva","Fresa","Mango","Piña","Sandía","Melón","Pera",
+    "Kiwi","Papaya","Guayaba","Durazno","Ciruela","Arándano","Frambuesa","Cereza","Granada","Mandarina",
+    "Tamarindo","Maracuyá","Higo","Lima","Lichi","Nectarina","Grosella","Pitaya","Carambola","Pomelo"
+  ],
+  Verduras: [
+    "Zanahoria","Lechuga","Tomate","Papa","Cebolla","Pepino","Brócoli","Espinaca","Choclo","Ajo",
+    "Calabaza","Berenjena","Remolacha","Rábano","Coliflor","Repollo","Alcachofa","Espárrago","Apio","Puerro",
+    "Nabo","Camote","Batata","Pimiento","Chile","Acelga","Hongo","Champiñón","Pepinillo","Col"
+  ],
+  Bebidas: [
+    "Agua","Leche","Jugo","Refresco","Café","Té","Chocolate","Limonada","Batido","Malteada",
+    "Agua con gas","Té helado","Latte","Capuchino","Espresso","Batido de fresa","Licuado","Cóctel sin alcohol","Gaseosa","Jugo de naranja",
+    "Jugo de manzana","Mate","Agua de coco","Smoothie","Leche de almendra","Chocolate caliente","Malta","Atole","Agua fresca","Horchata"
+  ],
+  Electrodomésticos: [
+    "Refrigerador","Microondas","Horno","Licuadora","Tostadora","Lavadora","Secadora","Plancha","Ventilador","Aspiradora",
+    "Lavavajillas","Freidora de aire","Horno eléctrico","Procesador","Purificador","Calentador","Deshumidificador","Humidificador","Secadora de cabello","Rizador",
+    "Plancha de cabello","Dispensador de agua","Cafetera de cápsulas","Robot aspirador","Campana extractora","Parrilla eléctrica","Sandwichera","Hervidor","Cortadora de pelo","Proyector"
+  ],
+  Ciudad: [
+    "Plaza","Parque","Museo","Banco","Escuela","Hospital","Mercado","Cine","Teatro","Restaurante",
+    "Semáforo","Puente peatonal","Rotonda","Avenida","Callejón","Estacionamiento","Terminal","Kiosco","Fuente","Monumento",
+    "Ayuntamiento","Correos","Farmacia","Panadería","Supermercado","Taller","Gasolinera","Metrobús","Metro","Tren urbano"
+  ],
+  Oficios: [
+    "Doctor","Bombero","Maestro","Carpintero","Panadero","Cocinero","Policía","Ingeniero","Mecánico","Jardinero",
+    "Fotógrafo","Diseñador","Programador","Enfermera","Veterinario","Electricista","Plomero","Pintor","Albañil","Soldador",
+    "Barbero","Estilista","Contador","Abogado","Arquitecto","Piloto","Azafata","Conductor","Florista","Vendedor"
+  ],
+  Cuerpo: [
+    "Cabeza","Mano","Pie","Brazo","Pierna","Ojo","Nariz","Boca","Oreja","Dedo",
+    "Rodilla","Codo","Hombro","Cuello","Espalda","Cadera","Tobillo","Talón","Uña","Pestañas",
+    "Ceja","Diente","Lengua","Palma","Muñeca","Nudillo","Pupila","Pulmón","Corazón","Estómago"
   ]
 };
 

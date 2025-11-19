@@ -66,11 +66,13 @@
     btnHideNext: $("btn-hide-next"),
     playTheme: $("play-theme"),
     roundNumber: $("round-number"),
+    playHint: $("play-hint"),
     turnPlayer: $("turn-player"),
     chatLog: $("chat-log"),
     hintForm: $("hint-form"),
     hintInput: $("hint-input"),
     btnNewRound: $("btn-new-round"),
+    btnExtraRound: $("btn-extra-round"),
     btnGoVote: $("btn-go-vote"),
     voteCounter: $("vote-counter"),
     votePlayerName: $("vote-player-name"),
@@ -103,11 +105,26 @@
   // Fallback de palabras si no existe window.THEME_WORDS (no cargamos el script local)
   const FALLBACK_WORDS = {
     Hogar: ["Casa","Cocina","Cama","Sofá","Ventana","Puerta","Mesa","Silla","Lámpara","Baño"],
-    Trabajo: ["Oficina","Jefe","Reunión","Teclado","Escritorio","Proyecto","Informe","Correo","Horario","Meta"],
-    Transporte: ["Auto","Autobús","Bicicleta","Avión","Tren","Estación","Semáforo","Tráfico","Taxi","Metro"],
-    Comida: ["Pizza","Sopa","Carne","Arroz","Ensalada","Pan","Queso","Huevo","Fruta","Salsa"],
+    Trabajo: ["Oficina","Jefe","Reunión","Teclado","Escritorio","Proyecto","Informe","Correo","Horario","Meta","Contrato","Plan","Cliente","Venta","Meta"],
+    Transporte: ["Auto","Autobús","Bicicleta","Avión","Tren","Estación","Semáforo","Tráfico","Taxi","Metro","Barco","Puerto","Casco","Cinturón","Peaje"],
+    Comida: ["Pizza","Sopa","Carne","Arroz","Ensalada","Pan","Queso","Huevo","Fruta","Salsa","Torta","Helado","Galleta","Jugos","Sándwich"],
     Naturaleza: ["Árbol","Río","Montaña","Playa","Bosque","Viento","Lluvia","Sol","Nube","Nieve"],
-    Tecnología: ["Computadora","Celular","Internet","Robot","Servidor","Red","Código","Pantalla","Teclado","Router"]
+    Tecnología: ["Computadora","Celular","Internet","Robot","Servidor","Red","Código","Pantalla","Teclado","Router"],
+    Animales: ["Perro","Gato","Pájaro","Pez","Caballo","Tortuga","Conejo","Vaca","Oveja","Pollito","León","Tigre","Mono","Delfín","Elefante"],
+    Escuela: ["Maestro","Cuaderno","Mochila","Lápiz","Borrador","Regla","Recreo","Tarea","Clase","Pizarra","Libros","Examen","Uniforme","Receso","Escritorio"],
+    Deportes: ["Fútbol","Baloncesto","Tenis","Natación","Correr","Béisbol","Vóley","Ciclismo","Boxeo","Golf","Karate","Skate","Surf","Ajedrez","Gimnasia"],
+    Ropa: ["Camisa","Pantalón","Zapatos","Gorra","Chaqueta","Vestido","Medias","Cinturón","Bufanda","Guantes","Sombrero","Falda","Traje","Botas","Sandalias"],
+    Colores: ["Rojo","Azul","Verde","Amarillo","Negro","Blanco","Rosa","Morado","Naranja","Café","Gris","Celeste","Vino","Turquesa","Dorado"],
+    Familia: ["Mamá","Papá","Hermano","Hermana","Abuela","Abuelo","Tío","Tía","Primo","Prima"],
+    Juguetes: ["Muñeca","Pelota","Carrito","Rompecabezas","Lego","Yo-yo","Cometa","Tren","Osito","Bloques"],
+    Instrumentos: ["Guitarra","Piano","Batería","Flauta","Violín","Trompeta","Saxofón","Maracas","Triángulo","Arpa"],
+    Frutas: ["Manzana","Banana","Naranja","Uva","Fresa","Mango","Piña","Sandía","Melón","Pera"],
+    Verduras: ["Zanahoria","Lechuga","Tomate","Papa","Cebolla","Pepino","Brócoli","Espinaca","Choclo","Ajo"],
+    Bebidas: ["Agua","Leche","Jugo","Refresco","Café","Té","Chocolate","Limonada","Batido","Malteada"],
+    Electrodomésticos: ["Refrigerador","Microondas","Horno","Licuadora","Tostadora","Lavadora","Secadora","Plancha","Ventilador","Aspiradora"],
+    Ciudad: ["Plaza","Parque","Museo","Banco","Escuela","Hospital","Mercado","Cine","Teatro","Restaurante"],
+    Oficios: ["Doctor","Bombero","Maestro","Carpintero","Panadero","Cocinero","Policía","Ingeniero","Mecánico","Jardinero"],
+    Cuerpo: ["Cabeza","Mano","Pie","Brazo","Pierna","Ojo","Nariz","Boca","Oreja","Dedo"]
   };
 
   function roomIdFromCode(code) { return code.toUpperCase(); }
@@ -131,6 +148,17 @@
     const url = new URL(window.location.href);
     url.searchParams.set("room", code);
     return url.toString();
+  }
+
+  function stripDiacritics(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function generateHint(word) {
+    const clean = stripDiacritics(word.replace(/\\s+/g, ""));
+    if (!clean) return "Palabra secreta lista";
+    const first = clean[0].toUpperCase();
+    return `Empieza con "${first}" y tiene ${clean.length} letras`;
   }
 
   // Extrae un código válido de 6 caracteres [A-Z0-9] desde cualquier texto
@@ -484,6 +512,7 @@
     ui.roomCode.textContent = room.code || "-";
     ui.roomCodeInline.textContent = room.code || "-";
     ui.playTheme.textContent = room.theme || "-";
+    if (ui.playHint) ui.playHint.textContent = room.hint || "-";
     ui.roundNumber.textContent = String(room.round || 1);
     // Deshabilitar Unirme si ya estamos dentro de esta sala
     try { if (ui.joinBtn) ui.joinBtn.disabled = !!(local.roomRef && local.roomRef.id === (room.code || "")); } catch (_) {}
@@ -524,20 +553,24 @@
       const submitBtn = ui.hintForm.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = !myTurn;
 
+      // El anfitrión puede ir a votación en cualquier ronda
+      if (ui.btnGoVote) ui.btnGoVote.style.display = isHost(room) ? "inline-block" : "none";
+
       if (room.waitingNextRound) {
         ui.hintInput.disabled = true;
         if (submitBtn) submitBtn.disabled = true;
         if (room.round < (room.maxRounds || 3)) {
           ui.btnNewRound.disabled = !isHost(room);
           ui.btnNewRound.textContent = `Comenzar ronda ${room.round + 1}`;
-          ui.btnGoVote.style.display = "none";
+          if (ui.btnExtraRound) ui.btnExtraRound.style.display = "none";
         } else {
           ui.btnNewRound.disabled = true;
-          ui.btnGoVote.style.display = isHost(room) ? "inline-block" : "none";
+          // Ronda final: ofrecer otra ronda además de ir a votación
+          if (ui.btnExtraRound) ui.btnExtraRound.style.display = isHost(room) ? "inline-block" : "none";
         }
       } else {
         ui.btnNewRound.disabled = true;
-        ui.btnGoVote.style.display = "none";
+        if (ui.btnExtraRound) ui.btnExtraRound.style.display = "none";
       }
     }
 
@@ -570,12 +603,14 @@
       const impostorId = choice(activeIds);
       const pool = (window.THEME_WORDS && window.THEME_WORDS[ui.theme.value]) || FALLBACK_WORDS[ui.theme.value] || [];
       const word = choice(pool);
+      const hint = generateHint(word);
       await local.roomRef.update({
         theme: ui.theme.value,
         playerNames,
         activeIds,
         impostorId,
         word,
+        hint,
         revealOrder: activeIds,
         revealIndex: 0,
         phase: PHASE.REVEAL,
@@ -661,6 +696,14 @@
     const room = snap.data();
     if (!isHost(room)) return;
     await local.roomRef.update({ phase: PHASE.VOTE, vote: { votes: {}, orderIndex: 0, tie: false } });
+  }
+  async function addExtraRound() {
+    const snap = await local.roomRef.get();
+    const room = snap.data();
+    if (!isHost(room)) return;
+    const newMax = (room.maxRounds || 3) + 1;
+    await local.roomRef.update({ maxRounds: newMax });
+    await startNextRound();
   }
 
   // Voting
@@ -818,6 +861,7 @@
   ui.hintForm.addEventListener("submit", submitHint);
   ui.btnNewRound.addEventListener("click", () => showConfirm("¿Comenzar la siguiente ronda?", { onConfirm: startNextRound }));
   ui.btnGoVote.addEventListener("click", () => showConfirm("¿Ir a votación ahora?", { onConfirm: goToVote }));
+  if (ui.btnExtraRound) ui.btnExtraRound.addEventListener("click", () => showConfirm("¿Agregar otra ronda?", { onConfirm: addExtraRound }));
   ui.btnStartRevote.addEventListener("click", startRevote);
   ui.leaveBtn.addEventListener("click", () => showConfirm("¿Salir de la sala?", { onConfirm: leaveRoom }));
   if (ui.helpBtn) ui.helpBtn.addEventListener("click", startTutorial);

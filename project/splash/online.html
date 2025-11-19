@@ -9,7 +9,7 @@
   </head>
   <body>
     <header class="app-header">
-      <h1>Impostor (On Line) 2.0</h1>
+      <h1>Impostor (On Line) 1.0.0</h1>
       <p class="subtitle">Juega por sesiones con tus compañeros de trabajo!!!</p>
     </header>
 
@@ -34,6 +34,21 @@
               <option value="Comida">Comida</option>
               <option value="Naturaleza">Naturaleza</option>
               <option value="Tecnología">Tecnología</option>
+              <option value="Animales">Animales</option>
+              <option value="Escuela">Escuela</option>
+              <option value="Deportes">Deportes</option>
+              <option value="Ropa">Ropa</option>
+              <option value="Colores">Colores</option>
+              <option value="Familia">Familia</option>
+              <option value="Juguetes">Juguetes</option>
+              <option value="Instrumentos">Instrumentos</option>
+              <option value="Frutas">Frutas</option>
+              <option value="Verduras">Verduras</option>
+              <option value="Bebidas">Bebidas</option>
+              <option value="Electrodomésticos">Electrodomésticos</option>
+              <option value="Ciudad">Ciudad</option>
+              <option value="Oficios">Oficios</option>
+              <option value="Cuerpo">Cuerpo</option>
             </select>
           </div>
 
@@ -99,6 +114,7 @@
             <div>
               <h2>Partida en curso</h2>
               <p class="theme-line">Tema: <strong id="play-theme">-</strong> • Sala <strong id="room-code-inline">-</strong></p>
+              <p class="theme-line">Pista: <strong id="play-hint">-</strong></p>
             </div>
             <div class="round-info">
               <span>Ronda <strong id="round-number">1</strong></span>
@@ -122,6 +138,7 @@
           <div class="play-actions">
             <button id="btn-reveal-result" class="btn btn-ghost" type="button">Revelar palabra e impostor</button>
             <button id="btn-new-round" class="btn" type="button" disabled>Nueva ronda</button>
+            <button id="btn-extra-round" class="btn" type="button" style="display:none;">Otra ronda</button>
             <button id="btn-go-vote" class="btn btn-primary" type="button" style="display:none;">Ir a votación</button>
           </div>
         </div>
