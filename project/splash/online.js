@@ -322,6 +322,8 @@
       hostId: user.uid,
       theme: ui.theme.value,
       created,
+      joinOpen: true,
+      closed: false,
       phase: PHASE.LOBBY,
       round: 1,
       maxRounds: 3,
@@ -394,6 +396,19 @@
       showModal("La sala no existe");
       try { if (ui.joinBtn) { ui.joinBtn.disabled = false; ui.joinBtn.textContent = prevText; } } catch (_) {}
       if (ui.joinStatus) ui.joinStatus.textContent = "La sala no existe o el código es incorrecto.";
+      return;
+    }
+    const roomData = room.data();
+    if (roomData.closed) {
+      showModal({ title: "Sala cerrada", message: "Esta sala ya no está disponible." });
+      try { if (ui.joinBtn) { ui.joinBtn.disabled = false; ui.joinBtn.textContent = prevText; } } catch (_) {}
+      if (ui.joinStatus) ui.joinStatus.textContent = "Sala cerrada.";
+      return;
+    }
+    if (roomData.phase !== PHASE.LOBBY || roomData.joinOpen === false) {
+      showModal({ title: "Juego en curso", message: "La partida ya inició. Solo puedes unirte antes de iniciar." });
+      try { if (ui.joinBtn) { ui.joinBtn.disabled = false; ui.joinBtn.textContent = prevText; } } catch (_) {}
+      if (ui.joinStatus) ui.joinStatus.textContent = "Juego en curso.";
       return;
     }
     const now = Date.now();
@@ -641,6 +656,7 @@
         hint,
         revealOrder: activeIds,
         revealIndex: 0,
+        joinOpen: false,
         phase: PHASE.REVEAL,
         round: 1,
         turnIndex: 0,
@@ -819,12 +835,12 @@
       }
       const eliminated = top[0];
       if (eliminated === room.impostorId) {
-        await local.roomRef.update({ phase: PHASE.RESULTS });
+        await local.roomRef.update({ phase: PHASE.RESULTS, closed: true, joinOpen: false });
         return;
       }
       const newActive = active.filter((id) => id !== eliminated);
       if (newActive.length <= 1) {
-        await local.roomRef.update({ phase: PHASE.RESULTS, activeIds: newActive });
+        await local.roomRef.update({ phase: PHASE.RESULTS, activeIds: newActive, closed: true, joinOpen: false });
         return;
       }
       await local.roomRef.update({ activeIds: newActive, vote: { votes: {}, orderIndex: 0, tie: false } });
