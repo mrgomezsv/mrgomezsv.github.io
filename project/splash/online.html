@@ -9,7 +9,7 @@
   </head>
   <body>
     <header class="app-header">
-      <h1>Impostor (On Line) 1.0.0</h1>
+      <h1>Impostor Tec</h1>
       <p class="subtitle">Juega por sesiones con tus compañeros de trabajo!!!</p>
     </header>
 
@@ -109,8 +109,9 @@
 
       <!-- Pantalla: Juego (pistas por turnos) online -->
       <section id="screen-play" class="screen">
-        <div class="card">
-          <div class="play-header">
+        <div class="card play-grid">
+          <div class="play-left">
+            <div class="play-header">
             <div>
               <h2>Partida en curso</h2>
               <p class="theme-line">Tema: <strong id="play-theme">-</strong> • Sala <strong id="room-code-inline">-</strong></p>
@@ -119,28 +120,42 @@
             <div class="round-info">
               <span>Ronda <strong id="round-number">1</strong></span>
             </div>
+            </div>
+
+            <div class="turn-info">
+              <span>Turno de:</span>
+              <strong id="turn-player">-</strong>
+            </div>
+
+            <div class="chat" style="display:none"><ul id="chat-log" class="chat-log"></ul></div>
+
+            <form id="hint-form" class="hint-form" autocomplete="off">
+              <input id="hint-input" class="input" type="text" placeholder="Escribe tu pista" required />
+              <button class="btn btn-primary" type="submit" disabled>Enviar pista</button>
+            </form>
+
+            <div class="play-actions">
+              <button id="btn-reveal-result" class="btn btn-ghost" type="button">Revelar palabra e impostor</button>
+              <button id="btn-new-round" class="btn" type="button" disabled>Nueva ronda</button>
+              <button id="btn-extra-round" class="btn" type="button" style="display:none;">Otra ronda</button>
+              <button id="btn-go-vote" class="btn btn-primary" type="button" style="display:none;">Ir a votación</button>
+            </div>
           </div>
 
-          <div class="turn-info">
-            <span>Turno de:</span>
-            <strong id="turn-player">-</strong>
-          </div>
-
-          <div class="chat">
-            <ul id="chat-log" class="chat-log"></ul>
-          </div>
-
-          <form id="hint-form" class="hint-form" autocomplete="off">
-            <input id="hint-input" class="input" type="text" placeholder="Escribe tu pista" required />
-            <button class="btn btn-primary" type="submit" disabled>Enviar pista</button>
-          </form>
-
-          <div class="play-actions">
-            <button id="btn-reveal-result" class="btn btn-ghost" type="button">Revelar palabra e impostor</button>
-            <button id="btn-new-round" class="btn" type="button" disabled>Nueva ronda</button>
-            <button id="btn-extra-round" class="btn" type="button" style="display:none;">Otra ronda</button>
-            <button id="btn-go-vote" class="btn btn-primary" type="button" style="display:none;">Ir a votación</button>
-          </div>
+          <aside class="play-right">
+            <h3 style="margin:0 0 8px 0;">Chat</h3>
+            <div class="chat">
+              <ul id="chat-log" class="chat-log"></ul>
+            </div>
+            <form id="chat-form" class="hint-form" autocomplete="off" style="margin-top:8px;">
+              <input id="chat-input" class="input" type="text" placeholder="Escribe un mensaje" />
+              <button class="btn" type="submit">Enviar</button>
+            </form>
+            <div class="players-actions" style="margin-top:8px;">
+              <select id="nudge-target" class="select" style="flex:1 1 auto;"></select>
+              <button id="btn-nudge" class="btn btn-ghost" type="button" title="Enviar zumbido">Enviar sumbido</button>
+            </div>
+          </aside>
         </div>
       </section>
 

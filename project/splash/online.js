@@ -69,8 +69,12 @@
     playHint: $("play-hint"),
     turnPlayer: $("turn-player"),
     chatLog: $("chat-log"),
+    chatForm: $("chat-form"),
+    chatInput: $("chat-input"),
     hintForm: $("hint-form"),
     hintInput: $("hint-input"),
+    nudgeBtn: $("btn-nudge"),
+    nudgeTarget: $("nudge-target"),
     btnNewRound: $("btn-new-round"),
     btnExtraRound: $("btn-extra-round"),
     btnGoVote: $("btn-go-vote"),
@@ -93,7 +97,8 @@
     unsubChat: null,
     revealShown: false,
     presenceTimer: null,
-    lastRoomData: null
+    lastRoomData: null,
+    nudgeCooldown: false
   };
 
   const PHASE = { LOBBY: "lobby", REVEAL: "reveal", PLAY: "play", VOTE: "vote", RESULTS: "results" };
@@ -453,6 +458,10 @@
         const items = [];
         qs.forEach((d) => items.push(d.data()));
         renderChat(items);
+        const last = items[items.length - 1];
+        if (last && last.type === "nudge" && last.to === getMyId()) {
+          vibrateAndChime();
+        }
       },
       (err) => {
         console.error("[Online] chat onSnapshot error", err && err.code, err && err.message);
@@ -492,7 +501,14 @@
     items.forEach((item) => {
       const li = document.createElement("li");
       li.className = "chat-item";
-      li.innerHTML = `<span class="author">${escapeHtml(item.name)}</span> <span class="text">${escapeHtml(item.text)}</span> <span class="muted">(Ronda ${item.round})</span>`;
+      if (item.type === "nudge") {
+        const targetName = (local.lastRoomData && local.lastRoomData.playerNames && local.lastRoomData.playerNames[item.to]) || item.to || "";
+        li.innerHTML = `<div class="bubble-system">🔔 ${escapeHtml(item.name)} envió un sumbido a ${escapeHtml(targetName)}</div>`;
+      } else {
+        const bubbleClass = item.uid === getMyId() ? "bubble-self" : "bubble-other";
+        const tag = item.type === "hint" ? '<span class="muted">(pista)</span>' : '';
+        li.innerHTML = `<div class="${bubbleClass}"><span class="author">${escapeHtml(item.name)}</span> <span class="text">${escapeHtml(item.text || "")}</span> ${tag}</div>`;
+      }
       ui.chatLog.appendChild(li);
     });
     ui.chatLog.scrollTop = ui.chatLog.scrollHeight;
@@ -555,6 +571,18 @@
 
       // El anfitrión puede ir a votación en cualquier ronda
       if (ui.btnGoVote) ui.btnGoVote.style.display = isHost(room) ? "inline-block" : "none";
+      // Rellenar objetivos del sumbido
+      if (ui.nudgeTarget) {
+        const me = getMyId();
+        ui.nudgeTarget.innerHTML = "";
+        (room.activeIds || []).forEach((uid) => {
+          if (uid === me) return;
+          const opt = document.createElement("option");
+          opt.value = uid;
+          opt.textContent = room.playerNames?.[uid] || uid;
+          ui.nudgeTarget.appendChild(opt);
+        });
+      }
 
       if (room.waitingNextRound) {
         ui.hintInput.disabled = true;
@@ -675,6 +703,48 @@
       const nextTurn = (room.turnIndex || 0) + 1 >= activeCount ? 0 : (room.turnIndex || 0) + 1;
       await local.roomRef.update({ hintsThisRound: hints, turnIndex: nextTurn });
     }
+  }
+
+  // Chat general
+  async function sendChat(ev) {
+    ev.preventDefault();
+    const text = (ui.chatInput && ui.chatInput.value || "").trim();
+    if (!text) return;
+    const name = local.lastRoomData && local.lastRoomData.playerNames ? (local.lastRoomData.playerNames[getMyId()] || "-") : "-";
+    await local.chatRef.add({ ts: Date.now(), uid: getMyId(), name, text, type: "chat" });
+    ui.chatInput.value = "";
+  }
+
+  // Sumbido (nudge)
+  async function sendNudge() {
+    if (local.nudgeCooldown) return;
+    const to = ui.nudgeTarget && ui.nudgeTarget.value;
+    if (!to) { showModal("Selecciona a quién enviar el sumbido"); return; }
+    const name = local.lastRoomData && local.lastRoomData.playerNames ? (local.lastRoomData.playerNames[getMyId()] || "-") : "-";
+    await local.chatRef.add({ ts: Date.now(), uid: getMyId(), name, type: "nudge", to });
+    local.nudgeCooldown = true;
+    if (ui.nudgeBtn) { ui.nudgeBtn.disabled = true; ui.nudgeBtn.textContent = "Sumbido enviado"; }
+    setTimeout(() => {
+      local.nudgeCooldown = false;
+      if (ui.nudgeBtn) { ui.nudgeBtn.disabled = false; ui.nudgeBtn.textContent = "Enviar sumbido"; }
+    }, 60000);
+  }
+
+  function vibrateAndChime() {
+    try { navigator.vibrate && navigator.vibrate([120, 60, 120]); } catch (_) {}
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(880, ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(1318.5, ctx.currentTime + 0.25);
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.4, ctx.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(); o.stop(ctx.currentTime + 0.5);
+    } catch (_) {}
   }
 
   async function startNextRound() {
@@ -865,6 +935,8 @@
   ui.btnStartRevote.addEventListener("click", startRevote);
   ui.leaveBtn.addEventListener("click", () => showConfirm("¿Salir de la sala?", { onConfirm: leaveRoom }));
   if (ui.helpBtn) ui.helpBtn.addEventListener("click", startTutorial);
+  if (ui.chatForm) ui.chatForm.addEventListener("submit", sendChat);
+  if (ui.nudgeBtn) ui.nudgeBtn.addEventListener("click", sendNudge);
   if (ui.copyCode) ui.copyCode.addEventListener("click", async () => {
     const code = ui.roomCode.textContent.trim();
     if (!code) return;
