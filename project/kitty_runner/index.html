@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎀 Kitty Runner — Podómetro con control de apps</title>
+  <link rel="icon" type="image/jpeg" href="../../img/favicon.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink: #FF4D8D;
+      --pink-light: #FFB6C1;
+      --pink-dark: #E8437A;
+      --bg: #FFF0F5;
+      --bg-card: #FFFFFF;
+      --text: #4A3E4D;
+      --text-light: #8E7F93;
+      --border: #FFD6E0;
+      --shadow: 0 8px 32px rgba(255, 77, 141, 0.15);
+      --radius: 20px;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: linear-gradient(180deg, #FFF0F5 0%, #FFE4EC 50%, #FFD6E0 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '🌸';
+      position: absolute;
+      top: 5%;
+      left: 8%;
+      font-size: 4rem;
+      opacity: 0.6;
+      animation: float 6s ease-in-out infinite;
+    }
+    .hero::after {
+      content: '🎀';
+      position: absolute;
+      bottom: 8%;
+      right: 10%;
+      font-size: 3.5rem;
+      opacity: 0.5;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--pink);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 0.4rem 1.2rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .emoji { font-size: 0.9em; }
+
+    .hero .subtitle {
+      font-size: clamp(1rem, 2.2vw, 1.3rem);
+      color: var(--text-light);
+      max-width: 520px;
+      margin: 1rem auto 2rem;
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 2rem;
+      border-radius: 100px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--pink);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(255, 77, 141, 0.35);
+    }
+    .btn-primary:hover {
+      background: var(--pink-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(255, 77, 141, 0.45);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--pink);
+      color: var(--pink);
+      transform: translateY(-2px);
+    }
+
+    /* ─── PHONE MOCKUP ─── */
+    .phone-mockup {
+      width: 280px;
+      height: 580px;
+      background: #fff;
+      border-radius: 40px;
+      border: 3px solid var(--pink-light);
+      box-shadow: var(--shadow), 0 0 0 8px #fff, 0 0 0 11px var(--pink-light);
+      overflow: hidden;
+      position: relative;
+      margin: 2rem auto;
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 26px;
+      background: #1a1a1a;
+      border-radius: 0 0 16px 16px;
+      z-index: 10;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ─── PHONE CAROUSEL ─── */
+    .phone-carousel {
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      padding: 1rem 0 2rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .phone-carousel::-webkit-scrollbar { height: 6px; }
+    .phone-carousel::-webkit-scrollbar-thumb { background: var(--pink-light); border-radius: 3px; }
+    .phone-carousel::-webkit-scrollbar-track { background: transparent; }
+
+    .phone-carousel .phone-mockup {
+      flex: 0 0 260px;
+      height: 540px;
+      scroll-snap-align: center;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      padding: 5rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    section h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+    section h2 .emoji { font-size: 0.9em; }
+
+    section .section-desc {
+      text-align: center;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto 3rem;
+      font-size: 1.05rem;
+    }
+
+    /* ─── FEATURES GRID ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem 1.5rem;
+      transition: all 0.25s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .feature-card .icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+    }
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .feature-card p {
+      font-size: 0.92rem;
+      color: var(--text-light);
+    }
+
+    /* ─── RELEASE NOTES ─── */
+    .release-notes {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .release-notes .version {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--pink);
+      margin-bottom: 0.25rem;
+    }
+    .release-notes h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+    .release-notes .date {
+      color: var(--text-light);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .release-notes ul {
+      list-style: none;
+      padding: 0;
+    }
+    .release-notes li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+      display: flex;
+      gap: 0.6rem;
+    }
+    .release-notes li:last-child { border: none; }
+    .release-notes li .tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+    .tag-fix { background: #FFE4EC; color: #D6336C; }
+    .tag-perf { background: #E0F4FF; color: #0077B6; }
+    .tag-feat { background: #E8F5E9; color: #2E7D32; }
+
+    /* ─── DOWNLOAD ─── */
+    .download-section {
+      text-align: center;
+    }
+    .download-section .btn {
+      font-size: 1.1rem;
+      padding: 1rem 2.5rem;
+    }
+    .download-section .note {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-top: 0.75rem;
+    }
+    .download-section .platform-tags {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 1rem 0 0.5rem;
+    }
+    .platform-tags span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.3rem 0.8rem;
+      border-radius: 8px;
+    }
+    .platform-android { background: #E8F5E9; color: #2E7D32; }
+    .platform-ios { background: #FFF8E1; color: #F57F17; }
+
+    /* ─── FOOTER ─── */
+    .page-footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--text-light);
+      font-size: 0.85rem;
+      border-top: 2px solid var(--border);
+    }
+    .page-footer a {
+      color: var(--pink);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .phone-mockup { width: 220px; height: 460px; border-radius: 30px; }
+      .phone-carousel .phone-mockup { flex: 0 0 200px; height: 420px; }
+      .release-notes { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════ HERO ════════════════════ -->
+  <header class="hero">
+    <span class="hero-badge">🏃‍♀️ v1.0.2 Beta</span>
+    <h1>
+      <span class="emoji">🎀</span> Kitty Runner <span class="emoji">🎀</span>
+    </h1>
+    <p class="subtitle">
+      Tu podómetro inteligente con control de apps.<br>
+      Camina, cumple metas y mantén el foco.
+    </p>
+    <div class="hero-actions">
+      <a href="#download" class="btn btn-primary">📲 Descargar APK</a>
+      <a href="#changelog" class="btn btn-secondary">📋 Novedades</a>
+    </div>
+
+    <!-- Phone mockup with real login screenshot -->
+    <div class="phone-mockup">
+      <div class="phone-notch"></div>
+      <img class="phone-screen" src="img/screen_login.png" alt="Kitty Runner Login Screen">
+    </div>
+  </header>
+
+  <!-- ════════════════════ FEATURES ════════════════════ -->
+  <section>
+    <h2><span class="emoji">✨</span> ¿Qué hace Kitty Runner?</h2>
+    <p class="section-desc">
+      Una app coquette que convierte tus pasos en superpoderes
+      para mantenerte enfocado en lo que importa.
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">👟</div>
+        <h3>Podómetro en vivo</h3>
+        <p>Cuenta tus pasos en tiempo real con meta horaria. Cada hora, un nuevo reto.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔒</div>
+        <h3>Bloqueo de apps</h3>
+        <p>Selecciona apps que solo se desbloquearán al cumplir tu meta de pasos. ¡Sin excusas!</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎯</div>
+        <h3>Metas dinámicas</h3>
+        <p>Si sientes que puedes más, sube la meta sobre la marcha. Tú decides tu límite.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🏆</div>
+        <h3>Logros y puntos</h3>
+        <p>Desbloquea logros kawaii como "Novato Runner 🎀" y "Kitty Power 🍓" mientras avanzas.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">☁️</div>
+        <h3>Sincronización en la nube</h3>
+        <p>Tu progreso se guarda automáticamente en Firebase. Cambia de dispositivo sin perder datos.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎨</div>
+        <h3>Diseño Coquette</h3>
+        <p>Interfaz rosa pastel con detalles kawaii. Porque ser productiva también es bonito 🌸</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ SCREENSHOTS ════════════════════ -->
+  <section>
+    <h2><span class="emoji">📱</span> Así se ve</h2>
+    <p class="section-desc">
+      Una interfaz limpia, rosa y llena de personalidad.
+    </p>
+
+    <div class="phone-carousel">
+
+      <!-- Login screen (real) -->
+      <div class="phone-mockup">
+        <div class="phone-notch"></div>
+        <img class="phone-screen" src="img/screen_login.png" alt="Login screen">
+      </div>
+
+      <!-- Dashboard mockup -->
+      <div class="phone-mockup" style="background: #FFF0F5; display: flex; flex-direction: column; padding: 2rem 1.2rem;">
+        <div class="phone-notch" style="background: var(--pink-dark);"></div>
+        <div style="flex:1; display:flex; flex-direction:column; padding-top:0.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+            <span style="font-size:0.75rem; font-weight:800; color:var(--text-light);">🐱 Hola, Mario</span>
+            <span style="font-size:0.65rem; font-weight:800; color:var(--pink);">🌸 12:30 PM</span>
+          </div>
+          <div style="background:#fff; border-radius:16px; padding:1rem; border:2px solid var(--border); margin-bottom:0.8rem; text-align:center;">
+            <div style="font-size:0.7rem; font-weight:800; color:var(--text-light); text-transform:uppercase; letter-spacing:1px;">Pasos esta hora</div>
+            <div style="font-size:2.2rem; font-weight:900; color:var(--pink); margin:0.25rem 0;">450</div>
+            <div style="height:6px; background:var(--border); border-radius:3px; overflow:hidden; margin:0.5rem 0;">
+              <div style="width:45%; height:100%; background:var(--pink); border-radius:3px;"></div>
+            </div>
+            <div style="font-size:0.7rem; color:var(--text-light);">Meta: <strong style="color:var(--text);">1,000</strong> pasos</div>
+          </div>
+          <div style="background:#fff; border-radius:16px; padding:0.8rem 1rem; border:2px solid var(--border);">
+            <div style="font-size:0.7rem; font-weight:800; color:var(--text-light); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">📊 Historial</div>
+            <div style="display:flex; justify-content:space-between; font-size:0.65rem; color:var(--text-light);">
+              <span>10AM</span><span>11AM</span><span>12PM</span><span>01PM</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:0.3rem;">
+              <span style="font-size:0.7rem; font-weight:700;">🌸</span>
+              <span style="font-size:0.7rem; font-weight:700;">🌸</span>
+              <span style="font-size:0.7rem; font-weight:700; color:var(--pink);">🏃‍♀️</span>
+              <span style="font-size:0.7rem; font-weight:700; color:var(--text-light);">⏳</span>
+            </div>
+          </div>
+          <div style="margin-top:auto; padding-top:0.8rem;">
+            <div style="display:flex; gap:0.5rem;">
+              <div style="flex:1; background:#fff; border-radius:12px; padding:0.5rem; border:2px solid var(--border); text-align:center;">
+                <div style="font-size:1.2rem;">👟</div>
+                <div style="font-size:0.6rem; font-weight:800; color:var(--text-light);">Panel</div>
+              </div>
+              <div style="flex:1; background:var(--pink); border-radius:12px; padding:0.5rem; text-align:center;">
+                <div style="font-size:1.2rem;">📱</div>
+                <div style="font-size:0.6rem; font-weight:800; color:#fff;">Apps</div>
+              </div>
+              <div style="flex:1; background:#fff; border-radius:12px; padding:0.5rem; border:2px solid var(--border); text-align:center;">
+                <div style="font-size:1.2rem;">⚙️</div>
+                <div style="font-size:0.6rem; font-weight:800; color:var(--text-light);">Ajustes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Launcher mockup -->
+      <div class="phone-mockup" style="background: #FFF0F5; display: flex; flex-direction: column; padding: 2rem 1.2rem;">
+        <div class="phone-notch" style="background: var(--pink-dark);"></div>
+        <div style="flex:1; display:flex; flex-direction:column; padding-top:0.5rem;">
+          <div style="font-size:0.85rem; font-weight:800; margin-bottom:0.8rem;">📱 Apps bloqueadas</div>
+          <div style="background:#fff; border-radius:14px; border:2px solid var(--border); overflow:hidden;">
+            <div style="display:flex; align-items:center; padding:0.8rem 1rem; border-bottom:1px solid var(--border);">
+              <span style="font-size:1.1rem; margin-right:0.6rem;">📸</span>
+              <div style="flex:1;"><div style="font-size:0.8rem; font-weight:700;">Instagram</div><div style="font-size:0.6rem; color:var(--text-light);">com.instagram.android</div></div>
+              <div style="background:var(--pink); border-radius:20px; width:42px; height:24px; position:relative;">
+                <div style="position:absolute; right:3px; top:3px; width:18px; height:18px; background:#fff; border-radius:50%;"></div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; padding:0.8rem 1rem; border-bottom:1px solid var(--border);">
+              <span style="font-size:1.1rem; margin-right:0.6rem;">🎵</span>
+              <div style="flex:1;"><div style="font-size:0.8rem; font-weight:700;">TikTok</div><div style="font-size:0.6rem; color:var(--text-light);">com.zhiliaoapp.musically</div></div>
+              <div style="background:#E8E8E8; border-radius:20px; width:42px; height:24px; position:relative;">
+                <div style="position:absolute; left:3px; top:3px; width:18px; height:18px; background:#fff; border-radius:50%;"></div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; padding:0.8rem 1rem;">
+              <span style="font-size:1.1rem; margin-right:0.6rem;">💙</span>
+              <div style="flex:1;"><div style="font-size:0.8rem; font-weight:700;">Facebook</div><div style="font-size:0.6rem; color:var(--text-light);">com.facebook.katana</div></div>
+              <div style="background:var(--pink); border-radius:20px; width:42px; height:24px; position:relative;">
+                <div style="position:absolute; right:3px; top:3px; width:18px; height:18px; background:#fff; border-radius:50%;"></div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:0.8rem;">
+            <div style="background:#fff; border-radius:14px; padding:0.8rem 1rem; border:2px solid var(--border);">
+              <div style="font-size:0.7rem; font-weight:800; color:var(--text-light);">🎯 META GLOBAL</div>
+              <div style="font-size:0.9rem; font-weight:700; margin-top:0.3rem;">1,000 pasos/hora</div>
+              <div style="height:4px; background:var(--border); border-radius:2px; margin-top:0.4rem;">
+                <div style="width:45%; height:100%; background:var(--pink); border-radius:2px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings mockup -->
+      <div class="phone-mockup" style="background: #FFF0F5; display: flex; flex-direction: column; padding: 2rem 1.2rem;">
+        <div class="phone-notch" style="background: var(--pink-dark);"></div>
+        <div style="flex:1; display:flex; flex-direction:column; padding-top:0.5rem;">
+          <div style="font-size:0.85rem; font-weight:800; margin-bottom:0.8rem;">⚙️ Ajustes</div>
+          <div style="background:#fff; border-radius:14px; border:2px solid var(--border); overflow:hidden;">
+            <div style="display:flex; align-items:center; padding:0.8rem 1rem; border-bottom:1px solid var(--border);">
+              <span style="flex:1; font-size:0.8rem; font-weight:700;">🔲 Superposición</span>
+              <span style="font-size:0.65rem; font-weight:800; color:#2E7D32;">✓ Activo</span>
+            </div>
+            <div style="display:flex; align-items:center; padding:0.8rem 1rem; border-bottom:1px solid var(--border);">
+              <span style="flex:1; font-size:0.8rem; font-weight:700;">📊 Uso de apps</span>
+              <span style="font-size:0.65rem; font-weight:800; color:#2E7D32;">✓ Activo</span>
+            </div>
+            <div style="display:flex; align-items:center; padding:0.8rem 1rem;">
+              <span style="flex:1; font-size:0.8rem; font-weight:700;">👟 Actividad física</span>
+              <span style="font-size:0.65rem; font-weight:800; color:var(--pink);">✦ Pendiente</span>
+            </div>
+          </div>
+          <div style="margin-top:0.8rem; background:#fff; border-radius:14px; padding:0.8rem 1rem; border:2px solid var(--border);">
+            <div style="display:flex; align-items:center;">
+              <span style="flex:1; font-size:0.8rem; font-weight:700;">🔔 Bypass temporal</span>
+              <div style="background:var(--pink); border-radius:20px; width:42px; height:24px; position:relative;">
+                <div style="position:absolute; right:3px; top:3px; width:18px; height:18px; background:#fff; border-radius:50%;"></div>
+              </div>
+            </div>
+            <div style="font-size:0.65rem; color:var(--text-light); margin-top:0.4rem;">Desbloquea todas las apps por 5 min</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p style="text-align:center; color:var(--text-light); font-size:0.8rem; margin-top:1rem;">
+      🖱️ Desliza para ver más pantallas
+    </p>
+  </section>
+
+  <!-- ════════════════════ CHANGELOG ════════════════════ -->
+  <section id="changelog">
+    <h2><span class="emoji">📋</span> Novedades v1.0.2 Beta</h2>
+    <p class="section-desc">
+      Esta versión incluye correcciones importantes y optimizaciones
+      de rendimiento para una experiencia más fluida.
+    </p>
+
+    <div class="release-notes">
+      <div class="version">v1.0.2 Beta</div>
+      <h3>🎀 Kitty Runner</h3>
+      <p class="date">📅 Mayo 2026</p>
+      <ul>
+        <li>
+          <span class="tag tag-fix">Fix</span>
+          <span><strong>Login seguro:</strong> Corregido crash al iniciar sesión cuando el usuario es null.</span>
+        </li>
+        <li>
+          <span class="tag tag-fix">Fix</span>
+          <span><strong>UI reactiva:</strong> Eliminada latencia de Firestore en actualización de pasos. Los datos se reflejan al instante.</span>
+        </li>
+        <li>
+          <span class="tag tag-fix">Fix</span>
+          <span><strong>Data loss:</strong> Al desactivar una app ya no se pierde su configuración personalizada.</span>
+        </li>
+        <li>
+          <span class="tag tag-fix">Fix</span>
+          <span><strong>setState post-async:</strong> Agregadas verificaciones <code>mounted</code> en profile_view para evitar errores.</span>
+        </li>
+        <li>
+          <span class="tag tag-fix">Fix</span>
+          <span><strong>StreamBuilder:</strong> Extraído WelcomeHeader a StatefulWidget para evitar recreaciones infinitas.</span>
+        </li>
+        <li>
+          <span class="tag tag-perf">Perf</span>
+          <span><strong>Colores centralizados:</strong> Todos los colores de la app ahora se definen en <code>AppTheme</code>. Consistencia visual y fácil mantenimiento.</span>
+        </li>
+        <li>
+          <span class="tag tag-perf">Perf</span>
+          <span><strong>Debounce nativo:</strong> Llamadas al canal de bloqueo Android se debouncean 200ms para evitar saturación.</span>
+        </li>
+        <li>
+          <span class="tag tag-perf">Perf</span>
+          <span><strong>Logger optimizado:</strong> Buffer de logs limitado a 200 entradas sin copias innecesarias en memoria.</span>
+        </li>
+        <li>
+          <span class="tag tag-perf">Perf</span>
+          <span><strong>Blur reducido:</strong> BackdropFilter de 20px → 8px, menos carga en GPU sin perder el efecto.</span>
+        </li>
+        <li>
+          <span class="tag tag-perf">Perf</span>
+          <span><strong>Achievements cacheados:</strong> 0 lecturas a Firestore por logro ya verificado en la sesión.</span>
+        </li>
+        <li>
+          <span class="tag tag-perf">Perf</span>
+          <span><strong>Widget liviano:</strong> Eliminado GestureDetector redundante en CupertinoSwitch.</span>
+        </li>
+        <li>
+          <span class="tag tag-perf">Perf</span>
+          <span><strong>Logging:</strong> Todos los <code>print()</code> reemplazados por <code>LoggerService.log</code> con sistema de logging centralizado.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ════════════════════ DOWNLOAD ════════════════════ -->
+  <section id="download" class="download-section">
+    <h2><span class="emoji">📲</span> Descarga Kitty Runner</h2>
+    <p class="section-desc">
+      Disponible para Android. Versión iOS en desarrollo.
+    </p>
+
+    <div class="platform-tags">
+      <span class="platform-android">🤖 Android</span>
+      <span class="platform-ios">🍎 iOS (Próximamente)</span>
+    </div>
+
+    <a href="https://drive.google.com/uc?export=download&id=TU_ID_DE_GOOGLE_DRIVE_AQUI" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:1.15rem; padding:1rem 3rem;">
+      📥 Descargar APK v1.0.2 Beta
+    </a>
+    <p class="note">
+      Archivo APK — 35 MB aprox. Requiere Android 7.0+ (API 24).
+    </p>
+    <p class="note">
+      💡 Recuerda habilitar "Instalar desde orígenes desconocidos" en tu dispositivo.
+    </p>
+  </section>
+
+  <!-- ════════════════════ FOOTER ════════════════════ -->
+  <footer class="page-footer">
+    <p>
+      🎀 <strong>Kitty Runner</strong> — Hecho con 💖 por
+      <a href="https://mrgomezsv.github.io" target="_blank">Mario Roberto</a>
+    </p>
+    <p style="margin-top:0.3rem;">
+      Powered by Flutter & Firebase • El Salvador, 2026
+    </p>
+  </footer>
+
+</body>
+</html>
