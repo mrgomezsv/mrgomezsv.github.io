@@ -656,18 +656,148 @@
     </div>
   </div>
 
+  <!-- Estilos del Modal Interactivo de Odoo -->
+  <style>
+    .modal-odoo {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(9, 9, 11, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal-odoo.show {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-odoo-content {
+      background-color: #17151d;
+      color: #f4f4f5;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.1);
+      width: 90%;
+      max-width: 550px;
+      border-radius: 16px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .modal-odoo.show .modal-odoo-content {
+      transform: scale(1);
+    }
+    .close-odoo {
+      color: #a1a1aa;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .close-odoo:hover {
+      color: #fff;
+    }
+    .modal-odoo-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+    .modal-odoo-header img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+    }
+    .modal-odoo-header h2 {
+      font-size: 1.4rem;
+      margin: 0;
+      font-weight: 700;
+      color: #fff;
+    }
+    .modal-odoo-header .badge {
+      background-color: #714B67;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      display: inline-block;
+      margin-top: 5px;
+    }
+    .modal-odoo-body {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #a1a1aa;
+    }
+    .modal-info-block strong {
+      color: #fff;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .modal-info-block p {
+      margin: 0 0 16px 0;
+      color: #d1d5db;
+    }
+    .modal-odoo-body ul {
+      padding-left: 20px;
+      margin-top: 8px;
+      color: #d1d5db;
+    }
+    .modal-odoo-body li {
+      margin-bottom: 6px;
+    }
+    .modal-odoo-footer {
+      margin-top: 25px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 20px;
+    }
+    /* Hover micro-animation to prompt action */
+    #odoo-portfolio .card-service {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    #odoo-portfolio .card-service:hover {
+      border-color: #714B67;
+      box-shadow: 0 8px 30px rgba(113, 75, 103, 0.25);
+      transform: translateY(-5px);
+    }
+  </style>
+
   <div class="vg-page page-service" id="odoo-portfolio">
     <div class="container">
       <div class="text-center wow fadeInUp">
         <div class="badge badge-subhead">Odoo Addons</div>
       </div>
       <h1 class="fw-normal text-center wow fadeInUp">Módulos Odoo Facturación Electrónica (El Salvador)</h1>
-      <p class="text-muted text-center mx-auto mb-5 wow fadeInUp" style="max-width: 700px;">Suite completa de localización fiscal y facturación electrónica autorizada por el Ministerio de Hacienda para Odoo 16, 18 y 19.</p>
+      <p class="text-muted text-center mx-auto mb-5 wow fadeInUp" style="max-width: 700px;">Suite completa de localización fiscal y facturación electrónica autorizada por el Ministerio de Hacienda para Odoo 16, 18 y 19. Pasa el cursor sobre cada módulo para ver detalles.</p>
       
       <div class="row mt-5 justify-content-center">
         <!-- Card 1 -->
         <div class="col-md-6 col-lg-4 wow fadeInUp mb-4">
-          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;">
+          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;"
+               data-title="Facturación Electrónica DTE El Salvador"
+               data-code="mrg_dte_sv"
+               data-icon="/project/odoo-modules/img/mrg_dte_sv.png"
+               data-desc="Módulo central de transmisión. Permite generar, firmar digitalmente y transmitir todos los Documentos Tributarios Electrónicos (DTE) requeridos por el Ministerio de Hacienda de El Salvador."
+               data-integrations="Odoo Invoicing, Odoo Accounting, Clientes y API Services / MiFacturaDTE."
+               data-features="Emisión de Facturas, Créditos Fiscales, Notas de Crédito y Débito|Firma electrónica integrada nativa|Control y enrutamiento inteligente de Contingencias (Offline)|Generación de PDF y Ticket de Representación Gráfica.">
             <div class="mb-3">
               <img src="/project/odoo-modules/img/mrg_dte_sv.png" alt="DTE Base" style="width: 70px; height: 70px; object-fit: contain;">
             </div>
@@ -679,7 +809,13 @@
         </div>
         <!-- Card 2 -->
         <div class="col-md-6 col-lg-4 wow fadeInUp mb-4">
-          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;">
+          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;"
+               data-title="Libros y Anexos Fiscales DTE"
+               data-code="mrg_dte_sv_books"
+               data-icon="/project/odoo-modules/img/mrg_dte_sv_books.png"
+               data-desc="Automatiza el cumplimiento de tus obligaciones contables de IVA en El Salvador a partir de los DTEs emitidos y recibidos."
+               data-integrations="Módulo base mrg_dte_sv y módulo contable estándar de Odoo."
+               data-features="Libro de Compras y Ventas a Contribuyente y Consumidor Final|Exportación instantánea a formato CSV/XLSX compatible con el portal del Ministerio de Hacienda (F07)|Reportes en PDF listos para auditorías contables.">
             <div class="mb-3">
               <img src="/project/odoo-modules/img/mrg_dte_sv_books.png" alt="Libros IVA" style="width: 70px; height: 70px; object-fit: contain;">
             </div>
@@ -691,7 +827,13 @@
         </div>
         <!-- Card 3 -->
         <div class="col-md-6 col-lg-4 wow fadeInUp mb-4">
-          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;">
+          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;"
+               data-title="Informes Financieros Dinámicos"
+               data-code="mrg_dte_sv_dynamic_reports"
+               data-icon="/project/odoo-modules/img/mrg_dte_sv_dynamic_reports.png"
+               data-desc="Ofrece a administradores e implementadores visualizaciones e informes interactivos adaptados a la moneda local y normativa de El Salvador."
+               data-integrations="Plan de cuentas (Chart of Accounts) y Localización Salvadoreña de Odoo."
+               data-features="Balances Generales interactivos con desglose de cuentas contables (Drill-down)|Visualización en tiempo real de Balanza de Comprobación y Estado de Resultados|Libro Diario dinámico exportable.">
             <div class="mb-3">
               <img src="/project/odoo-modules/img/mrg_dte_sv_dynamic_reports.png" alt="Informes Dinámicos" style="width: 70px; height: 70px; object-fit: contain;">
             </div>
@@ -703,7 +845,13 @@
         </div>
         <!-- Card 4 -->
         <div class="col-md-6 col-lg-4 wow fadeInUp mb-4">
-          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;">
+          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;"
+               data-title="DTE El Salvador - Punto de Venta (POS)"
+               data-code="mrg_dte_sv_pos"
+               data-icon="/project/odoo-modules/img/mrg_dte_sv_pos.png"
+               data-desc="Extensión optimizada para POS. Permite emitir facturas y créditos fiscales electrónicos inmediatamente al concretar ventas presenciales."
+               data-integrations="Odoo Point of Sale (POS) y módulo base mrg_dte_sv."
+               data-features="Envío del DTE al Ministerio de Hacienda en tiempo real al finalizar la venta|Soporte oficial de impresión en ticketera térmica de 80mm con código QR de consulta|Sincronización automatizada offline.">
             <div class="mb-3">
               <img src="/project/odoo-modules/img/mrg_dte_sv_pos.png" alt="POS DTE" style="width: 70px; height: 70px; object-fit: contain;">
             </div>
@@ -715,7 +863,13 @@
         </div>
         <!-- Card 5 -->
         <div class="col-md-6 col-lg-4 wow fadeInUp mb-4">
-          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;">
+          <div class="card card-service" style="padding: 30px; text-align: center; height: 100%;"
+               data-title="DTE POS Security SV"
+               data-code="mrg_dte_sv_pos_security"
+               data-icon="/project/odoo-modules/img/mrg_dte_sv_pos_security.png"
+               data-desc="Auditoría y control de seguridad en la emisión, modificación y anulación de DTEs desde el Punto de Venta."
+               data-integrations="Odoo POS, módulo mrg_dte_sv_pos y control de accesos de Odoo."
+               data-features="Control y restricciones para la anulación de facturas de contingencia|Bitácora exhaustiva de acciones y cierres de caja con cruce de DTEs emitidos|Seguridad granular de accesos por cajero y supervisor.">
             <div class="mb-3">
               <img src="/project/odoo-modules/img/mrg_dte_sv_pos_security.png" alt="POS Security" style="width: 70px; height: 70px; object-fit: contain;">
             </div>
@@ -732,6 +886,108 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal de Detalles de Módulos Odoo -->
+  <div id="odooModuleModal" class="modal-odoo">
+    <div class="modal-odoo-content">
+      <span class="close-odoo">&times;</span>
+      <div class="modal-odoo-header">
+        <img id="modalOdooIcon" src="" alt="Icono">
+        <div>
+          <h2 id="modalOdooTitle">Título</h2>
+          <span id="modalOdooCode" class="badge">mrg_dte_sv</span>
+        </div>
+      </div>
+      <div class="modal-odoo-body">
+        <p id="modalOdooDesc" class="mb-4" style="color: #e4e4e7; font-weight: 500;"></p>
+        <div class="modal-info-block">
+          <strong>Integración Nativa:</strong>
+          <p id="modalOdooIntegrations"></p>
+        </div>
+        <div class="modal-info-block">
+          <strong>Características Principales:</strong>
+          <ul id="modalOdooFeatures"></ul>
+        </div>
+      </div>
+      <div class="modal-odoo-footer text-center">
+        <a href="/project/odoo-modules/index.html" class="btn btn-theme">Ver detalles y arquitectura →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script del Modal Odoo -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('#odoo-portfolio .card-service');
+      const modal = document.getElementById('odooModuleModal');
+      const modalIcon = document.getElementById('modalOdooIcon');
+      const modalTitle = document.getElementById('modalOdooTitle');
+      const modalCode = document.getElementById('modalOdooCode');
+      const modalDesc = document.getElementById('modalOdooDesc');
+      const modalIntegrations = document.getElementById('modalOdooIntegrations');
+      const modalFeatures = document.getElementById('modalOdooFeatures');
+      const closeBtn = document.querySelector('.close-odoo');
+      
+      let hoverTimeout = null;
+
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          // Limpiar timeout anterior si existe
+          if (hoverTimeout) clearTimeout(hoverTimeout);
+
+          const title = card.getAttribute('data-title');
+          const code = card.getAttribute('data-code');
+          const icon = card.getAttribute('data-icon');
+          const desc = card.getAttribute('data-desc');
+          const integrations = card.getAttribute('data-integrations');
+          const features = card.getAttribute('data-features').split('|');
+
+          modalIcon.src = icon;
+          modalTitle.textContent = title;
+          modalCode.textContent = code;
+          modalDesc.textContent = desc;
+          modalIntegrations.textContent = integrations;
+
+          modalFeatures.innerHTML = '';
+          features.forEach(f => {
+            const li = document.createElement('li');
+            li.textContent = f;
+            modalFeatures.appendChild(li);
+          });
+
+          modal.style.display = 'flex';
+          // Pequeño delay para permitir transición CSS
+          setTimeout(() => {
+            modal.classList.add('show');
+          }, 20);
+        });
+      });
+
+      // Cerrar modal cuando el mouse salga del contenido del modal
+      const modalContent = document.querySelector('.modal-odoo-content');
+      modalContent.addEventListener('mouseleave', () => {
+        closeModal();
+      });
+
+      // Cerrar con el botón X
+      closeBtn.addEventListener('click', closeModal);
+
+      // Cerrar si se hace clic fuera del modal
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      function closeModal() {
+        modal.classList.remove('show');
+        if (hoverTimeout) clearTimeout(hoverTimeout);
+        hoverTimeout = setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      }
+    });
+  </script>
 
   <div class="vg-page page-service" id="qr">
     <div class="container">
