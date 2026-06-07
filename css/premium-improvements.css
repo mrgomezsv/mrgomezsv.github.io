@@ -117,7 +117,6 @@ p, span, li, small, .text-muted {
 .vg-page.page-home {
   position: relative;
   background-color: transparent !important;
-  background-image: radial-gradient(circle at center, rgba(113, 75, 103, 0.08) 0%, transparent 65%) !important;
 }
 
 .caption-header .badge {
