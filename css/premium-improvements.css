@@ -1,4 +1,4 @@
-/* Premium UI improvements for main Portfolio page */
+/* Premium UI/UX Improvements for Portfolio Homepage */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
@@ -9,8 +9,10 @@
   --odoo-purple-premium: #714B67;
   --odoo-light-premium: #a16b93;
   --accent-indigo-premium: #6366f1;
+  --text-muted-premium: #a1a1aa;
 }
 
+/* Base Body Styles */
 body.theme-slate {
   background-color: var(--bg-dark-premium) !important;
   font-family: 'Plus Jakarta Sans', sans-serif !important;
@@ -36,12 +38,12 @@ body.theme-slate::before {
   pointer-events: none;
 }
 
-/* Glow Orbs */
+/* Float Glow Orbs */
 .glow-orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(130px);
-  opacity: 0.12;
+  opacity: 0.14;
   z-index: -1;
   pointer-events: none;
   width: 450px;
@@ -68,7 +70,7 @@ body.theme-slate::before {
   height: 500px;
 }
 
-/* Custom Scrollbar */
+/* Scrollbars */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -83,24 +85,74 @@ body.theme-slate::before {
   background: var(--odoo-purple-premium);
 }
 
-/* Premium Typography Updates */
+/* Typography Resets */
 h1, h2, h3, h4, h5, h6, .navbar-brand {
   font-family: 'Space Grotesk', sans-serif !important;
   letter-spacing: -0.5px;
+  color: #ffffff !important;
+}
+
+p, span, li, small, .text-muted {
+  color: var(--text-muted-premium) !important;
 }
 
 .fg-theme {
   color: var(--odoo-light-premium) !important;
 }
 
-/* Hero Section enhancement */
+/* Overriding light section backgrounds to dark theme */
+.vg-page, 
+.page-about, 
+.page-service, 
+#platzi, 
+#service, 
+#qr,
+.vg-footer {
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+}
+
+/* Hero Section adjustments */
 .vg-page.page-home {
   position: relative;
   background-color: transparent !important;
   background-image: radial-gradient(circle at center, rgba(113, 75, 103, 0.08) 0%, transparent 65%) !important;
 }
 
-/* Navbar Premium Styling */
+.caption-header .badge {
+  background-color: rgba(113, 75, 103, 0.2) !important;
+  color: var(--odoo-light-premium) !important;
+  border: 1px solid rgba(113, 75, 103, 0.3) !important;
+  padding: 8px 20px !important;
+  font-size: 1rem !important;
+  border-radius: 9999px !important;
+}
+
+.floating-button {
+  color: var(--odoo-light-premium) !important;
+  border-color: rgba(113, 75, 103, 0.4) !important;
+}
+
+/* Profile Image layout styling */
+.img-place.wow {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border-premium);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  background-color: rgba(255,255,255,0.02);
+}
+
+.img-place img {
+  filter: brightness(0.9) contrast(1.05);
+  transition: transform 0.5s ease;
+}
+
+.img-place:hover img {
+  transform: scale(1.03);
+}
+
+/* Navbar Improvement overrides */
 .navbar.sticky {
   background: rgba(9, 9, 11, 0.85) !important;
   backdrop-filter: blur(12px) !important;
@@ -111,6 +163,8 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 .navbar-nav .nav-link {
   font-weight: 600 !important;
   letter-spacing: 0.2px;
+  color: var(--text-muted-premium) !important;
+  transition: color 0.2s ease;
 }
 
 .navbar-nav .nav-link.active,
@@ -118,19 +172,21 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   color: var(--odoo-light-premium) !important;
 }
 
-/* Dropdown Premium Styling */
+/* Dropdown styling */
 .dropdown-menu {
   background-color: #121118 !important;
   border: 1px solid var(--border-premium) !important;
-  backdrop-filter: blur(10px);
   border-radius: 12px !important;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+  padding: 8px !important;
 }
 
 .dropdown-item {
-  color: #a1a1aa !important;
-  transition: all 0.2s ease;
+  color: var(--text-muted-premium) !important;
   font-weight: 500 !important;
+  padding: 10px 16px !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease;
 }
 
 .dropdown-item:hover {
@@ -138,7 +194,7 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   color: #fff !important;
 }
 
-/* Card service updates (Glassmorphism & animations) */
+/* Cards (Glassmorphism & animations) */
 .card-service {
   background-color: var(--bg-card-premium) !important;
   border: 1px solid var(--border-premium) !important;
@@ -162,33 +218,41 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   border-radius: 12px !important;
 }
 
-/* Experience & Timeline Updates */
+/* Experience & Education timelines */
 .timeline li::after {
   background-color: var(--odoo-purple-premium) !important;
+  border-color: var(--odoo-purple-premium) !important;
 }
 
 .timeline .title {
   color: var(--odoo-light-premium) !important;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
+  font-size: 1.15rem;
 }
 
 .timeline .details {
   background-color: var(--bg-card-premium) !important;
   border: 1px solid var(--border-premium) !important;
-  border-radius: 12px !important;
-  padding: 20px !important;
-  backdrop-filter: blur(6px);
+  border-radius: 14px !important;
+  padding: 24px !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 25px rgba(0,0,0,0.2) !important;
+  margin-bottom: 20px;
 }
 
 .timeline .details h5 {
   color: #fff !important;
+  font-size: 1.1rem !important;
+  font-weight: 600;
 }
 
-/* Buttons Updates */
+/* Buttons styling overrides */
 .btn-theme {
-  background-color: var(--odoo-purple-premium) !important;
-  border-color: var(--odoo-purple-premium) !important;
+  background: var(--odoo-purple-premium) !important;
+  background: linear-gradient(135deg, var(--odoo-purple-premium) 0%, #4d3346 100%) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
   color: white !important;
   font-weight: 600 !important;
   border-radius: 8px !important;
@@ -197,16 +261,17 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 }
 
 .btn-theme:hover {
-  background-color: #5c3d54 !important;
-  border-color: #5c3d54 !important;
+  background: #855779 !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(113, 75, 103, 0.5) !important;
 }
 
 .btn-theme-outline {
-  border-color: var(--odoo-purple-premium) !important;
+  border: 2px solid var(--odoo-purple-premium) !important;
   color: var(--odoo-light-premium) !important;
   border-radius: 8px !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
   transition: all 0.25s ease !important;
 }
 
@@ -216,55 +281,124 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   transform: translateY(-2px);
 }
 
-/* Badge Updates */
-.badge-subhead {
-  background-color: rgba(113, 75, 103, 0.15) !important;
-  color: var(--odoo-light-premium) !important;
-  border: 1px solid rgba(113, 75, 103, 0.25) !important;
-  padding: 6px 16px !important;
-  border-radius: 9999px !important;
-  font-size: 0.85rem !important;
-  letter-spacing: 0.5px !important;
+/* Nice-Select custom styling to fit dark theme */
+.nice-select {
+  background-color: rgba(20, 20, 25, 0.8) !important;
+  border-color: var(--border-premium) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
 }
 
-.caption-header .badge {
+.nice-select .list {
+  background-color: #121118 !important;
+  border: 1px solid var(--border-premium) !important;
+  border-radius: 8px !important;
+}
+
+.nice-select .option:hover,
+.nice-select .option.focus,
+.nice-select .option.selected.focus {
   background-color: rgba(113, 75, 103, 0.2) !important;
-  color: var(--odoo-light-premium) !important;
-  border: 1px solid rgba(113, 75, 103, 0.3) !important;
-  padding: 8px 20px !important;
-  font-size: 1rem !important;
-  border-radius: 9999px !important;
+  color: #fff !important;
 }
 
-/* Forms & Inputs */
+/* Platzi Achievements Carousel adjustments */
+#platzi {
+  background: radial-gradient(circle at center, rgba(113, 75, 103, 0.05) 0%, transparent 70%);
+}
+
+#platzi .carousel-inner {
+  background-color: rgba(20, 20, 25, 0.4);
+  border: 1px solid var(--border-premium);
+  border-radius: 20px;
+  padding: 40px 20px;
+  backdrop-filter: blur(8px);
+}
+
+#platzi .carousel-item img {
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  border: 1px solid var(--border-premium);
+  transition: transform 0.4s ease;
+}
+
+#platzi .carousel-item img:hover {
+  transform: scale(1.02);
+}
+
+/* QR Code Section tweaks */
+#qr .container.py-5 {
+  background-color: rgba(20, 20, 25, 0.4);
+  border: 1px solid var(--border-premium);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#qrcode img {
+  border: 8px solid white;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Inputs and Forms styling */
 .form-control {
   background-color: rgba(255,255,255,0.03) !important;
   border: 1px solid var(--border-premium) !important;
   color: #fff !important;
   border-radius: 8px !important;
+  transition: all 0.25s ease;
 }
 
 .form-control:focus {
   border-color: var(--odoo-light-premium) !important;
-  box-shadow: 0 0 10px rgba(113, 75, 103, 0.2) !important;
+  box-shadow: 0 0 10px rgba(113, 75, 103, 0.25) !important;
+  background-color: rgba(255,255,255,0.05) !important;
 }
 
-/* Modal CV customization */
+/* Modal CV Style */
 .modal-content {
   background-color: #121118 !important;
   border: 1px solid var(--border-premium) !important;
   border-radius: 16px !important;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.6) !important;
   color: #f4f4f5 !important;
+  padding: 20px;
 }
 
 .modal-content h2 {
   color: #fff !important;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .modal-content .close {
-  color: #a1a1aa !important;
+  color: var(--text-muted-premium) !important;
+  opacity: 0.8;
+  transition: color 0.2s ease;
 }
+
 .modal-content .close:hover {
   color: #fff !important;
+  opacity: 1;
+}
+
+/* Footer elements styling */
+.vg-footer {
+  border-top: 1px solid var(--border-premium) !important;
+  background-color: #050507 !important;
+  margin-top: 80px;
+}
+
+.footer-info, .footer-section-header, .social-link, .username-item {
+  color: var(--text-muted-premium);
+}
+
+.social-link i {
+  color: var(--odoo-light-premium) !important;
+}
+.social-link:hover i {
+  color: white !important;
 }
