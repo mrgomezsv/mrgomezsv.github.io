@@ -861,3 +861,118 @@ body::before {
     font-size: 0.8rem;
   }
 }
+
+/* Tron Light Cycle Beams */
+.tron-light-circuit {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.tron-beam {
+  position: absolute;
+  opacity: 0.8;
+}
+
+/* Horizontal Beam Styling */
+.tron-beam[class*="beam-h-"] {
+  height: 2px;
+  width: 150px;
+  background: linear-gradient(90deg, transparent, var(--odoo-light), #ffffff);
+  box-shadow: 0 0 8px var(--odoo-light), 0 0 16px var(--odoo-light);
+}
+
+/* Vertical Beam Styling */
+.tron-beam[class*="beam-v-"] {
+  width: 2px;
+  height: 150px;
+  background: linear-gradient(180deg, transparent, var(--accent-indigo), #ffffff);
+  box-shadow: 0 0 8px var(--accent-indigo), 0 0 16px var(--accent-indigo);
+}
+
+/* Specific Beam Positions (Aligned with 50px grid lines) */
+.beam-h-1 {
+  top: 150px;
+  left: -150px;
+  animation: tron-horizontal 8s infinite linear;
+}
+
+.beam-h-2 {
+  top: 450px;
+  left: -150px;
+  animation: tron-horizontal 12s infinite linear;
+  animation-delay: 3s;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), #ffffff) !important;
+  box-shadow: 0 0 8px var(--accent-cyan), 0 0 16px var(--accent-cyan) !important;
+}
+
+.beam-h-3 {
+  top: 750px;
+  left: -150px;
+  animation: tron-horizontal-reverse 10s infinite linear;
+  animation-delay: 1s;
+  background: linear-gradient(-90deg, transparent, var(--accent-orange), #ffffff) !important;
+  box-shadow: 0 0 8px var(--accent-orange), 0 0 16px var(--accent-orange) !important;
+}
+
+.beam-v-1 {
+  left: 200px;
+  top: -150px;
+  animation: tron-vertical 9s infinite linear;
+  animation-delay: 2s;
+}
+
+.beam-v-2 {
+  left: 600px;
+  top: -150px;
+  animation: tron-vertical 15s infinite linear;
+  animation-delay: 5s;
+  background: linear-gradient(180deg, transparent, var(--accent-green), #ffffff) !important;
+  box-shadow: 0 0 8px var(--accent-green), 0 0 16px var(--accent-green) !important;
+}
+
+.beam-v-3 {
+  right: 250px;
+  top: -150px;
+  animation: tron-vertical-reverse 11s infinite linear;
+  animation-delay: 0.5s;
+}
+
+/* Keyframes for Light Cycle animations */
+@keyframes tron-horizontal {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 100vw;
+  }
+}
+
+@keyframes tron-horizontal-reverse {
+  0% {
+    left: 100vw;
+  }
+  100% {
+    left: -150px;
+  }
+}
+
+@keyframes tron-vertical {
+  0% {
+    top: -150px;
+  }
+  100% {
+    top: 100vh;
+  }
+}
+
+@keyframes tron-vertical-reverse {
+  0% {
+    top: 100vh;
+  }
+  100% {
+    top: -150px;
+  }
+}
