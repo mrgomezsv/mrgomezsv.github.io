@@ -223,11 +223,30 @@ p, span, li, small, .text-muted {
   border-color: var(--odoo-purple-premium) !important;
 }
 
-.timeline .title {
+.timeline li .title {
+  background-color: rgba(113, 75, 103, 0.15) !important;
   color: var(--odoo-light-premium) !important;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 1.15rem;
+  border: 1px solid rgba(113, 75, 103, 0.3) !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.15rem !important;
+  width: auto !important;
+  display: inline-block !important;
+  padding: 6px 20px !important;
+  border-radius: 30px 0 60px 30px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Override first child slate-theme timeline title to match */
+.theme-slate .timeline li:first-child .title {
+  background-color: rgba(113, 75, 103, 0.15) !important;
+  color: var(--odoo-light-premium) !important;
+  border: 1px solid rgba(113, 75, 103, 0.3) !important;
+}
+
+.theme-slate .timeline li:first-child::before {
+  background-color: var(--odoo-purple-premium) !important;
+  box-shadow: 0 0 0 2px var(--odoo-purple-premium) !important;
 }
 
 .timeline .details {
