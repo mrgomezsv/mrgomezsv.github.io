@@ -401,3 +401,59 @@ p, span, li, small, .text-muted {
 .social-link:hover i {
   color: white !important;
 }
+
+/* Override all old theme-slate colors with premium Odoo purple/indigo scheme */
+.theme-slate .bg-theme {
+  background-color: var(--odoo-purple-premium) !important;
+}
+
+.theme-slate .fg-theme {
+  color: var(--odoo-light-premium) !important;
+}
+
+.theme-slate .btn-theme {
+  background-color: var(--odoo-purple-premium) !important;
+  border-color: var(--odoo-purple-premium) !important;
+  color: #fff !important;
+}
+
+.theme-slate .btn-theme:hover {
+  background-color: #855779 !important;
+}
+
+.theme-slate .btn-theme:focus {
+  box-shadow: 0 0 0 3px #09090b, 0 0 0 5px var(--odoo-purple-premium) !important;
+}
+
+.theme-slate .btn-theme-outline {
+  color: var(--odoo-light-premium) !important;
+  box-shadow: 0 0 0 2px var(--odoo-purple-premium) !important;
+}
+
+.theme-slate .btn-theme-outline:hover {
+  background-color: var(--odoo-purple-premium) !important;
+  color: #fff !important;
+}
+
+.theme-slate .btn-fab {
+  background-color: var(--odoo-purple-premium) !important;
+  color: #fff !important;
+}
+
+.theme-slate .btn-fab:hover {
+  background-color: #855779 !important;
+}
+
+.theme-slate .progress {
+  box-shadow: 0 0 0 2px var(--odoo-purple-premium) !important;
+  background-color: rgba(255,255,255,0.05) !important;
+}
+
+.theme-slate .progress-bar {
+  background-color: var(--odoo-purple-premium) !important;
+}
+
+.theme-slate .theme-list li::before {
+  border-color: var(--odoo-light-premium) !important;
+  background-color: #17151d !important;
+}
