@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <title>Módulos Odoo DTE El Salvador - Mario Roberto Dev</title>
+  <meta name="description" content="Módulos de Facturación Electrónica y Contabilidad para Odoo v16, v18 y v19 en El Salvador. Integración con Ministerio de Hacienda y API Services.">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/img/favicon.jpg" type="image/x-icon">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/project/odoo-modules/style.css">
+</head>
+<body>
+
+  <!-- Floating Glow Effects -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="glow-orb orb-3"></div>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Volver al Portafolio</span>
+      </a>
+      <div class="nav-brand">
+        <span class="brand-text">MRGómez <span class="accent">Dev</span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        Listo para El Salvador DTE (Hacienda)
+      </div>
+      <h1 class="hero-title">
+        Lleva la Facturación Electrónica a <span class="gradient-text">Odoo</span> con Módulos Premium
+      </h1>
+      <p class="hero-subtitle">
+        Suites especializadas de DTE, Libros de IVA, Informes Financieros Dinámicos y Seguridad POS para las versiones <b>16, 18 y 19</b> de Odoo (Community y Enterprise). Sincronización robusta en tiempo real.
+      </p>
+      <div class="hero-actions">
+        <a href="#modulos" class="btn btn-primary">Descubrir Módulos</a>
+        <a href="#integracion" class="btn btn-secondary">Ver Arquitectura</a>
+      </div>
+      
+      <!-- Tech Grid Badge -->
+      <div class="versions-badge-grid">
+        <div class="version-badge">Odoo v16</div>
+        <div class="version-badge">Odoo v18</div>
+        <div class="version-badge">Odoo v19 <span class="new-tag">Nuevo</span></div>
+      </div>
+    </div>
+    
+    <!-- Hero Scroll Indicator -->
+    <div class="scroll-indicator" onclick="document.getElementById('modulos').scrollIntoView({behavior: 'smooth'})">
+      <span>Desplázate para descubrir</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="bounce"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+  </section>
+
+  <!-- Modules Section -->
+  <section id="modulos" class="modules-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Nuestra Suite de Módulos</h2>
+        <p class="section-desc">Diseñados para acoplarse de forma transparente con los flujos estándar de Odoo y cumplir con todas las normativas tributarias de El Salvador.</p>
+      </div>
+
+      <!-- Module 1 -->
+      <div class="module-card reveal" id="card-dte">
+        <div class="module-image-side">
+          <div class="icon-wrapper">
+            <img src="/project/odoo-modules/img/mrg_dte_sv.png" alt="Icono Facturación Electrónica DTE" class="module-icon">
+          </div>
+          <div class="tech-tags">
+            <span class="tag">Módulo Principal</span>
+            <span class="tag">DTE Base</span>
+          </div>
+        </div>
+        <div class="module-info-side">
+          <div class="module-code">mrg_dte_sv</div>
+          <h3 class="module-title">Facturación Electrónica DTE El Salvador</h3>
+          <p class="module-description">
+            El corazón de la facturación electrónica. Permite generar, firmar digitalmente y transmitir todos los Documentos Tributarios Electrónicos (DTE) requeridos por el Ministerio de Hacienda de El Salvador de forma nativa desde las facturas de Odoo.
+          </p>
+          <div class="module-integrations">
+            <strong>Se integra con:</strong>
+            <ul>
+              <li>Odoo Invoicing & Accounting (Facturación y Contabilidad)</li>
+              <li>Odoo Contacts / Customers (Clientes y Proveedores)</li>
+              <li>API Services / MiFacturaDTE (Transmisión segura)</li>
+            </ul>
+          </div>
+          <div class="module-features">
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Generación de Facturas, Crédito Fiscal, Notas de Crédito, Notas de Débito, etc.</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Firma electrónica y validación del Ministerio de Hacienda en tiempo real.</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Flujo inteligente de gestión de Contingencias (Offline y eventos especiales).</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Generación del PDF y Ticket de Representación Gráfica homologados.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 2 -->
+      <div class="module-card reveal reverse" id="card-books">
+        <div class="module-image-side">
+          <div class="icon-wrapper blue-glow">
+            <img src="/project/odoo-modules/img/mrg_dte_sv_books.png" alt="Icono Libros y Anexos Fiscales" class="module-icon">
+          </div>
+          <div class="tech-tags">
+            <span class="tag">Fiscal</span>
+            <span class="tag">Declaraciones</span>
+          </div>
+        </div>
+        <div class="module-info-side">
+          <div class="module-code">mrg_dte_sv_books</div>
+          <h3 class="module-title">Libros y Anexos Fiscales DTE</h3>
+          <p class="module-description">
+            Automatiza la contabilidad fiscal salvadoreña de IVA. Este módulo toma todos los DTEs emitidos y recibidos para generar automáticamente los libros legales y los anexos de la declaración de IVA mensuales.
+          </p>
+          <div class="module-integrations">
+            <strong>Se integra con:</strong>
+            <ul>
+              <li>Módulo Base <code class="inline-code">mrg_dte_sv</code></li>
+              <li>Odoo Localizaciones & Contabilidad Estándar</li>
+            </ul>
+          </div>
+          <div class="module-features">
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Libro de Compras, Ventas a Consumidores Finales y Ventas a Contribuyentes.</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Exportación directa a formato CSV y XLSX compatible con el validador del Ministerio de Hacienda (F07).</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Filtros avanzados y reportes resumidos en PDF para auditorías rápidas.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 3 -->
+      <div class="module-card reveal" id="card-reports">
+        <div class="module-image-side">
+          <div class="icon-wrapper purple-glow">
+            <img src="/project/odoo-modules/img/mrg_dte_sv_dynamic_reports.png" alt="Icono Informes Financieros Dinámicos" class="module-icon">
+          </div>
+          <div class="tech-tags">
+            <span class="tag">Contabilidad</span>
+            <span class="tag">Reporting</span>
+          </div>
+        </div>
+        <div class="module-info-side">
+          <div class="module-code">mrg_dte_sv_dynamic_reports</div>
+          <h3 class="module-title">Informes Financieros Dinámicos</h3>
+          <p class="module-description">
+            Permite a los contadores y administradores generar balances y estados financieros personalizables y dinámicos adaptados a la moneda local (USD) y al formato oficial de presentación exigido en El Salvador.
+          </p>
+          <div class="module-integrations">
+            <strong>Se integra con:</strong>
+            <ul>
+              <li>Plan de Cuentas Contables (Chart of Accounts) de Odoo</li>
+              <li>Odoo Localización Salvadoreña</li>
+            </ul>
+          </div>
+          <div class="module-features">
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Visualización dinámica e interactiva interactuando directamente en Odoo.</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Balance de Comprobación, Balance General, Estado de Resultados y Libro Diario.</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Capacidad de desglose (drill-down) interactivo para rastrear el origen de cada monto.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 4 -->
+      <div class="module-card reveal reverse" id="card-pos">
+        <div class="module-image-side">
+          <div class="icon-wrapper green-glow">
+            <img src="/project/odoo-modules/img/mrg_dte_sv_pos.png" alt="Icono DTE Punto de Venta" class="module-icon">
+          </div>
+          <div class="tech-tags">
+            <span class="tag">Punto de Venta</span>
+            <span class="tag">Retail</span>
+          </div>
+        </div>
+        <div class="module-info-side">
+          <div class="module-code">mrg_dte_sv_pos</div>
+          <h3 class="module-title">DTE El Salvador - Punto de Venta (POS)</h3>
+          <p class="module-description">
+            Optimizado para entornos de alta transaccionalidad. Permite emitir Facturas de Consumidor Final (FCF) y Créditos Fiscales (CCF) electrónicos directamente en la pantalla de ventas de Odoo POS con solo un clic.
+          </p>
+          <div class="module-integrations">
+            <strong>Se integra con:</strong>
+            <ul>
+              <li>Odoo Point of Sale (POS) Core</li>
+              <li>Módulo Base de Facturación Electrónica <code class="inline-code">mrg_dte_sv</code></li>
+            </ul>
+          </div>
+          <div class="module-features">
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Envío automático del DTE a Hacienda al momento de pagar la orden en el POS.</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Soporte completo para tiqueteras térmicas de 80mm e impresión del código QR oficial de consulta.</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Gestión de datos de facturación especial de clientes directamente desde la pantalla táctil.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 5 -->
+      <div class="module-card reveal" id="card-pos-sec">
+        <div class="module-image-side">
+          <div class="icon-wrapper orange-glow">
+            <img src="/project/odoo-modules/img/mrg_dte_sv_pos_security.png" alt="Icono Seguridad POS DTE" class="module-icon">
+          </div>
+          <div class="tech-tags">
+            <span class="tag">Seguridad</span>
+            <span class="tag">Auditoría</span>
+          </div>
+        </div>
+        <div class="module-info-side">
+          <div class="module-code">mrg_dte_sv_pos_security</div>
+          <h3 class="module-title">DTE POS Security SV</h3>
+          <p class="module-description">
+            La seguridad es prioridad en el punto de venta. Este módulo añade capas adicionales de validación, auditoría y control de permisos en las operaciones críticas de DTE dentro de Odoo POS para evitar fraudes o errores humanos.
+          </p>
+          <div class="module-integrations">
+            <strong>Se integra con:</strong>
+            <ul>
+              <li>Odoo POS y el módulo <code class="inline-code">mrg_dte_sv_pos</code></li>
+              <li>Odoo User & Group Permissions (Gestión de usuarios estándar)</li>
+            </ul>
+          </div>
+          <div class="module-features">
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Restricción y control de permisos para la anulación de DTEs o notas de crédito en POS.</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Bitácora de auditoría detallada que registra quién, cuándo y por qué aprobó una operación DTE.</span>
+            </div>
+            <div class="feature-item">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Control estricto de arqueo de caja cruzando DTEs válidos, anulados e inválidos.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Integration & Architecture Section -->
+  <section id="integracion" class="architecture-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Arquitectura e Integración DTE</h2>
+        <p class="section-desc">Cómo interactúan nuestros módulos con el ecosistema de Odoo, la API de transmisión y el Ministerio de Hacienda de El Salvador.</p>
+      </div>
+      
+      <!-- Visual Flow Diagram -->
+      <div class="architecture-flow">
+        <div class="flow-node">
+          <div class="node-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <h4>Odoo ERP</h4>
+          <p>Módulos DTE Base / POS</p>
+        </div>
+        
+        <div class="flow-arrow">
+          <span class="arrow-text">Genera DTE (JSON)</span>
+          <div class="line-animation"></div>
+        </div>
+        
+        <div class="flow-node highlight">
+          <div class="node-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+          </div>
+          <h4>API Services</h4>
+          <p>Firma Electrónica y Enrutamiento</p>
+        </div>
+        
+        <div class="flow-arrow">
+          <span class="arrow-text">Transmisión DTE</span>
+          <div class="line-animation"></div>
+        </div>
+        
+        <div class="flow-node standard">
+          <div class="node-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <h4>Min. Hacienda</h4>
+          <p>Recepción & Sello de Recepción</p>
+        </div>
+      </div>
+      
+      <!-- Flow info -->
+      <div class="architecture-info">
+        <div class="info-card">
+          <h5>1. Generación Local</h5>
+          <p>Odoo genera el esquema JSON estructurado según las especificaciones técnicas vigentes de Hacienda a nivel de base de datos.</p>
+        </div>
+        <div class="info-card">
+          <h5>2. Firma y Envío Seguro</h5>
+          <p>El microservicio API procesa el DTE, aplica la firma digital con el certificado del cliente y lo envía instantáneamente a Hacienda.</p>
+        </div>
+        <div class="info-card">
+          <h5>3. Autorización Inmediata</h5>
+          <p>El Ministerio de Hacienda procesa, valida el DTE y devuelve el Sello de Recepción oficial, el cual Odoo almacena y vincula a la factura.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>¿Estás listo para implementar DTE en tu negocio?</h2>
+      <p>Ya sea en Odoo 16, 18 o 19, contamos con la experiencia para realizar una instalación impecable, adaptada a tus necesidades fiscales.</p>
+      <div class="cta-actions">
+        <a href="mailto:mrgomez.dev@outlook.com?subject=Implementacion%20Odoo%20DTE%20El%20Salvador" class="btn btn-primary">Iniciar Proyecto</a>
+        <a href="https://www.linkedin.com/in/mrgomez-dev/" target="_blank" rel="noopener" class="btn btn-secondary">Conectar en LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 Mario Roberto Dev. Todos los derechos reservados.</p>
+      <p class="tech-stack-info">Desarrollado en HTML, CSS puro y Vanilla JS con animaciones interactivas de alto rendimiento.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Reveal animations on scroll
+    document.addEventListener('DOMContentLoaded', () => {
+      const revealElements = document.querySelectorAll('.reveal');
+      
+      const revealOnScroll = () => {
+        const triggerBottom = window.innerHeight * 0.85;
+        
+        revealElements.forEach(el => {
+          const elementTop = el.getBoundingClientRect().top;
+          
+          if (elementTop < triggerBottom) {
+            el.classList.add('active');
+          } else {
+            el.classList.remove('active'); // Optional: allows animating again on scroll up
+          }
+        });
+      };
+      
+      // Trigger initially and on scroll
+      window.addEventListener('scroll', revealOnScroll);
+      revealOnScroll();
+    });
+  </script>
+</body>
+</html>

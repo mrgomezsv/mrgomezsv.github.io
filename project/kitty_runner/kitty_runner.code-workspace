@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../../kitty_runner"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "mrgomezsv.github.io"
+	}
+}
