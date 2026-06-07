@@ -101,7 +101,7 @@ p, span, li, small, .text-muted {
 }
 
 /* Overriding light section backgrounds to dark theme */
-.vg-page, 
+.vg-page:not(.page-home), 
 .page-about, 
 .page-service, 
 #platzi, 
