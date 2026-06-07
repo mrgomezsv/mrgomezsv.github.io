@@ -1,0 +1,270 @@
+/* Premium UI improvements for main Portfolio page */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-dark-premium: #09090b;
+  --bg-card-premium: rgba(20, 20, 25, 0.6);
+  --border-premium: rgba(255, 255, 255, 0.08);
+  --odoo-purple-premium: #714B67;
+  --odoo-light-premium: #a16b93;
+  --accent-indigo-premium: #6366f1;
+}
+
+body.theme-slate {
+  background-color: var(--bg-dark-premium) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  color: #f4f4f5 !important;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background Grid Pattern */
+body.theme-slate::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center center;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Glow Orbs */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(130px);
+  opacity: 0.12;
+  z-index: -1;
+  pointer-events: none;
+  width: 450px;
+  height: 450px;
+}
+
+.orb-1 {
+  top: 5%;
+  left: 10%;
+  background: var(--odoo-purple-premium);
+}
+
+.orb-2 {
+  top: 35%;
+  right: 5%;
+  background: var(--accent-indigo-premium);
+}
+
+.orb-3 {
+  top: 75%;
+  left: 15%;
+  background: #3b82f6;
+  width: 500px;
+  height: 500px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--odoo-purple-premium);
+}
+
+/* Premium Typography Updates */
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+  font-family: 'Space Grotesk', sans-serif !important;
+  letter-spacing: -0.5px;
+}
+
+.fg-theme {
+  color: var(--odoo-light-premium) !important;
+}
+
+/* Hero Section enhancement */
+.vg-page.page-home {
+  position: relative;
+  background-color: transparent !important;
+  background-image: radial-gradient(circle at center, rgba(113, 75, 103, 0.08) 0%, transparent 65%) !important;
+}
+
+/* Navbar Premium Styling */
+.navbar.sticky {
+  background: rgba(9, 9, 11, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid var(--border-premium) !important;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 600 !important;
+  letter-spacing: 0.2px;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+  color: var(--odoo-light-premium) !important;
+}
+
+/* Dropdown Premium Styling */
+.dropdown-menu {
+  background-color: #121118 !important;
+  border: 1px solid var(--border-premium) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+}
+
+.dropdown-item {
+  color: #a1a1aa !important;
+  transition: all 0.2s ease;
+  font-weight: 500 !important;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(113, 75, 103, 0.15) !important;
+  color: #fff !important;
+}
+
+/* Card service updates (Glassmorphism & animations) */
+.card-service {
+  background-color: var(--bg-card-premium) !important;
+  border: 1px solid var(--border-premium) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  height: 100%;
+}
+
+.card-service:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(113, 75, 103, 0.4) !important;
+  box-shadow: 0 10px 30px rgba(113, 75, 103, 0.15) !important;
+}
+
+.card-service .icon {
+  background-color: rgba(113, 75, 103, 0.12) !important;
+  color: var(--odoo-light-premium) !important;
+  border-radius: 12px !important;
+}
+
+/* Experience & Timeline Updates */
+.timeline li::after {
+  background-color: var(--odoo-purple-premium) !important;
+}
+
+.timeline .title {
+  color: var(--odoo-light-premium) !important;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+}
+
+.timeline .details {
+  background-color: var(--bg-card-premium) !important;
+  border: 1px solid var(--border-premium) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  backdrop-filter: blur(6px);
+}
+
+.timeline .details h5 {
+  color: #fff !important;
+}
+
+/* Buttons Updates */
+.btn-theme {
+  background-color: var(--odoo-purple-premium) !important;
+  border-color: var(--odoo-purple-premium) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 15px rgba(113, 75, 103, 0.3) !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-theme:hover {
+  background-color: #5c3d54 !important;
+  border-color: #5c3d54 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(113, 75, 103, 0.5) !important;
+}
+
+.btn-theme-outline {
+  border-color: var(--odoo-purple-premium) !important;
+  color: var(--odoo-light-premium) !important;
+  border-radius: 8px !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-theme-outline:hover {
+  background-color: var(--odoo-purple-premium) !important;
+  color: white !important;
+  transform: translateY(-2px);
+}
+
+/* Badge Updates */
+.badge-subhead {
+  background-color: rgba(113, 75, 103, 0.15) !important;
+  color: var(--odoo-light-premium) !important;
+  border: 1px solid rgba(113, 75, 103, 0.25) !important;
+  padding: 6px 16px !important;
+  border-radius: 9999px !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.5px !important;
+}
+
+.caption-header .badge {
+  background-color: rgba(113, 75, 103, 0.2) !important;
+  color: var(--odoo-light-premium) !important;
+  border: 1px solid rgba(113, 75, 103, 0.3) !important;
+  padding: 8px 20px !important;
+  font-size: 1rem !important;
+  border-radius: 9999px !important;
+}
+
+/* Forms & Inputs */
+.form-control {
+  background-color: rgba(255,255,255,0.03) !important;
+  border: 1px solid var(--border-premium) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+}
+
+.form-control:focus {
+  border-color: var(--odoo-light-premium) !important;
+  box-shadow: 0 0 10px rgba(113, 75, 103, 0.2) !important;
+}
+
+/* Modal CV customization */
+.modal-content {
+  background-color: #121118 !important;
+  border: 1px solid var(--border-premium) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
+  color: #f4f4f5 !important;
+}
+
+.modal-content h2 {
+  color: #fff !important;
+}
+
+.modal-content .close {
+  color: #a1a1aa !important;
+}
+.modal-content .close:hover {
+  color: #fff !important;
+}
